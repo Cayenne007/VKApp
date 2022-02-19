@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iXZ-uG-E0C">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Newsfeed View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="NewsfeedViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tjK-J4-wMW">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="pZy-Rt-dRO"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="BlJ-5q-JMb"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tjK-J4-wMW" secondAttribute="bottom" id="Q74-Ky-Qsl"/>
+                            <constraint firstItem="tjK-J4-wMW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hSc-In-Ctc"/>
+                            <constraint firstItem="tjK-J4-wMW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="tva-eW-xJn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tjK-J4-wMW" secondAttribute="trailing" id="yuk-Kn-e6O"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Odf-n9-XP5"/>
+                    <connections>
+                        <outlet property="tableView" destination="tjK-J4-wMW" id="hST-bv-L4A"/>
+                        <segue destination="N53-Sl-O1X" kind="presentation" identifier="LoginViewController" id="wFX-hU-NiX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1849.2753623188407" y="83.705357142857139"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="uPU-nv-oOP">
+            <objects>
+                <viewController id="N53-Sl-O1X" customClass="LoginViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8gV-8l-UAY">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vf2-83-dB3">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="I59-DG-Cqa"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vf2-83-dB3" firstAttribute="leading" secondItem="I59-DG-Cqa" secondAttribute="leading" id="Hji-Zl-gjr"/>
+                            <constraint firstItem="I59-DG-Cqa" firstAttribute="bottom" secondItem="vf2-83-dB3" secondAttribute="bottom" id="iku-o0-4Uv"/>
+                            <constraint firstItem="vf2-83-dB3" firstAttribute="top" secondItem="I59-DG-Cqa" secondAttribute="top" id="pKX-Qz-O3z"/>
+                            <constraint firstItem="I59-DG-Cqa" firstAttribute="trailing" secondItem="vf2-83-dB3" secondAttribute="trailing" id="pzE-7v-Vr1"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="vf2-83-dB3" id="P45-QH-rTm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HVJ-TY-WEN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1849" y="938"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="vCR-ks-f2V">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="iXZ-uG-E0C" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="M9B-LZ-osl">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Vd9-mP-qTq" kind="relationship" relationship="viewControllers" id="hte-NC-nFQ"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JY7-qe-vCY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="28.985507246376812" y="83.705357142857139"/>
+        </scene>
+        <!--Новости-->
+        <scene sceneID="iUX-av-7Sr">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Vd9-mP-qTq" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Новости" image="speaker.wave.2" catalog="system" id="4xi-sG-T2e"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="VuY-FQ-Vvd">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="zi0-65-oNf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hkn-zf-Gqw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="939.13043478260875" y="83.705357142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="speaker.wave.2" catalog="system" width="128" height="90"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="NewsfeedFooter" customModule="VK" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yV1-5T-0wx">
+                    <rect key="frame" x="45" y="41" width="30" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="s49-CY-Kqw"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dA2-LW-dHs">
+                    <rect key="frame" x="120" y="41" width="30" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="QRi-e9-3QS"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XAw-xC-IMW">
+                    <rect key="frame" x="0.0" y="99" width="414" height="1"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="o7w-FC-658"/>
+                    </constraints>
+                </view>
+                <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ol-xB-ba8">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
+                    <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="7eW-SN-xDK"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dv8-q1-2hL">
+                    <rect key="frame" x="10" y="34.5" width="30" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="4HR-EP-mPx"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system"/>
+                    <connections>
+                        <action selector="tapOnHeart:" destination="-2" eventType="touchUpInside" id="vkq-N9-n1V"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="04H-Hu-Q5g">
+                    <rect key="frame" x="85" y="34.5" width="30" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="hOg-5u-86N"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="message" catalog="system"/>
+                    <connections>
+                        <action selector="tapOnChat:" destination="-2" eventType="touchUpInside" id="fQu-Il-ocQ"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="dA2-LW-dHs" firstAttribute="leading" secondItem="04H-Hu-Q5g" secondAttribute="trailing" constant="5" id="2Ee-kL-tpv"/>
+                <constraint firstItem="7ol-xB-ba8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Cmb-8e-dlJ"/>
+                <constraint firstItem="dv8-q1-2hL" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="Mdj-fb-gOm"/>
+                <constraint firstItem="04H-Hu-Q5g" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Oi3-ie-t5E"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="XAw-xC-IMW" secondAttribute="bottom" id="QhI-pP-YNX"/>
+                <constraint firstItem="yV1-5T-0wx" firstAttribute="leading" secondItem="dv8-q1-2hL" secondAttribute="trailing" constant="5" id="RET-D5-MOa"/>
+                <constraint firstItem="7ol-xB-ba8" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="VRd-xZ-3fe"/>
+                <constraint firstItem="04H-Hu-Q5g" firstAttribute="leading" secondItem="yV1-5T-0wx" secondAttribute="trailing" constant="10" id="Vrm-vs-XzK"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="XAw-xC-IMW" secondAttribute="trailing" id="ah7-BK-zMD"/>
+                <constraint firstItem="yV1-5T-0wx" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="bw5-NV-HBD"/>
+                <constraint firstItem="XAw-xC-IMW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="fcP-Bd-eGz"/>
+                <constraint firstItem="dv8-q1-2hL" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="nOb-CA-Su0"/>
+                <constraint firstItem="dA2-LW-dHs" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="vCT-LL-J0R"/>
+                <constraint firstAttribute="trailing" secondItem="7ol-xB-ba8" secondAttribute="trailing" id="x2Q-uE-WDz"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="chatCount" destination="dA2-LW-dHs" id="qYL-95-ukA"/>
+                <outlet property="heartCount" destination="yV1-5T-0wx" id="kKw-zA-xpI"/>
+            </connections>
+            <point key="canvasLocation" x="131.8840579710145" y="113.83928571428571"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="message" catalog="system" width="128" height="113"/>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

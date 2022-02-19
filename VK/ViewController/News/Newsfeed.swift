@@ -1,0 +1,149 @@
+//
+//  Newsfeed.swift
+//  VkApp
+//
+//  Created by Vladlen Sukhov on 17.02.2022.
+//
+
+import UIKit
+
+class NewsfeedViewController: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView!
+    private var list: [VKNews] {
+        DB.vk.newsfeed
+    }
+        
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "Новости"
+
+        
+        tableView.register(UINib(nibName: "NewsfeedHeader", bundle: nil),
+                           forHeaderFooterViewReuseIdentifier: "header")
+        tableView.register(UINib(nibName: "NewsfeedFooter", bundle: nil),
+                           forHeaderFooterViewReuseIdentifier: "footer")
+        tableView.register(UINib(nibName: "NewsfeedPhoto", bundle: nil),
+                           forCellReuseIdentifier: "photo")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "body")
+        
+        load()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        checkAuthorization()
+        
+    }
+    
+}
+
+
+extension NewsfeedViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        list.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        70
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        list[section].photos.count > 0 ? 2 : 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.row == 0 {
+            let newsfeed = tableView.dequeueReusableCell(withIdentifier: "body", for: indexPath)
+            var content = newsfeed.defaultContentConfiguration()
+            
+            let item = list[indexPath.section]
+            content.text = item.text
+            
+            newsfeed.contentConfiguration = content
+            
+            return newsfeed
+        } else {
+            let photos = tableView.dequeueReusableCell(withIdentifier: "photo", for: indexPath) as! NewsfeedPhotosCell
+            let item = list[indexPath.section]
+            photos.photoView?.loadImage(item.photo)
+            
+            return photos
+        }
+    }
+    
+}
+
+extension NewsfeedViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 1 {
+            return 100//tableView.frame.height * 0.5
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        50
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
+                      "header") as! NewsfeedHeader
+        let item = list[section]
+        view.titleLabel.text = item.author.name
+        view.subTitleLabel.text = item.text
+        view.logo.loadImage(item.author.photo)
+
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let item = list[section]
+        let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "footer") as! NewsfeedFooter
+        footer.chatCount.text = item.comments.str
+        footer.heartCount.text = item.likes.str
+        footer.isUserInteractionEnabled = true
+        return footer
+    }
+    
+}
+
+extension NewsfeedViewController: UpdateDataOnLogin {
+    func checkAuthorization() {
+        if AppSettings.isTest {
+            return
+        }
+        if AppSettings.token.isEmpty {
+            performSegue(withIdentifier: LoginViewController.className, sender: nil)
+        }
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == LoginViewController.className {
+            let loginVC = segue.destination as! LoginViewController
+            loginVC.delegate = self
+        }
+    }
+    
+    func load() {
+        VK.getNews {            
+            self.tableView.reloadData()
+        }
+    }
+    
+}
+
+protocol UpdateDataOnLogin {
+    func load()
+}
+
