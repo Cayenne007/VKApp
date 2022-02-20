@@ -11,6 +11,7 @@ class NewsfeedFooter: UITableViewHeaderFooterView {
     
     @IBOutlet weak var heartCount: UILabel!
     @IBOutlet weak var chatCount: UILabel!
+    @IBOutlet weak var viewCount: UILabel!
     
     
     override init(reuseIdentifier: String?) {

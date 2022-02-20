@@ -1,26 +1,20 @@
 PODS:
   - Alamofire (5.5.0)
-  - SDWebImage (5.12.3):
-    - SDWebImage/Core (= 5.12.3)
-  - SDWebImage/Core (5.12.3)
   - SwiftDate (6.3.1)
 
 DEPENDENCIES:
   - Alamofire
-  - SDWebImage
   - SwiftDate
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - SDWebImage
     - SwiftDate
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
-  SDWebImage: 53179a2dba77246efa8a9b85f5c5b21f8f43e38f
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
 
-PODFILE CHECKSUM: 2f4c6237669caea354968995a6972ad270f73c1b
+PODFILE CHECKSUM: 5c967d63085435308142d4395cbd753f7c98d3a2
 
 COCOAPODS: 1.11.2

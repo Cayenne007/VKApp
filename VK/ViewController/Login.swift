@@ -10,8 +10,6 @@ import WebKit
 
 class LoginViewController: UIViewController {
     
-    var delegate: UpdateDataOnLogin?
-    
     @IBOutlet weak var webView: WKWebView! {
         didSet{ webView.navigationDelegate = self }
     }
@@ -70,7 +68,7 @@ extension LoginViewController: WKNavigationDelegate {
         
         decisionHandler(.cancel)
         
-        delegate?.load()
+        NotificationCenter.default.post(name: Notification.Name("update"), object: nil)
         dismiss(animated: true)
         
     }

@@ -20,6 +20,11 @@ class NewsfeedViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Новости"
+        
+        let notification = NSNotification.Name("update")
+        NotificationCenter.default.addObserver(forName: notification, object: nil, queue: .main) { _ in
+            self.tableView.reloadData()
+        }
 
         
         tableView.register(UINib(nibName: "NewsfeedHeader", bundle: nil),
@@ -29,8 +34,6 @@ class NewsfeedViewController: UIViewController {
         tableView.register(UINib(nibName: "NewsfeedPhoto", bundle: nil),
                            forCellReuseIdentifier: "photo")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "body")
-        
-        load()
         
     }
     
@@ -71,11 +74,12 @@ extension NewsfeedViewController: UITableViewDataSource {
             
             return newsfeed
         } else {
-            let photos = tableView.dequeueReusableCell(withIdentifier: "photo", for: indexPath) as! NewsfeedPhotosCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "photo", for: indexPath) as! NewsfeedPhotosCell
             let item = list[indexPath.section]
-            photos.photoView?.loadImage(item.photo)
+            cell.item = item
+            cell.collectionView.reloadData()
             
-            return photos
+            return cell
         }
     }
     
@@ -85,7 +89,7 @@ extension NewsfeedViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 1 {
-            return 100//tableView.frame.height * 0.5
+            return 200//tableView.frame.height * 0.5
         } else {
             return UITableView.automaticDimension
         }
@@ -100,8 +104,8 @@ extension NewsfeedViewController: UITableViewDelegate {
                       "header") as! NewsfeedHeader
         let item = list[section]
         view.titleLabel.text = item.author.name
-        view.subTitleLabel.text = item.text
-        view.logo.loadImage(item.author.photo)
+        view.subTitleLabel.text = item.date.title
+        view.logo.image = item.author.image
 
         return view
     }
@@ -111,39 +115,25 @@ extension NewsfeedViewController: UITableViewDelegate {
         let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "footer") as! NewsfeedFooter
         footer.chatCount.text = item.comments.str
         footer.heartCount.text = item.likes.str
+        footer.viewCount.text = item.views.str
         footer.isUserInteractionEnabled = true
         return footer
     }
     
 }
 
-extension NewsfeedViewController: UpdateDataOnLogin {
+extension NewsfeedViewController {
+    
     func checkAuthorization() {
+        
         if AppSettings.isTest {
             return
         }
         if AppSettings.token.isEmpty {
             performSegue(withIdentifier: LoginViewController.className, sender: nil)
         }
+        
     }
     
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == LoginViewController.className {
-            let loginVC = segue.destination as! LoginViewController
-            loginVC.delegate = self
-        }
-    }
-    
-    func load() {
-        VK.getNews {            
-            self.tableView.reloadData()
-        }
-    }
-    
-}
-
-protocol UpdateDataOnLogin {
-    func load()
 }
 

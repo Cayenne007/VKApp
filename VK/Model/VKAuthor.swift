@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import UIKit
 
 protocol VKAuthor {
 
     var id: Int { get }
     var name: String { get }
     var photo: String? { get }
+    
+    var image: UIImage? { get }
     
 }

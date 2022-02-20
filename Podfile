@@ -7,7 +7,6 @@ target 'VK' do
 
   # Pods for VK
   pod 'Alamofire'
-  pod 'SDWebImage'
   pod 'SwiftDate'
 
 end
