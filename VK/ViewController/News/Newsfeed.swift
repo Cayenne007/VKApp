@@ -77,7 +77,9 @@ extension NewsfeedViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "photo", for: indexPath) as! NewsfeedPhotosCell
             let item = list[indexPath.section]
             cell.item = item
-            cell.collectionView.reloadData()
+            //NotificationCenter.default.addObserver(forName: Notification.Name("update"), object: item, queue: .main) { _ in
+                cell.collectionView.reloadData()
+            //}
             
             return cell
         }

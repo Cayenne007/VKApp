@@ -60,6 +60,8 @@ class VKNews{
                 } else {
                     self.images.append(UIImage(systemName: "photo")!)
                 }
+                
+                //NotificationCenter.default.post(name: Notification.Name("update"), object: self)
             }
         }
         
