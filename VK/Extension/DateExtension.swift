@@ -6,10 +6,14 @@
 //
 
 import Foundation
-import SwiftDate
 
 extension Date {
     var title: String {
-        self.toFormat("EEEE, dd.MM.yyyy", locale: Locales.russian)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        dateFormatter.dateFormat = "EEEE, dd.MM.yyyy"
+        dateFormatter.locale = Locale(identifier: "ru_Ru")
+        return dateFormatter.string(from: self)
     }
 }

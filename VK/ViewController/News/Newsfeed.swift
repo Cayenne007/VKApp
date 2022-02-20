@@ -128,9 +128,6 @@ extension NewsfeedViewController {
     
     func checkAuthorization() {
         
-        if AppSettings.isTest {
-            return
-        }
         if AppSettings.token.isEmpty {
             performSegue(withIdentifier: LoginViewController.className, sender: nil)
         }

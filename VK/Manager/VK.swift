@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Alamofire
+import UIKit
 
 
 fileprivate enum URLS: Equatable {
@@ -32,10 +32,6 @@ fileprivate enum URLS: Equatable {
         case .userByIds:
             return "users.getById"
         }
-    }
-    
-    var url: URL {
-        URLS.buildUrl(self)
     }
     
     var queryItems: [URLQueryItem] {
@@ -89,113 +85,70 @@ struct VK {
     private func fetchObjectsById(path: URLS, group: DispatchGroup) {
         
         group.enter()
-        URLSession.shared.dataTask(with: path.url) { data, response, error in
-            
-            if let error = NetworkError(data: data, response: response, error: error) {
-                print(error)
-                return
-            }
-            
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data!, options: .fragmentsAllowed) as? [String : [String : Any]],
-                   let items = json["response"]?["items"] as? [Int] {
-                    
-                    
-                    let ids = items.map{String($0)}.joined(separator: ",")
-                    
-                    if path == .groups {
-                        fetchGroupsByIds(ids: ids, group: group)
-                    } else if path == .friends {
-                        fetchUsersByIds(ids: ids, group: group)
-                    }
-                    
-                    group.leave()
-                    
-                } else {
-                    print("error decoding object ids")
-                }
-            } catch let error {
-                print(NetworkError.decodingError(error))
-                return
-            }
-            
-            
-            
-        }.resume()
-    }
-    
-    private func fetchGroupsByIds(ids: String, group: DispatchGroup) {
         
-        URLSession.shared.dataTask(with: URLS.buildUrl(.groupByIds(ids: ids))) { data, response, error in
-            if let error = NetworkError(data: data, response: response, error: error) {
+        URLSession.shared.requestJsonResponseItems(path.url, decode: Int.self) { result in
+            switch result {
+            case .failure(let error):
                 print(error)
-                return
-            }
-
-            do {
-                let json = try JSONDecoder().decode([String : [JsonGroup]].self, from: data!)
-                if let objects = json["response"] {
-                    addGroups(items: objects, group: group)
-                } else {
-                    print("error while decode groups by id")
+            case .success(let ids):
+                let ids = ids.map{String($0)}.joined(separator: ",")
+                
+                if path == .groups {
+                    fetchGroupsByIds(ids: ids, group: group)
+                } else if path == .friends {
+                    fetchUsersByIds(ids: ids, group: group)
                 }
-            } catch {
-                print(NetworkError.decodingError(error))
-                return
-            }
-        }.resume()
-    }
-
-    private func fetchUsersByIds(ids: String, group: DispatchGroup) {
-
-        group.enter()
-        URLSession.shared.dataTask(with: URLS.buildUrl(.userByIds(ids: ids))) { data, response, error in
-            if let error = NetworkError(data: data, response: response, error: error) {
-                print(error)
-                return
+                
+                group.leave()
             }
             
-            do {
-                let json = try JSONDecoder().decode([String : [JsonUser]].self, from: data!)
-                if let objects = json["response"] {
-                    DB.vk.users = objects.map{json in
-                        VKUser(id: json.id,
-                               firstName: json.firstName,
-                               lastName: json.lastName,
-                               isFriend: json.isFriend?.bool ?? false,
-                               photo: json.photo100
-                        )
-                    }
-                    group.leave()
-                } else {
-                    print("error decoding users by ids")
-                }
-            } catch {
-                print(NetworkError.decodingError(error))
-                return
-            }
-        }.resume()
+        }
+        
     }
-
     
+
+    private init() {}
+    
+}
+
+
+extension VK {
     
     private func fetchFriends(group: DispatchGroup) {
         
-        AF.request(URLS.buildUrl(.friends))
-            .responseDecodable(of: JsonFriendsData.self) { response in
-            switch response.result {
+        URLSession.shared.request(URLS.buildUrl(.friends),
+                                  decode: JsonFriendsData.self) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
             case .success(let result):
-                if response.response?.statusCode == 200 {
-                    addUsers(items: result.response.items, group: group)
-                } else {
-                    print("incorrect status code \(response.response!.statusCode)")
-                }
-            default :
-                if let error = response.error {
-                    print(error)                    
-                }
+                addUsers(items: result.response.items, group: group)
             }
         }
+        
+    }
+    
+}
+
+
+extension VK {
+    
+    private func fetchUsersByIds(ids: String, group: DispatchGroup) {
+
+        group.enter()
+        
+        let url = URLS.buildUrl(.userByIds(ids: ids))
+        URLSession.shared.requestJsonResponseItems(url, decode: JsonUser.self) { result in
+            
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let json):
+                addUsers(items: json, group: group)
+                group.leave()
+            }
+        }
+        
     }
     
     private func addUsers(items: [JsonUser], group: DispatchGroup) {
@@ -219,6 +172,29 @@ struct VK {
             group.leave()
         }
     }
+
+    
+}
+
+extension VK {
+    
+    private func fetchGroupsByIds(ids: String, group: DispatchGroup) {
+        
+        group.enter()
+        
+        let url = URLS.buildUrl(.groupByIds(ids: ids))
+        URLSession.shared.requestJsonResponseObjects(url, decode: JsonGroup.self) { result in
+            
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let json):
+                addGroups(items: json, group: group)
+                group.leave()
+            }
+        }
+    
+    }
     
     private func addGroups(items: [JsonGroup], group: DispatchGroup) {
         
@@ -229,6 +205,7 @@ struct VK {
                 if DB.vk.groups.first(where: {$0.id == json.id}) == nil {
                     let group = VKGroup(id: json.id,
                                         name: json.name,
+                                        isMember: json.isMember.bool,
                                         photo: json.photo100
                     )
                                         
@@ -240,46 +217,28 @@ struct VK {
         }
     }
     
+}
+
+
+extension VK {
+    
     func fetchNewsfeed(group: DispatchGroup) {
         
         group.enter()
-        AF.request(URLS.buildUrl(.news))
-            .responseDecodable(of: JsonNewsfeedData.self) { response in
-            switch response.result {
+        
+        URLSession.shared.request(URLS.buildUrl(.news),
+                                  decode: JsonNewsfeedData.self) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
             case .success(let result):
-                if response.response?.statusCode == 200 {
-                    addUsers(items: result.response.profiles, group: group)
-                    addGroups(items: result.response.groups, group: group)
-                    setNewsfeedData(response: result.response)
-                    group.leave()
-                } else {
-                    print("incorrect status code \(response.response!.statusCode)")
-                }
-            default :
-                if let error = response.error {
-                    print(error)
-                    group.leave()
-                }
+                addUsers(items: result.response.profiles, group: group)
+                addGroups(items: result.response.groups, group: group)
+                setNewsfeedData(response: result.response)
+                group.leave()
             }
         }
-    }
-    
-    
-    private init() {}
-    
-}
-
-extension VK {
-    private func setTestData(_ completion: ()->()) {
-        if let url = Bundle.main.url(forResource: "testData", withExtension: "json"),
-           let data = try? Data(contentsOf: url),
-           let result = try? JSONDecoder().decode(JsonNewsfeedData.self, from: data) {
-             
-            setNewsfeedData(response: result.response)
-             
-        } else {
-            return
-        }
+        
     }
     
     private func setNewsfeedData(response: JsonNewsfeedData.JsonNewsfeedResponse) {
@@ -309,6 +268,10 @@ extension VK {
 
 extension URLS {
     
+    var url: URL {
+        URLS.buildUrl(self)
+    }
+    
     static func buildUrl(_ type: URLS) -> URL {
         
         let url = URLS.baseUrl.appendingPathComponent(type.path)
@@ -329,34 +292,3 @@ extension URLS {
     
 }
 
-
-
-
-fileprivate enum NetworkError: Error {
-    case transportError(Error)
-    case serverError(statusCode: Int)
-    case noData
-    case decodingError(Error)
-    case encodingError(Error)
-}
-
-extension NetworkError {
-    init?(data: Data?, response: URLResponse?, error: Error?) {
-            if let error = error {
-                self = .transportError(error)
-                return
-            }
-
-            if let response = response as? HTTPURLResponse,
-                response.statusCode != 200 {
-                self = .serverError(statusCode: response.statusCode)
-                return
-            }
-            
-            if data == nil {
-                self = .noData
-            }
-            
-            return nil
-        }
-}

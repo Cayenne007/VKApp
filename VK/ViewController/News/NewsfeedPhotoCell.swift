@@ -55,11 +55,15 @@ extension NewsfeedPhotosCell: UICollectionViewDataSource, UICollectionViewDelega
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.className, for: indexPath)
         
-
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "photo")!
-        cell.contentView.addSubview(imageView)
+        var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+        
+        if let view = cell.contentView.subviews.first, let placedImageView = view as? UIImageView {
+            imageView = placedImageView
+        } else {
+            imageView.contentMode = .scaleAspectFill
+            imageView.image = UIImage(systemName: "photo")!
+            cell.contentView.addSubview(imageView)
+        }
         
         guard let item = item else {
             return cell

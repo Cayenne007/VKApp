@@ -12,8 +12,9 @@ class DB {
     static var vk = DB()
     
     var users: [VKUser] = []
-    var friends: [VKUser] { users.filter{$0.isFriend} }
+    var friends: [VKUser] { users.filter{ $0.isFriend} }
     var groups: [VKGroup] = []
+    var myGroups: [VKGroup] { groups.filter{ $0.isMember} }
     var newsfeed: [VKNews] = []
     
     static func getAuthor(id: Int) -> VKAuthor {

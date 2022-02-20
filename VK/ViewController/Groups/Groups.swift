@@ -32,12 +32,12 @@ class GroupsViewController: UIViewController {
 extension GroupsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        DB.vk.groups.count
+        DB.vk.myGroups.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let group = DB.vk.groups[indexPath.row]
+        let group = DB.vk.myGroups[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
         var content = cell.defaultContentConfiguration()
         
