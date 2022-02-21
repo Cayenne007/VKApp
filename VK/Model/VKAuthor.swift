@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol VKAuthor {
+protocol VKAuthor: AnyObject {
 
     var id: Int { get }
     var name: String { get }

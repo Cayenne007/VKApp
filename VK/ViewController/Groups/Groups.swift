@@ -50,7 +50,7 @@ extension GroupsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let group = DB.vk.groups[indexPath.row]
+        let group = DB.vk.myGroups[indexPath.row]
         let vc = storyboard?.instantiateViewController(withIdentifier: PhotosViewController.className) as! PhotosViewController
         vc.owner = group
         

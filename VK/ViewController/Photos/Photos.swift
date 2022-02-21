@@ -14,7 +14,7 @@ fileprivate let itemSize = UIScreen.main.bounds.width*0.95
 class PhotosViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    var owner: VKAuthor? = nil
+    weak var owner: VKAuthor? = nil
     private var photos: [VKPhoto] {
         DB.getPhotos(owner: owner)
     }
