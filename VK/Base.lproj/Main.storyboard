@@ -38,17 +38,17 @@
                     <navigationItem key="navigationItem" id="4wd-qr-zaq"/>
                     <connections>
                         <outlet property="tableView" destination="lgv-Sm-fed" id="w3J-31-MB4"/>
-                        <segue destination="klK-iD-gWR" kind="show" identifier="FriendPhotoViewController" id="l0l-Nz-CGF"/>
+                        <segue destination="klK-iD-gWR" kind="show" identifier="PhotosViewController" id="l0l-Nz-CGF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qRw-L4-IEr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1848" y="-654"/>
         </scene>
-        <!--Friend Photo View Controller-->
+        <!--Photos View Controller-->
         <scene sceneID="UFR-JZ-cxS">
             <objects>
-                <viewController storyboardIdentifier="FriendPhotoViewController" id="klK-iD-gWR" customClass="FriendPhotoViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotosViewController" id="klK-iD-gWR" customClass="PhotosViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Dbs-aS-zwx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -74,8 +74,8 @@
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="klK-iD-gWR" id="TMi-ze-kwf"/>
-                                    <outlet property="delegate" destination="klK-iD-gWR" id="zux-FC-cgi"/>
+                                    <outlet property="dataSource" destination="klK-iD-gWR" id="IlE-qo-omW"/>
+                                    <outlet property="delegate" destination="klK-iD-gWR" id="fDG-Qn-Kov"/>
                                 </connections>
                             </collectionView>
                         </subviews>
@@ -95,7 +95,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="msW-XF-phH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2782.608695652174" y="-654.24107142857144"/>
+            <point key="canvasLocation" x="3272" y="-1027"/>
         </scene>
         <!--Newsfeed View Controller-->
         <scene sceneID="tne-QT-ifu">

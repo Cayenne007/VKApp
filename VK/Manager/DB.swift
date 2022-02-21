@@ -26,12 +26,15 @@ class DB {
         }
     }
     
-    static func getPhotos(id: Int?) -> [VKPhoto] {
-        if let id = id {
-            return DB.vk.photos.filter{$0.ownerId == id}
-        } else {
+    static func getPhotos(owner: VKAuthor?) -> [VKPhoto] {
+        
+        guard let id = owner?.id else {
             return []
         }
+        let minus = (owner is VKGroup) ? (-1) : (1)
+        
+        return DB.vk.photos.filter{$0.ownerId == minus * id}
+        
     }
 
     private init() {}

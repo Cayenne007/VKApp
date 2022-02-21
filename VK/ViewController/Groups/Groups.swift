@@ -49,5 +49,12 @@ extension GroupsViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let group = DB.vk.groups[indexPath.row]
+        let vc = storyboard?.instantiateViewController(withIdentifier: PhotosViewController.className) as! PhotosViewController
+        vc.owner = group
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
 }

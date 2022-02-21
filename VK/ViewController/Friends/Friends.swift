@@ -51,7 +51,7 @@ extension FriendsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let friend = DB.vk.friends[indexPath.row]
-        let vc = storyboard?.instantiateViewController(withIdentifier: FriendPhotoViewController.className) as! FriendPhotoViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: PhotosViewController.className) as! PhotosViewController
         vc.owner = friend
         
         navigationController?.pushViewController(vc, animated: true)

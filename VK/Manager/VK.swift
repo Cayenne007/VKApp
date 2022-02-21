@@ -92,8 +92,9 @@ struct VK {
     func fetchPhotos(owner: VKAuthor?, compeltion: @escaping ()->()) {
         
         guard let id = owner?.id else { return }
+        let minus = (owner is VKGroup) ? (-1) : (1)
         
-        let url = URLS.buildUrl(.photos(ownerId: id))
+        let url = URLS.buildUrl(.photos(ownerId: minus * id))
         URLSession.shared.json(url,
                                source: .responseItems,
                                decode: [JsonPhoto].self) { result in
@@ -172,12 +173,14 @@ extension VK {
                     photo.image = image
                     
                     DB.vk.photos.append(photo)
+                    
+                    DispatchQueue.main.async {
+                        completion()
+                    }
                 }
                 
             }
-            DispatchQueue.main.async {
-                completion()
-            }
+            
         }
         
     }

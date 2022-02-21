@@ -49,7 +49,7 @@ extension URLSession {
         var response: T
     }
 
-    struct JsonResponseWithItems<T: Codable> :Codable {
+    struct JsonResponseWithItems<T: Codable>: Codable {
         var response: Items<T>
         
         struct Items<T: Codable>: Codable {

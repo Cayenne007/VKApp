@@ -9,20 +9,24 @@ import Foundation
 import UIKit
 
 
-class FriendPhotoViewController: UIViewController {
+fileprivate let itemSize = UIScreen.main.bounds.width*0.95
+
+class PhotosViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     var owner: VKAuthor? = nil
     private var photos: [VKPhoto] {
-        DB.getPhotos(id: owner?.id)
+        DB.getPhotos(owner: owner)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = owner?.name ?? ""
+        
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 5, bottom: 10, right: 5)
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width*0.8, height: UIScreen.main.bounds.width*0.8)
+        layout.itemSize = CGSize(width: itemSize, height: itemSize)
         layout.minimumInteritemSpacing = 5
         layout.minimumLineSpacing = 5
         layout.scrollDirection = .vertical
@@ -36,7 +40,7 @@ class FriendPhotoViewController: UIViewController {
     
 }
 
-extension FriendPhotoViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         photos.count
@@ -48,7 +52,7 @@ extension FriendPhotoViewController: UICollectionViewDataSource, UICollectionVie
         let photo = photos[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photo", for: indexPath)
         
-        var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width*0.8, height: UIScreen.main.bounds.width*0.8))
+        var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: itemSize, height: itemSize))
         
         if let view = cell.contentView.subviews.first, let placedImageView = view as? UIImageView {
             imageView = placedImageView
