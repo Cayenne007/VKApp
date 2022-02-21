@@ -5,17 +5,14 @@
 
 import Foundation
 
-// MARK: - JSONNewsfeedData
-struct JsonNewsfeedData: Codable {
-    var response: JsonNewsfeedResponse
+
+// MARK: - Response
+struct JsonNewsfeedResponse: Codable {
     
+    let items: [JsonNewsfeed]
+    let profiles: [JsonUser]
+    let groups: [JsonGroup]
     
-    // MARK: - Response
-    struct JsonNewsfeedResponse: Codable {
-        let items: [JsonNewsfeed]
-        let profiles: [JsonUser]
-        let groups: [JsonGroup]
-    }
     
     
     // MARK: - Item
@@ -118,42 +115,6 @@ struct JsonNewsfeedData: Codable {
             case photo
             case isFavorite = "is_favorite"
             case target
-        }
-    }
-    
-    // MARK: - Photo
-    struct JsonPhoto: Codable {
-        let albumID, date, id, ownerID: Int
-        let sizes: [JsonSize]
-        let text: String
-        let userID: Int?
-        let hasTags: Bool
-        let accessKey: String?
-        let postID: Int?
-        
-        enum CodingKeys: String, CodingKey {
-            case albumID = "album_id"
-            case date, id
-            case ownerID = "owner_id"
-            case sizes, text
-            case userID = "user_id"
-            case hasTags = "has_tags"
-            case accessKey = "access_key"
-            case postID = "post_id"
-        }
-    }
-    
-    // MARK: - Size
-    struct JsonSize: Codable {
-        let height: Int
-        let url: String
-        let type: String?
-        let width: Int
-        let withPadding: Int?
-        
-        enum CodingKeys: String, CodingKey {
-            case height, url, type, width
-            case withPadding = "with_padding"
         }
     }
     

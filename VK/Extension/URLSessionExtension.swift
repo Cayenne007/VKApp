@@ -8,28 +8,8 @@
 import Foundation
 
 extension URLSession {
-
-    func request<T: Decodable>(_ url: URL, decode decodable: T.Type, result: @escaping (Result<T, Error>) -> Void) {
-
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-
-            if let error = NetworkError(data: data, response: response, error: error) {                
-                result(.failure(error))
-                return
-            }
-
-            do {
-                let object = try JSONDecoder().decode(decodable, from: data!)
-                result(.success(object))
-            } catch {
-                result(.failure(error))
-            }
-
-        }.resume()
-
-    }
     
-    func requestJsonResponseObjects<T: Decodable>(_ url: URL, decode decodable: T.Type, result: @escaping (Result<[T], Error>) -> Void) {
+    func json<T: Codable>(_ url: URL, source: ObjectSource, decode decodable: T.Type, result: @escaping (Result<T, Error>) -> Void) {
 
         URLSession.shared.dataTask(with: url) { (data, response, error) in
 
@@ -39,11 +19,16 @@ extension URLSession {
             }
 
             do {
-                let json = try JSONDecoder().decode([String : [T]].self, from: data!)
-                if let objects = json["response"] {
-                    result(.success(objects))
-                } else {
-                    print("ошибка декодирования запроса response")
+                switch source {
+                case .itself:
+                    let object = try JSONDecoder().decode(decodable, from: data!)
+                    result(.success(object))
+                case .response:
+                    let json = try JSONDecoder().decode(JsonResponse<T>.self, from: data!)
+                    result(.success(json.response))
+                case .responseItems:
+                    let json = try JSONDecoder().decode(JsonResponseWithItems<T>.self, from: data!)
+                    result(.success(json.response.items))
                 }
             } catch {
                 result(.failure(error))
@@ -52,48 +37,26 @@ extension URLSession {
         }.resume()
 
     }
-    
-    func requestJsonResponseItems<T: Decodable>(_ url: URL, decode decodable: T.Type, result: @escaping (Result<[T], Error>) -> Void) {
 
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
 
-            if let error = NetworkError(data: data, response: response, error: error) {
-                result(.failure(error))
-                return
-            }
-
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data!, options: .fragmentsAllowed) as? [String : [String : Any]],
-                   let items = json["response"]?["items"] as? [T] {
-                    
-                    result(.success(items))
-                    
-                } else {
-                    print("ошибка декодирования идентификаторов")
-                }
-            } catch {
-                result(.failure(error))
-            }
-
-        }.resume()
-
+    enum ObjectSource {
+        case itself
+        case response
+        case responseItems
     }
     
-    func request(_ url: URL, result: @escaping (Result<Data, Error>) -> Void) {
-
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-
-            if let error = NetworkError(data: data, response: response, error: error) {
-                result(.failure(error))
-                return
-            }
-
-            result(.success(data!))
-
-        }.resume()
-
+    struct JsonResponse<T: Codable>: Codable {
+        var response: T
     }
 
+    struct JsonResponseWithItems<T: Codable> :Codable {
+        var response: Items<T>
+        
+        struct Items<T: Codable>: Codable {
+            var items: T
+        }
+    }
+    
 }
 
 fileprivate enum NetworkError: Error {
@@ -101,6 +64,7 @@ fileprivate enum NetworkError: Error {
     case serverError(statusCode: Int)
     case noData
     case decodingError(Error)
+    case decodingStringError
     case encodingError(Error)
 }
 

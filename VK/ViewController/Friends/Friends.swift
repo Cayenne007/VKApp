@@ -49,5 +49,13 @@ extension FriendsViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let friend = DB.vk.friends[indexPath.row]
+        let vc = storyboard?.instantiateViewController(withIdentifier: FriendPhotoViewController.className) as! FriendPhotoViewController
+        vc.owner = friend
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     
 }
