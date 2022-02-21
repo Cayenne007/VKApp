@@ -84,7 +84,7 @@ struct VK {
             DB.vk.users.sort{$0.name < $1.name}
             DB.vk.groups.sort{$0.name < $1.name}
             
-            NotificationCenter.default.post(name: Notification.Name("update"), object: nil)
+            Notifications.postObserverNotification()
         }
         
     }

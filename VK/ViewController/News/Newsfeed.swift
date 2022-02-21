@@ -21,8 +21,8 @@ class NewsfeedViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Новости"
         
-        let notification = NSNotification.Name("update")
-        NotificationCenter.default.addObserver(forName: notification, object: nil, queue: .main) { _ in
+        tableView.addRefreshControl()
+        Notifications.addObserver{
             self.tableView.reloadData()
         }
 
@@ -42,6 +42,11 @@ class NewsfeedViewController: UIViewController {
         super.viewDidAppear(animated)
         checkAuthorization()
         
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        Notifications.removeObserver(object: self)
     }
     
 }

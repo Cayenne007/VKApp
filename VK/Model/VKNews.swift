@@ -50,13 +50,17 @@ class VKNews{
         self.views = views
         self.photos = photos
         
+        if let photoImage = UIImage(systemName: "photo") {
+            photos.forEach{_ in self.images.append(photoImage) }
+        }
+        
         DispatchQueue.global().async {
-            photos.forEach{ url in
+            photos.enumerated().forEach{ index,url in
                 if let url = URL(string: url),
                    let data = try? Data(contentsOf: url),
                    let image = UIImage(data: data){
                 
-                    self.images.append(image)
+                    self.images[index] = image
                 } else {
                     self.images.append(UIImage(systemName: "photo")!)
                 }

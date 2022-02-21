@@ -74,9 +74,5 @@ extension NewsfeedPhotosCell: UICollectionViewDataSource, UICollectionViewDelega
         return cell
     }
     
-//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-//        return CGSize(width: UIScreen.main.bounds.width/2, height: UIScreen.main.bounds.height/2)
-//    }
-    
 }
 
