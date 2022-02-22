@@ -61,7 +61,7 @@ struct JsonNewsfeedResponse: Codable {
         let type: JsonAttachmentType
         //let video: JsonPurpleVideo?
         let photo: JsonPhoto?
-        let link: JsonLink?
+        //let link: JsonLink?
         //let audio: JsonAudio?
     }
     

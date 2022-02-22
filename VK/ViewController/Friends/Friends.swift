@@ -46,7 +46,12 @@ extension FriendsViewController: UITableViewDataSource, UITableViewDelegate {
         var content = cell.defaultContentConfiguration()
         
         content.text = user.name
-        content.image = user.image
+        
+        if let photo = user.photo {
+            content.image = UIImage(data: photo)
+        } else {
+            content.image = UIImage(systemName: "photo")
+        }
         
         cell.contentConfiguration = content
         

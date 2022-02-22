@@ -47,7 +47,12 @@ extension GroupsViewController: UITableViewDataSource, UITableViewDelegate {
         var content = cell.defaultContentConfiguration()
         
         content.text = group.name
-        content.image = group.image
+        
+        if let photo = group.photo {
+            content.image = UIImage(data: photo)
+        } else {
+            content.image = UIImage(systemName: "photo")
+        }
         
         cell.contentConfiguration = content
         

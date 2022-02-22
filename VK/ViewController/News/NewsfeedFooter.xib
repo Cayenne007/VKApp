@@ -73,7 +73,7 @@
                         <action selector="tapOnChat:" destination="-2" eventType="touchUpInside" id="fQu-Il-ocQ"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OrE-q7-GqZ">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OrE-q7-GqZ">
                     <rect key="frame" x="364" y="41.5" width="40" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="Oko-Xo-blF"/>
@@ -89,11 +89,13 @@
                     </constraints>
                     <color key="tintColor" systemColor="secondaryLabelColor"/>
                     <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" image="eye.fill" catalog="system">
+                    <buttonConfiguration key="configuration" style="plain">
+                        <imageReference key="image" image="eye.fill" catalog="system" symbolScale="medium"/>
                         <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="medium"/>
+                        <color key="baseForegroundColor" systemColor="secondaryLabelColor"/>
                     </buttonConfiguration>
                     <connections>
-                        <action selector="tapOnChat:" destination="-2" eventType="touchUpInside" id="t36-gG-SeF"/>
+                        <action selector="openLink" destination="iN0-l3-epB" eventType="touchUpInside" id="PpC-Ip-DNb"/>
                     </connections>
                 </button>
             </subviews>

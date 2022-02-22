@@ -243,7 +243,7 @@ extension VK {
                                       firstName: json.firstName,
                                       lastName: json.lastName,
                                       isFriend: json.isFriend?.bool ?? false,
-                                      photo: json.photo100
+                                      photoUrl: json.photo100 ?? ""
                     )
                     
                     DB.vk.users.append(user)
@@ -289,7 +289,7 @@ extension VK {
                     let group = VKGroup(id: json.id,
                                         name: json.name,
                                         isMember: json.isMember.bool,
-                                        photo: json.photo100
+                                        photoUrl: json.photo100 
                     )
                     
                     DB.vk.groups.append(group)
@@ -321,30 +321,41 @@ extension VK {
             case .success(let result):
                 addUsers(items: result.profiles, group: group)
                 addGroups(items: result.groups, group: group)
-                setNewsfeedData(response: result)
+                addNewsfeed(items: result.items, url: url)
                 group.leave()
             }
         }
         
     }
     
-    private func setNewsfeedData(response: JsonNewsfeedResponse) {
+    private func addNewsfeed(items: [JsonNewsfeedResponse.JsonNewsfeed], url: URL) {
         
-        DB.vk.newsfeed = response.items.map { json in
-            VKNews(sourceId: json.sourceID,
-                   date: Date(timeIntervalSince1970: Double(json.date)),
-                   id: json.postID ?? 0,
-                   text: json.text ?? "",
-                   likes: json.likes?.count ?? 0,
-                   userLikes: json.likes?.userLikes ?? 0,
-                   comments: json.comments?.count ?? 0,
-                   reposts: json.reposts?.count ?? 0,
-                   userReposts: json.reposts?.userReposted ?? 0,
-                   views: json.views?.count ?? 0,
-                   photos: json.attachments?
-                    .filter{$0.type == .photo}
-                    .map{$0.photo?.sizes?.last?.url ?? ""}
-                    .filter{!$0.isEmpty} ?? []
+        DB.vk.newsfeed = items.map { json in
+            
+            let urls = json.attachments?
+                .filter{$0.type == .photo}
+                .map{ element -> String in
+                    if let element = element.photo?.sizes?.first(
+                        where: {$0.type == "x"})?.url {
+                        return element
+                    } else {
+                        return ""
+                    }
+                }
+                .filter{!$0.isEmpty} ?? []
+            
+            return VKNews(sourceId: json.sourceID,
+                          date: Date(timeIntervalSince1970: Double(json.date)),
+                          id: json.postID ?? 0,
+                          text: json.text ?? "",
+                          likes: json.likes?.count ?? 0,
+                          userLikes: json.likes?.userLikes ?? 0,
+                          comments: json.comments?.count ?? 0,
+                          reposts: json.reposts?.count ?? 0,
+                          userReposts: json.reposts?.userReposted ?? 0,
+                          views: json.views?.count ?? 0,
+                          photoUrls: urls,
+                          url: url.withQueryItem(key: "source_ids", value: "\(json.sourceID)").description
             )
         }
         
@@ -374,8 +385,6 @@ extension URLS {
         return components!.url!
         
     }
-    
-    
     
 }
 

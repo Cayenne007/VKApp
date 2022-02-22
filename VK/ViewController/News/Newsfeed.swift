@@ -10,9 +10,7 @@ import UIKit
 class NewsfeedViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    private var list: [VKNews] {
-        DB.vk.newsfeed
-    }
+    
         
     override func viewDidLoad() {
         
@@ -55,7 +53,7 @@ class NewsfeedViewController: UIViewController {
 extension NewsfeedViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        list.count
+        DB.vk.newsfeed.count
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -63,7 +61,7 @@ extension NewsfeedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        list[section].photos.count > 0 ? 2 : 1
+        DB.vk.newsfeed[section].photos.count > 0 ? 2 : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,7 +70,7 @@ extension NewsfeedViewController: UITableViewDataSource {
             let newsfeed = tableView.dequeueReusableCell(withIdentifier: "body", for: indexPath)
             var content = newsfeed.defaultContentConfiguration()
             
-            let item = list[indexPath.section]
+            let item = DB.vk.newsfeed[indexPath.section]
             content.text = item.text
             
             newsfeed.contentConfiguration = content
@@ -80,7 +78,7 @@ extension NewsfeedViewController: UITableViewDataSource {
             return newsfeed
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "photo", for: indexPath) as! NewsfeedPhotosCell
-            let item = list[indexPath.section]
+            let item = DB.vk.newsfeed[indexPath.section]
             cell.item = item
             //NotificationCenter.default.addObserver(forName: Notification.Name("update"), object: item, queue: .main) { _ in
                 cell.collectionView.reloadData()
@@ -109,20 +107,26 @@ extension NewsfeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                       "header") as! NewsfeedHeader
-        let item = list[section]
+        let item = DB.vk.newsfeed[section]
         view.titleLabel.text = item.author.name
         view.subTitleLabel.text = item.date.title
-        view.logo.image = item.author.image
+        
+        if let photo = item.author.photo {
+            view.logo.image = UIImage(data: photo)
+        } else {
+            view.logo.image = UIImage(systemName: "photo")
+        }
 
         return view
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let item = list[section]
+        let item = DB.vk.newsfeed[section]
         let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "footer") as! NewsfeedFooter
         footer.chatCount.text = item.comments.str
         footer.heartCount.text = item.likes.str
         footer.viewCount.text = item.views.str
+        footer.url = item.url
         footer.isUserInteractionEnabled = true
         return footer
     }

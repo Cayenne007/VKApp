@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import UIKit
+
 
 class VKNews{
     
@@ -25,19 +25,17 @@ class VKNews{
     
     var views = 0
     
-    var photos: [String] = []
-    
-    var photo: String {
-        photos.first ?? ""
-    }
-    
-    var images: [UIImage] = []
+    var photoUrls: [String] = []
+    var photos: [Data?] = []
     
     var author: VKAuthor {
         DB.getAuthor(id: sourceId)
     }
     
-    init(sourceId: Int, date: Date, id: Int, text: String, likes: Int, userLikes: Int, comments: Int, reposts: Int, userReposts: Int, views: Int, photos: [String]) {
+    var url: String
+    
+    init(sourceId: Int, date: Date, id: Int, text: String, likes: Int, userLikes: Int, comments: Int, reposts: Int, userReposts: Int, views: Int, photoUrls: [String], url: String) {
+        
         self.sourceId = sourceId
         self.date = date
         self.id = id
@@ -48,23 +46,16 @@ class VKNews{
         self.reposts = reposts
         self.userReposts = userReposts
         self.views = views
-        self.photos = photos
-        
-        if let photoImage = UIImage(systemName: "photo") {
-            photos.forEach{_ in self.images.append(photoImage) }
-        }
+        self.photoUrls = photoUrls
+        self.url = url
         
         DispatchQueue.global().async {
-            photos.enumerated().forEach{ index,url in
-                if let url = URL(string: url),
-                   let data = try? Data(contentsOf: url),
-                   let image = UIImage(data: data){
-                
-                    self.images[index] = image
+            photoUrls.forEach{ url in
+                if let url = URL(string: url) {
+                   self.photos.append(try? Data(contentsOf: url))
                 } else {
-                    self.images.append(UIImage(systemName: "photo")!)
-                }
-                
+                    self.photos.append(nil)
+                }                
                 //NotificationCenter.default.post(name: Notification.Name("update"), object: self)
             }
         }

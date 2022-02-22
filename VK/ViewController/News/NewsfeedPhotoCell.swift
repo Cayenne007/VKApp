@@ -49,7 +49,7 @@ class NewsfeedPhotosCell: UITableViewCell {
 extension NewsfeedPhotosCell: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        item?.images.count ?? 0
+        item?.photoUrls.count ?? 0
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -69,7 +69,11 @@ extension NewsfeedPhotosCell: UICollectionViewDataSource, UICollectionViewDelega
             return cell
         }
         
-        imageView.image = item.images[indexPath.row]
+        if let photo = item.photos[indexPath.row] {
+            imageView.image = UIImage(data: photo)
+        } else {
+            imageView.image = UIImage(systemName: "photo")
+        }
         
         return cell
     }
