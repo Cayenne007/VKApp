@@ -127,7 +127,7 @@ class DB {
             }
         }
         
-        DispatchQueue.global().async {
+        DispatchQueue.global().asyncAfter(deadline: .now()+5) {
             let db = try! Realm()
             db.objects(VKNews.self).filter{ $0.photoUrls.count > 0 && $0.photos.count == 0}.forEach{ object in
                 for url in object.photoUrls{

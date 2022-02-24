@@ -80,12 +80,6 @@ struct VK {
         fetchFriends(group: dispatchGroup)
         fetchNewsfeed(group: dispatchGroup)
         
-//        dispatchGroup.notify(queue: .global()) {
-//            DB.vk.users.sort{$0.name < $1.name}            
-//            
-//            Notifications.postObserverNotification()
-//        }
-        
     }
     
 //    func fetchPhotos(owner: VKAuthor?, compeltion: @escaping ()->()) {
