@@ -30,7 +30,7 @@ struct JsonNewsfeedResponse: Codable {
         let isFavorite: Bool?
         let donut: JsonDonut?
         let shortTextRate: Double?
-        let postID: Int?
+        let postID: Int
         let type: String?
         let copyHistory: [JsonCopyHistory]?
         let carouselOffset, topicID: Int?

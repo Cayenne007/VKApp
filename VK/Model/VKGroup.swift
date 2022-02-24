@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 
-class VKGroup: Object, VKAuthor {
+class VKGroup: Object {
     
     @objc dynamic var id = 0
     @objc dynamic var name = ""

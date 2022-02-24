@@ -12,7 +12,10 @@ import RealmSwift
 class NewsfeedViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    
     let realm = try! Realm()
+    var newsfeed: Results<VKNews>!
+    var token: NotificationToken?
         
     override func viewDidLoad() {
         
@@ -25,6 +28,24 @@ class NewsfeedViewController: UIViewController {
         Notifications.addObserver{
             self.tableView.reloadData()
         }
+        
+        newsfeed = realm.objects(VKNews.self)
+        token = newsfeed.observe{ [weak self] changes in
+            switch changes {
+                
+            case .initial(_):
+                self?.tableView.reloadData()
+            case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+                self?.tableView.performBatchUpdates{
+                    self?.tableView.deleteRows(at: deletions.map{IndexPath(row: $0, section: 0)}, with: .automatic)
+                    self?.tableView.insertRows(at: insertions.map{IndexPath(row: $0, section: 0)}, with: .automatic)
+                    self?.tableView.reloadRows(at: modifications.map{IndexPath(row: $0, section: 0)}, with: .automatic)
+                }
+            case .error(let error):
+                print(error)
+            }
+        }
+
 
         
         tableView.register(UINib(nibName: "NewsfeedHeader", bundle: nil),
@@ -55,7 +76,7 @@ class NewsfeedViewController: UIViewController {
 extension NewsfeedViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        DB.vk.newsfeed.count
+        newsfeed.count
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -63,25 +84,25 @@ extension NewsfeedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        DB.vk.newsfeed[section].photos.count > 0 ? 2 : 1
+        newsfeed[section].photoUrls.count > 0 ? 2 : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row == 0 {
-            let newsfeed = tableView.dequeueReusableCell(withIdentifier: "body", for: indexPath)
-            var content = newsfeed.defaultContentConfiguration()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "body", for: indexPath)
+            var content = cell.defaultContentConfiguration()
             
-            let item = DB.vk.newsfeed[indexPath.section]
+            let item = newsfeed[indexPath.section]
             content.text = item.text
             
-            newsfeed.contentConfiguration = content
+            cell.contentConfiguration = content
             
-            return newsfeed
+            return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "photo", for: indexPath) as! NewsfeedPhotosCell
-            let item = DB.vk.newsfeed[indexPath.section]
-            cell.item = item
+            let item = newsfeed[indexPath.section]
+            cell.newsfeedId = item.id
             //NotificationCenter.default.addObserver(forName: Notification.Name("update"), object: item, queue: .main) { _ in
                 cell.collectionView.reloadData()
             //}
@@ -109,7 +130,7 @@ extension NewsfeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                       "header") as! NewsfeedHeader
-        let item = DB.vk.newsfeed[section]
+        let item = newsfeed[section]
         
         if item.sourceId > 0, let author = realm.object(ofType: VKUser.self, forPrimaryKey: item.sourceId) {
             view.titleLabel.text = author._name
@@ -133,7 +154,7 @@ extension NewsfeedViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let item = DB.vk.newsfeed[section]
+        let item = newsfeed[section]
         let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "footer") as! NewsfeedFooter
         footer.chatCount.text = item.comments.str
         footer.heartCount.text = item.likes.str

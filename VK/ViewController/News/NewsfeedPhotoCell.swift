@@ -6,11 +6,17 @@
 //
 
 import UIKit
+import RealmSwift
 
 class NewsfeedPhotosCell: UITableViewCell {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    weak var item: VKNews? = nil
+    
+    var newsfeedId: Int? = nil
+    private var item: VKNews? {
+        let realm = try! Realm()
+        return realm.object(ofType: VKNews.self, forPrimaryKey: newsfeedId)
+    }
 
     
     private func setup() {
@@ -69,7 +75,7 @@ extension NewsfeedPhotosCell: UICollectionViewDataSource, UICollectionViewDelega
             return cell
         }
         
-        if let photo = item.photos[indexPath.row] {
+        if item.photos.count > indexPath.row, let photo = item.photos[indexPath.row] {
             imageView.image = UIImage(data: photo)
         } else {
             imageView.image = UIImage(systemName: "photo")
