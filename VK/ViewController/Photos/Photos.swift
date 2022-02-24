@@ -7,22 +7,23 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
 
 fileprivate let itemSize = UIScreen.main.bounds.width*0.95
 
 class PhotosViewController: UIViewController {
     
+    let realm = try! Realm()
+    
     @IBOutlet weak var collectionView: UICollectionView!
-    weak var owner: VKAuthor? = nil
-    private var photos: [VKPhoto] {
-        DB.getPhotos(owner: owner)
-    }
+    var ownerId: Int? = nil
+    private var photos: [VKPhoto] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = owner?.name ?? ""
+        //navigationItem.title = owner?._name ?? ""
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 5, bottom: 10, right: 5)
@@ -32,9 +33,9 @@ class PhotosViewController: UIViewController {
         layout.scrollDirection = .vertical
         collectionView.collectionViewLayout = layout
         
-        VK.api.fetchPhotos(owner: owner) {
-            self.collectionView.reloadData()
-        }
+//        VK.api.fetchPhotos(owner: owner) {
+//            self.collectionView.reloadData()
+//        }
         
     }
     

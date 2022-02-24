@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import RealmSwift
+
 
 class NewsfeedViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    
+    let realm = try! Realm()
         
     override func viewDidLoad() {
         
@@ -108,12 +110,22 @@ extension NewsfeedViewController: UITableViewDelegate {
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                       "header") as! NewsfeedHeader
         let item = DB.vk.newsfeed[section]
-        view.titleLabel.text = item.author.name
+        
+        if item.sourceId > 0, let author = realm.object(ofType: VKUser.self, forPrimaryKey: item.sourceId) {
+            view.titleLabel.text = author._name
+            if let photo = author.photo {
+                view.logo.image = UIImage(data: photo)
+            }
+        } else if let author = realm.object(ofType: VKGroup.self, forPrimaryKey: -item.sourceId) {
+            view.titleLabel.text = author._name
+            if let photo = author.photo {
+                view.logo.image = UIImage(data: photo)
+            }
+        }
+        
         view.subTitleLabel.text = item.date.title
         
-        if let photo = item.author.photo {
-            view.logo.image = UIImage(data: photo)
-        } else {
+        if view.logo.image == nil {
             view.logo.image = UIImage(systemName: "photo")
         }
 

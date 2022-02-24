@@ -81,8 +81,7 @@ struct VK {
         fetchNewsfeed(group: dispatchGroup)
         
         dispatchGroup.notify(queue: .global()) {
-            DB.vk.users.sort{$0.name < $1.name}
-            DB.vk.groups.sort{$0.name < $1.name}
+            DB.vk.users.sort{$0.name < $1.name}            
             
             Notifications.postObserverNotification()
         }
@@ -91,7 +90,7 @@ struct VK {
     
     func fetchPhotos(owner: VKAuthor?, compeltion: @escaping ()->()) {
         
-        guard let id = owner?.id else { return }
+        guard let id = owner?._id else { return }
         let minus = (owner is VKGroup) ? (-1) : (1)
         
         let url = URLS.buildUrl(.photos(ownerId: minus * id))
@@ -233,24 +232,8 @@ extension VK {
     }
     
     private func addUsers(items: [JsonUser], group: DispatchGroup) {
-        
-        group.enter()
-        
-        DispatchQueue.global().async(flags: .barrier) {
-            items.forEach{ json in
-                if DB.vk.users.first(where: {$0.id == json.id}) == nil {
-                    let user = VKUser(id: json.id,
-                                      firstName: json.firstName,
-                                      lastName: json.lastName,
-                                      isFriend: json.isFriend?.bool ?? false,
-                                      photoUrl: json.photo100 ?? ""
-                    )
-                    
-                    DB.vk.users.append(user)
-                }
-                
-            }
-            group.leave()
+        DispatchQueue.global().async(group: group) {
+            DB.vk.addUser(items)
         }
     }
     
@@ -279,25 +262,8 @@ extension VK {
         
     }
     
-    private func addGroups(items: [JsonGroup], group: DispatchGroup) {
-        
-        group.enter()
-        
-        DispatchQueue.global().async(flags: .barrier) {
-            items.forEach{ json in
-                if DB.vk.groups.first(where: {$0.id == json.id}) == nil {
-                    let group = VKGroup(id: json.id,
-                                        name: json.name,
-                                        isMember: json.isMember.bool,
-                                        photoUrl: json.photo100 
-                    )
-                    
-                    DB.vk.groups.append(group)
-                }
-                
-            }
-            group.leave()
-        }
+    private func addGroups(items: [JsonGroup], group: DispatchGroup) {        
+        DB.vk.addGroup(items)
     }
     
 }

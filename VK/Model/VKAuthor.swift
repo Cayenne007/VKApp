@@ -6,14 +6,14 @@
 //
 
 import Foundation
-import UIKit
+import RealmSwift
 
-protocol VKAuthor: AnyObject {
+protocol VKAuthor {
 
-    var id: Int { get }
-    var name: String { get }
-    var photoUrl: String { get }
+    var _id: Int { get }
+    var _name: String { get }
+    var _photoUrl: String { get }
     
-    var photo: Data? { get }
+    var _photo: Data? { get }
     
 }
