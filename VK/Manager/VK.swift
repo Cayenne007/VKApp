@@ -333,7 +333,7 @@ extension VK {
         DB.vk.newsfeed = items.map { json in
             
             let urls = json.attachments?
-                .filter{$0.type == .photo}
+                .filter{$0.type == "photo"}
                 .map{ element -> String in
                     if let element = element.photo?.sizes?.first(
                         where: {$0.type == "x"})?.url {
@@ -357,6 +357,20 @@ extension VK {
                           photoUrls: urls,
                           url: url.withQueryItem(key: "source_ids", value: "\(json.sourceID)").description
             )
+        }
+        
+        DispatchQueue.global().async {
+            DB.vk.newsfeed.filter{$0.photoUrls.count > 0}.forEach{ object in
+                for url in object.photoUrls {
+                    if let url = URL(string: url) {
+                       object.photos.append(try? Data(contentsOf: url))
+                    } else {
+                        object.photos.append(nil)
+                    }
+                    //NotificationCenter.default.post(name: Notification.Name("update"), object: self)
+                }
+                Notifications.postObserverNotification()
+            }
         }
         
     }

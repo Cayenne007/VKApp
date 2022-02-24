@@ -58,7 +58,7 @@ struct JsonNewsfeedResponse: Codable {
     
     // MARK: - ItemAttachment
     struct JsonItemAttachment: Codable {
-        let type: JsonAttachmentType
+        let type: String
         //let video: JsonPurpleVideo?
         let photo: JsonPhoto?
         //let link: JsonLink?
@@ -118,12 +118,12 @@ struct JsonNewsfeedResponse: Codable {
         }
     }
     
-    enum JsonAttachmentType: String, Codable {
-        case audio = "audio"
-        case link = "link"
-        case photo = "photo"
-        case video = "video"
-    }
+//    enum JsonAttachmentType: String, Codable {
+//        case audio = "audio"
+//        case link = "link"
+//        case photo = "photo"
+//        case video = "video"
+//    }
     
     // MARK: - PurpleVideo
     struct JsonPurpleVideo: Codable {
@@ -141,7 +141,7 @@ struct JsonNewsfeedResponse: Codable {
         let title: String
         let isFavorite: Bool
         let trackCode: String
-        let type: JsonAttachmentType
+        let type: String
         let views: Int
         let localViews: Int?
         let platform: String?
@@ -204,7 +204,7 @@ struct JsonNewsfeedResponse: Codable {
     
     // MARK: - CopyHistoryAttachment
     struct JsonCopyHistoryAttachment: Codable {
-        let type: JsonAttachmentType
+        let type: String
         let video: JsonFluffyVideo?
         let photo: JsonPhoto?
     }
@@ -213,15 +213,16 @@ struct JsonNewsfeedResponse: Codable {
     struct JsonFluffyVideo: Codable {
         let accessKey: String
         let canComment, canLike, canRepost, canSubscribe: Int
-        let canAddToFaves, canAdd, comments, date: Int
-        let videoDescription: String
+        let canAddToFaves, canAdd, date: Int
+        let comments: Int?
+        let videoDescription: String?
         let duration: Int
         let image: [JsonSize]
         let id, ownerID: Int
         let title: String
         let isFavorite: Bool
         let trackCode: String
-        let type: JsonAttachmentType
+        let type: String
         let views: Int
         let localViews: Int?
         let platform: String?
@@ -236,7 +237,7 @@ struct JsonNewsfeedResponse: Codable {
             case canSubscribe = "can_subscribe"
             case canAddToFaves = "can_add_to_faves"
             case canAdd = "can_add"
-            case comments, date
+            case date, comments
             case videoDescription = "description"
             case duration, image, id
             case ownerID = "owner_id"

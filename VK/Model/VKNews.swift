@@ -49,17 +49,6 @@ class VKNews{
         self.photoUrls = photoUrls
         self.url = url
         
-        DispatchQueue.global().async {
-            photoUrls.forEach{ url in
-                if let url = URL(string: url) {
-                   self.photos.append(try? Data(contentsOf: url))
-                } else {
-                    self.photos.append(nil)
-                }                
-                //NotificationCenter.default.post(name: Notification.Name("update"), object: self)
-            }
-        }
-        
     }
            
     
