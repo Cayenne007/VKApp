@@ -68,7 +68,7 @@ extension LoginViewController: WKNavigationDelegate {
         
         decisionHandler(.cancel)
         
-        Notifications.postObserverNotification()
+        VK.api.fetchData()
         dismiss(animated: true)
         
     }

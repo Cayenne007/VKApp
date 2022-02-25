@@ -74,6 +74,10 @@ struct VK {
     
     func fetchData() {
         
+        guard !AppSettings.token.isEmpty else {
+            return
+        }
+        
         let dispatchGroup = DispatchGroup()
         
         fetchObjectsById(path: .groups, group: dispatchGroup)
