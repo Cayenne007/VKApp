@@ -5,17 +5,14 @@
 
 import Foundation
 
-// MARK: - JSONNewsfeedData
-struct JsonNewsfeedData: Codable {
-    var response: JsonNewsfeedResponse
+
+// MARK: - Response
+struct JsonNewsfeedResponse: Codable {
     
+    let items: [JsonNewsfeed]
+    let profiles: [JsonUser]
+    let groups: [JsonGroup]
     
-    // MARK: - Response
-    struct JsonNewsfeedResponse: Codable {
-        let items: [JsonNewsfeed]
-        let profiles: [JsonUser]
-        let groups: [JsonGroup]
-    }
     
     
     // MARK: - Item
@@ -61,10 +58,10 @@ struct JsonNewsfeedData: Codable {
     
     // MARK: - ItemAttachment
     struct JsonItemAttachment: Codable {
-        let type: JsonAttachmentType
+        let type: String
         //let video: JsonPurpleVideo?
         let photo: JsonPhoto?
-        let link: JsonLink?
+        //let link: JsonLink?
         //let audio: JsonAudio?
     }
     
@@ -121,48 +118,12 @@ struct JsonNewsfeedData: Codable {
         }
     }
     
-    // MARK: - Photo
-    struct JsonPhoto: Codable {
-        let albumID, date, id, ownerID: Int
-        let sizes: [JsonSize]
-        let text: String
-        let userID: Int?
-        let hasTags: Bool
-        let accessKey: String?
-        let postID: Int?
-        
-        enum CodingKeys: String, CodingKey {
-            case albumID = "album_id"
-            case date, id
-            case ownerID = "owner_id"
-            case sizes, text
-            case userID = "user_id"
-            case hasTags = "has_tags"
-            case accessKey = "access_key"
-            case postID = "post_id"
-        }
-    }
-    
-    // MARK: - Size
-    struct JsonSize: Codable {
-        let height: Int
-        let url: String
-        let type: String?
-        let width: Int
-        let withPadding: Int?
-        
-        enum CodingKeys: String, CodingKey {
-            case height, url, type, width
-            case withPadding = "with_padding"
-        }
-    }
-    
-    enum JsonAttachmentType: String, Codable {
-        case audio = "audio"
-        case link = "link"
-        case photo = "photo"
-        case video = "video"
-    }
+//    enum JsonAttachmentType: String, Codable {
+//        case audio = "audio"
+//        case link = "link"
+//        case photo = "photo"
+//        case video = "video"
+//    }
     
     // MARK: - PurpleVideo
     struct JsonPurpleVideo: Codable {
@@ -180,7 +141,7 @@ struct JsonNewsfeedData: Codable {
         let title: String
         let isFavorite: Bool
         let trackCode: String
-        let type: JsonAttachmentType
+        let type: String
         let views: Int
         let localViews: Int?
         let platform: String?
@@ -243,7 +204,7 @@ struct JsonNewsfeedData: Codable {
     
     // MARK: - CopyHistoryAttachment
     struct JsonCopyHistoryAttachment: Codable {
-        let type: JsonAttachmentType
+        let type: String
         let video: JsonFluffyVideo?
         let photo: JsonPhoto?
     }
@@ -252,15 +213,16 @@ struct JsonNewsfeedData: Codable {
     struct JsonFluffyVideo: Codable {
         let accessKey: String
         let canComment, canLike, canRepost, canSubscribe: Int
-        let canAddToFaves, canAdd, comments, date: Int
-        let videoDescription: String
+        let canAddToFaves, canAdd, date: Int
+        let comments: Int?
+        let videoDescription: String?
         let duration: Int
         let image: [JsonSize]
         let id, ownerID: Int
         let title: String
         let isFavorite: Bool
         let trackCode: String
-        let type: JsonAttachmentType
+        let type: String
         let views: Int
         let localViews: Int?
         let platform: String?
@@ -275,7 +237,7 @@ struct JsonNewsfeedData: Codable {
             case canSubscribe = "can_subscribe"
             case canAddToFaves = "can_add_to_faves"
             case canAdd = "can_add"
-            case comments, date
+            case date, comments
             case videoDescription = "description"
             case duration, image, id
             case ownerID = "owner_id"

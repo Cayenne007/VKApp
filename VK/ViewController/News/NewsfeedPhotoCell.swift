@@ -49,30 +49,34 @@ class NewsfeedPhotosCell: UITableViewCell {
 extension NewsfeedPhotosCell: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        item?.images.count ?? 0
+        item?.photoUrls.count ?? 0
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.className, for: indexPath)
         
-
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "photo")!
-        cell.contentView.addSubview(imageView)
+        var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+        
+        if let view = cell.contentView.subviews.first, let placedImageView = view as? UIImageView {
+            imageView = placedImageView
+        } else {
+            imageView.contentMode = .scaleAspectFill
+            imageView.image = UIImage(systemName: "photo")!
+            cell.contentView.addSubview(imageView)
+        }
         
         guard let item = item else {
             return cell
         }
         
-        imageView.image = item.images[indexPath.row]
+        if let photo = item.photos[indexPath.row] {
+            imageView.image = UIImage(data: photo)
+        } else {
+            imageView.image = UIImage(systemName: "photo")
+        }
         
         return cell
     }
-    
-//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-//        return CGSize(width: UIScreen.main.bounds.width/2, height: UIScreen.main.bounds.height/2)
-//    }
     
 }
 

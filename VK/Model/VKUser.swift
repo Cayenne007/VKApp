@@ -6,43 +6,39 @@
 //
 
 import Foundation
-import UIKit
+
 
 class VKUser: VKAuthor {
     
     var id: Int
     var firstName: String
     var lastName: String
-    
-    var photo: String?
+
     var isFriend: Bool
     
     var name: String {
         "\(firstName) \(lastName)"
     }
     
-    var image: UIImage?
+    var photoUrl: String
+    var photo: Data? = nil
     
     static func emptyUser() -> VKUser {
-        VKUser(id: 0, firstName: "<Пользователь не найден>", lastName: "", isFriend: false, photo: nil)
+        VKUser(id: 0, firstName: "<Пользователь не найден>", lastName: "", isFriend: false)
     }
     
     
-    init(id: Int, firstName: String, lastName: String, isFriend: Bool, photo: String?) {
+    init(id: Int, firstName: String, lastName: String, isFriend: Bool, photoUrl: String = "") {
+        
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
         self.isFriend = isFriend
-        self.photo = photo
-        self.image = UIImage(systemName: "photo")
+        self.photoUrl = photoUrl
         
         DispatchQueue.global().async {
-            if let photo = photo,
-               let data = try? Data(contentsOf: photo.url),
-                let image = UIImage(data: data){
-                
-                self.image = image
-                
+            if let url = URL(string: photoUrl) {
+                self.photo = try? Data(contentsOf: url)
             }
         }
         

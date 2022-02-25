@@ -68,7 +68,7 @@ extension LoginViewController: WKNavigationDelegate {
         
         decisionHandler(.cancel)
         
-        NotificationCenter.default.post(name: Notification.Name("update"), object: nil)
+        Notifications.postObserverNotification()
         dismiss(animated: true)
         
     }

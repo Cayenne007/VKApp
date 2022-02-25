@@ -18,12 +18,17 @@ class GroupsViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Группы"
         
-        let notification = NSNotification.Name("update")
-        NotificationCenter.default.addObserver(forName: notification, object: nil, queue: .main) { _ in
+        tableView.addRefreshControl()
+        Notifications.addObserver{
             self.tableView.reloadData()
         }
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        Notifications.removeObserver(object: self)
     }
     
 }
@@ -32,22 +37,34 @@ class GroupsViewController: UIViewController {
 extension GroupsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        DB.vk.groups.count
+        DB.vk.myGroups.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let group = DB.vk.groups[indexPath.row]
+        let group = DB.vk.myGroups[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
         var content = cell.defaultContentConfiguration()
         
         content.text = group.name
-        content.image = group.image
+        
+        if let photo = group.photo {
+            content.image = UIImage(data: photo)
+        } else {
+            content.image = UIImage(systemName: "photo")
+        }
         
         cell.contentConfiguration = content
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let group = DB.vk.myGroups[indexPath.row]
+        let vc = storyboard?.instantiateViewController(withIdentifier: PhotosViewController.className) as! PhotosViewController
+        vc.owner = group
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
 }

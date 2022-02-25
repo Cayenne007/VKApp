@@ -6,33 +6,31 @@
 //
 
 import Foundation
-import UIKit
+
 
 class VKGroup: VKAuthor {
     
     let id: Int
     let name: String
-    let photo: String?
+    let isMember: Bool
     
-    var image: UIImage?
+    let photoUrl: String
+    var photo: Data? = nil
     
     static func emptyGroup() -> VKGroup {
-        VKGroup(id: 0, name: "<Группа не найдена>", photo: nil)
+        VKGroup(id: 0, name: "<Группа не найдена>", isMember: false)
     }
     
-    init(id: Int, name: String, photo: String?) {
+    init(id: Int, name: String, isMember: Bool, photoUrl: String = "") {
+    
         self.id = id
         self.name = name
-        self.photo = photo
-        self.image = UIImage(systemName: "photo")
+        self.photoUrl = photoUrl
+        self.isMember = isMember
         
         DispatchQueue.global().async {
-            if let photo = photo,
-               let data = try? Data(contentsOf: photo.url),
-                let image = UIImage(data: data){
-                
-                self.image = image
-                
+            if let url = URL(string: photoUrl) {
+                self.photo = try? Data(contentsOf: url)                
             }
         }
     }

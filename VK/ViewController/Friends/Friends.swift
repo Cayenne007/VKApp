@@ -18,14 +18,18 @@ class FriendsViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Друзья"
         
-        let notification = NSNotification.Name("update")
-        NotificationCenter.default.addObserver(forName: notification, object: nil, queue: .main) { _ in
+        tableView.addRefreshControl()
+        Notifications.addObserver{
             self.tableView.reloadData()
         }
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        Notifications.removeObserver(object: self)
+    }
 }
 
 
@@ -42,11 +46,24 @@ extension FriendsViewController: UITableViewDataSource, UITableViewDelegate {
         var content = cell.defaultContentConfiguration()
         
         content.text = user.name
-        content.image = user.image
+        
+        if let photo = user.photo {
+            content.image = UIImage(data: photo)
+        } else {
+            content.image = UIImage(systemName: "photo")
+        }
         
         cell.contentConfiguration = content
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let friend = DB.vk.friends[indexPath.row]
+        let vc = storyboard?.instantiateViewController(withIdentifier: PhotosViewController.className) as! PhotosViewController
+        vc.owner = friend
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     

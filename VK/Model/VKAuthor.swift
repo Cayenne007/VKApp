@@ -8,12 +8,12 @@
 import Foundation
 import UIKit
 
-protocol VKAuthor {
+protocol VKAuthor: AnyObject {
 
     var id: Int { get }
     var name: String { get }
-    var photo: String? { get }
+    var photoUrl: String { get }
     
-    var image: UIImage? { get }
+    var photo: Data? { get }
     
 }
