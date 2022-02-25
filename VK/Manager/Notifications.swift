@@ -25,5 +25,6 @@ struct Notifications {
     
     enum ObserverType: String {
         case update = "update"
+        
     }
 }

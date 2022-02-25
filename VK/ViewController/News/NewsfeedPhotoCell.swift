@@ -67,6 +67,7 @@ extension NewsfeedPhotosCell: UICollectionViewDataSource, UICollectionViewDelega
             imageView = placedImageView
         } else {
             imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
             imageView.image = UIImage(systemName: "photo")!
             cell.contentView.addSubview(imageView)
         }

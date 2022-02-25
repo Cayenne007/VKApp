@@ -25,7 +25,6 @@ class NewsfeedViewController: UIViewController {
         navigationItem.title = "Новости"
         
         tableView.addRefreshControl()
-
         
         newsfeed = realm.objects(VKNews.self)        
         token = newsfeed.observe{ [weak self] changes in
@@ -33,18 +32,19 @@ class NewsfeedViewController: UIViewController {
                 
             case .initial(_):
                 self?.tableView.reloadData()
-            case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+            //case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+            case .update(_, deletions: _, insertions: _, modifications: _):
                 self?.tableView.reloadData()
-//                self?.tableView.beginUpdates()
+                
+//                self?.tableView.performBatchUpdates{
 //                    self?.tableView.deleteRows(at: deletions.map{IndexPath(row: 0, section: $0)}, with: .automatic)
 //                    self?.tableView.insertRows(at: insertions.map{IndexPath(row: 0, section: $0)}, with: .automatic)
 //                    self?.tableView.reloadRows(at: modifications.map{IndexPath(row: 0, section: $0)}, with: .automatic)
-//                self?.tableView.endUpdates()
+//                }
             case .error(let error):
                 print(error)
             }
         }
-
 
         
         tableView.register(UINib(nibName: "NewsfeedHeader", bundle: nil),

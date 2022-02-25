@@ -12,7 +12,12 @@ struct JsonNewsfeedResponse: Codable {
     let items: [JsonNewsfeed]
     let profiles: [JsonUser]
     let groups: [JsonGroup]
-    
+    let nextFrom: String?
+
+    enum CodingKeys: String, CodingKey {
+        case items, profiles , groups
+        case nextFrom = "next_from"
+    }
     
     
     // MARK: - Item
@@ -30,7 +35,7 @@ struct JsonNewsfeedResponse: Codable {
         let isFavorite: Bool?
         let donut: JsonDonut?
         let shortTextRate: Double?
-        let postID: Int
+        let postID: Int?
         let type: String?
         let copyHistory: [JsonCopyHistory]?
         let carouselOffset, topicID: Int?

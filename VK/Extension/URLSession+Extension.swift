@@ -9,7 +9,7 @@ import Foundation
 
 extension URLSession {
     
-    func json<T: Codable>(_ url: URL, source: ObjectSource, decode decodable: T.Type, result: @escaping (Result<T, Error>) -> Void) {
+    func json<T: Codable>(_ url: URL, source: JsonVkObjectSource, decode decodable: T.Type, result: @escaping (Result<T, Error>) -> Void) {
 
         URLSession.shared.dataTask(with: url) { (data, response, error) in
 
@@ -24,10 +24,10 @@ extension URLSession {
                     let object = try JSONDecoder().decode(decodable, from: data!)
                     result(.success(object))
                 case .response:
-                    let json = try JSONDecoder().decode(JsonResponse<T>.self, from: data!)
+                    let json = try JSONDecoder().decode(JsonVkObjectSource.Response<T>.self, from: data!)
                     result(.success(json.response))
                 case .responseItems:
-                    let json = try JSONDecoder().decode(JsonResponseWithItems<T>.self, from: data!)
+                    let json = try JSONDecoder().decode(JsonVkObjectSource.ResponseWithItems<T>.self, from: data!)
                     result(.success(json.response.items))
                 }
             } catch {
@@ -36,25 +36,6 @@ extension URLSession {
 
         }.resume()
 
-    }
-
-
-    enum ObjectSource {
-        case itself
-        case response
-        case responseItems
-    }
-    
-    struct JsonResponse<T: Codable>: Codable {
-        var response: T
-    }
-
-    struct JsonResponseWithItems<T: Codable>: Codable {
-        var response: Items<T>
-        
-        struct Items<T: Codable>: Codable {
-            var items: T
-        }
     }
     
 }
@@ -87,4 +68,24 @@ extension NetworkError {
         
         return nil
     }
+}
+
+
+enum JsonVkObjectSource {
+    case itself
+    case response
+    case responseItems
+    
+    struct Response<T: Codable>: Codable {
+        var response: T
+    }
+
+    struct ResponseWithItems<T: Codable>: Codable {
+        var response: Items<T>
+        
+        struct Items<T: Codable>: Codable {
+            var items: T
+        }
+    }
+    
 }

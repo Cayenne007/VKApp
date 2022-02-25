@@ -16,26 +16,32 @@
 		AB056C8F27BF712700E1DF4A /* VKUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056C8A27BF712700E1DF4A /* VKUser.swift */; };
 		AB056C9027BF712700E1DF4A /* VKNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056C8B27BF712700E1DF4A /* VKNews.swift */; };
 		AB056C9227BF712700E1DF4A /* VKGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056C8D27BF712700E1DF4A /* VKGroup.swift */; };
-		AB056C9827BF720500E1DF4A /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056C9727BF720500E1DF4A /* StringExtension.swift */; };
+		AB056C9827BF720500E1DF4A /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056C9727BF720500E1DF4A /* String+Extension.swift */; };
 		AB056C9E27BF722000E1DF4A /* NewsfeedHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056C9B27BF722000E1DF4A /* NewsfeedHeader.swift */; };
 		AB056C9F27BF722000E1DF4A /* Newsfeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056C9C27BF722000E1DF4A /* Newsfeed.swift */; };
 		AB056CA027BF722000E1DF4A /* NewsfeedPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056C9D27BF722000E1DF4A /* NewsfeedPhotoCell.swift */; };
 		AB056CA227BF722D00E1DF4A /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CA127BF722D00E1DF4A /* Login.swift */; };
 		AB056CA527BF725A00E1DF4A /* VK.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CA427BF725A00E1DF4A /* VK.swift */; };
 		AB056CA927BF726D00E1DF4A /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CA827BF726D00E1DF4A /* AppSettings.swift */; };
-		AB056CAB27BF72CD00E1DF4A /* NSObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CAA27BF72CD00E1DF4A /* NSObjectExtension.swift */; };
+		AB056CAB27BF72CD00E1DF4A /* NSObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CAA27BF72CD00E1DF4A /* NSObject+Extension.swift */; };
 		AB056CAD27BF736500E1DF4A /* DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CAC27BF736500E1DF4A /* DB.swift */; };
 		AB056CAF27BF8C6400E1DF4A /* NewsfeedFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB056CAE27BF8C6400E1DF4A /* NewsfeedFooter.xib */; };
 		AB056CB127BFB6B400E1DF4A /* NewsfeedHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB056CB027BFB6B400E1DF4A /* NewsfeedHeader.xib */; };
-		AB056CB327BFC07300E1DF4A /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CB227BFC07300E1DF4A /* DateExtension.swift */; };
+		AB056CB327BFC07300E1DF4A /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CB227BFC07300E1DF4A /* Date+Extension.swift */; };
 		AB056CB527BFC18500E1DF4A /* NewsfeedFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CB427BFC18500E1DF4A /* NewsfeedFooter.swift */; };
 		AB056CB727BFC1DD00E1DF4A /* NewsfeedPhoto.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB056CB627BFC1DD00E1DF4A /* NewsfeedPhoto.xib */; };
-		AB056CBF27C0E57000E1DF4A /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CBE27C0E57000E1DF4A /* IntExtension.swift */; };
-		AB1B928827C4BB9D00907A04 /* URLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1B928727C4BB9D00907A04 /* URLExtension.swift */; };
+		AB056CBF27C0E57000E1DF4A /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB056CBE27C0E57000E1DF4A /* Int+Extension.swift */; };
+		AB1B928827C4BB9D00907A04 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1B928727C4BB9D00907A04 /* URL+Extension.swift */; };
 		AB1B928E27C7627D00907A04 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AB1B928D27C7627D00907A04 /* RealmSwift */; };
+		AB1B929127C8B7D900907A04 /* GetDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1B929027C8B7D900907A04 /* GetDataOperation.swift */; };
+		AB1B929327C8B81D00907A04 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1B929227C8B81D00907A04 /* AsyncOperation.swift */; };
+		AB1B929627C8BA3D00907A04 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = AB1B929527C8BA3D00907A04 /* Alamofire */; };
+		AB1B929827C8C5E900907A04 /* ParseJsonOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1B929727C8C5E900907A04 /* ParseJsonOperation.swift */; };
+		AB1B929A27C8D2C700907A04 /* SaveToRealmOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1B929927C8D2C700907A04 /* SaveToRealmOperation.swift */; };
+		AB1B929C27C8D8B500907A04 /* FetchAndSavePhotoOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1B929B27C8D8B500907A04 /* FetchAndSavePhotoOperation.swift */; };
 		AB1C500627C3BF5E000CC015 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1C500527C3BF5E000CC015 /* Notifications.swift */; };
-		AB1C500827C3C29B000CC015 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1C500727C3C29B000CC015 /* UITableViewExtension.swift */; };
-		AB6745F527C295F7007A0690 /* URLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6745F427C295F7007A0690 /* URLSessionExtension.swift */; };
+		AB1C500827C3C29B000CC015 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1C500727C3C29B000CC015 /* UITableView+Extension.swift */; };
+		AB6745F527C295F7007A0690 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6745F427C295F7007A0690 /* URLSession+Extension.swift */; };
 		ABC535AF27C1902F00717864 /* JsonUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC535AE27C1902F00717864 /* JsonUser.swift */; };
 		ABC535B127C1906600717864 /* JsonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC535B027C1906600717864 /* JsonGroup.swift */; };
 		ABC535B427C2149100717864 /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC535B327C2149100717864 /* Friends.swift */; };
@@ -57,25 +63,30 @@
 		AB056C8A27BF712700E1DF4A /* VKUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKUser.swift; sourceTree = "<group>"; };
 		AB056C8B27BF712700E1DF4A /* VKNews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKNews.swift; sourceTree = "<group>"; };
 		AB056C8D27BF712700E1DF4A /* VKGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKGroup.swift; sourceTree = "<group>"; };
-		AB056C9727BF720500E1DF4A /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		AB056C9727BF720500E1DF4A /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		AB056C9B27BF722000E1DF4A /* NewsfeedHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsfeedHeader.swift; sourceTree = "<group>"; };
 		AB056C9C27BF722000E1DF4A /* Newsfeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Newsfeed.swift; sourceTree = "<group>"; };
 		AB056C9D27BF722000E1DF4A /* NewsfeedPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsfeedPhotoCell.swift; sourceTree = "<group>"; };
 		AB056CA127BF722D00E1DF4A /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		AB056CA427BF725A00E1DF4A /* VK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VK.swift; sourceTree = "<group>"; };
 		AB056CA827BF726D00E1DF4A /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		AB056CAA27BF72CD00E1DF4A /* NSObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSObjectExtension.swift; sourceTree = "<group>"; };
+		AB056CAA27BF72CD00E1DF4A /* NSObject+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
 		AB056CAC27BF736500E1DF4A /* DB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DB.swift; sourceTree = "<group>"; };
 		AB056CAE27BF8C6400E1DF4A /* NewsfeedFooter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsfeedFooter.xib; sourceTree = "<group>"; };
 		AB056CB027BFB6B400E1DF4A /* NewsfeedHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsfeedHeader.xib; sourceTree = "<group>"; };
-		AB056CB227BFC07300E1DF4A /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		AB056CB227BFC07300E1DF4A /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		AB056CB427BFC18500E1DF4A /* NewsfeedFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsfeedFooter.swift; sourceTree = "<group>"; };
 		AB056CB627BFC1DD00E1DF4A /* NewsfeedPhoto.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsfeedPhoto.xib; sourceTree = "<group>"; };
-		AB056CBE27C0E57000E1DF4A /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
-		AB1B928727C4BB9D00907A04 /* URLExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtension.swift; sourceTree = "<group>"; };
+		AB056CBE27C0E57000E1DF4A /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		AB1B928727C4BB9D00907A04 /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
+		AB1B929027C8B7D900907A04 /* GetDataOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDataOperation.swift; sourceTree = "<group>"; };
+		AB1B929227C8B81D00907A04 /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
+		AB1B929727C8C5E900907A04 /* ParseJsonOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseJsonOperation.swift; sourceTree = "<group>"; };
+		AB1B929927C8D2C700907A04 /* SaveToRealmOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveToRealmOperation.swift; sourceTree = "<group>"; };
+		AB1B929B27C8D8B500907A04 /* FetchAndSavePhotoOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAndSavePhotoOperation.swift; sourceTree = "<group>"; };
 		AB1C500527C3BF5E000CC015 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
-		AB1C500727C3C29B000CC015 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
-		AB6745F427C295F7007A0690 /* URLSessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionExtension.swift; sourceTree = "<group>"; };
+		AB1C500727C3C29B000CC015 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		AB6745F427C295F7007A0690 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		ABC535AE27C1902F00717864 /* JsonUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonUser.swift; sourceTree = "<group>"; };
 		ABC535B027C1906600717864 /* JsonGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonGroup.swift; sourceTree = "<group>"; };
 		ABC535B327C2149100717864 /* Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
@@ -91,6 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB1B928E27C7627D00907A04 /* RealmSwift in Frameworks */,
+				AB1B929627C8BA3D00907A04 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,13 +168,13 @@
 		AB056C9427BF71E000E1DF4A /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				AB056CB227BFC07300E1DF4A /* DateExtension.swift */,
-				AB056CBE27C0E57000E1DF4A /* IntExtension.swift */,
-				AB056CAA27BF72CD00E1DF4A /* NSObjectExtension.swift */,
-				AB056C9727BF720500E1DF4A /* StringExtension.swift */,
-				AB1B928727C4BB9D00907A04 /* URLExtension.swift */,
-				AB6745F427C295F7007A0690 /* URLSessionExtension.swift */,
-				AB1C500727C3C29B000CC015 /* UITableViewExtension.swift */,
+				AB056CB227BFC07300E1DF4A /* Date+Extension.swift */,
+				AB056CBE27C0E57000E1DF4A /* Int+Extension.swift */,
+				AB056CAA27BF72CD00E1DF4A /* NSObject+Extension.swift */,
+				AB056C9727BF720500E1DF4A /* String+Extension.swift */,
+				AB1B928727C4BB9D00907A04 /* URL+Extension.swift */,
+				AB6745F427C295F7007A0690 /* URLSession+Extension.swift */,
+				AB1C500727C3C29B000CC015 /* UITableView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -200,8 +212,21 @@
 				AB056CAC27BF736500E1DF4A /* DB.swift */,
 				AB1C500527C3BF5E000CC015 /* Notifications.swift */,
 				AB056CA427BF725A00E1DF4A /* VK.swift */,
+				AB1B928F27C8B7C300907A04 /* Operations */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		AB1B928F27C8B7C300907A04 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				AB1B929227C8B81D00907A04 /* AsyncOperation.swift */,
+				AB1B929027C8B7D900907A04 /* GetDataOperation.swift */,
+				AB1B929727C8C5E900907A04 /* ParseJsonOperation.swift */,
+				AB1B929927C8D2C700907A04 /* SaveToRealmOperation.swift */,
+				AB1B929B27C8D8B500907A04 /* FetchAndSavePhotoOperation.swift */,
+			);
+			path = Operations;
 			sourceTree = "<group>";
 		};
 		AB1C500427C3A198000CC015 /* Photos */ = {
@@ -246,6 +271,7 @@
 			name = VK;
 			packageProductDependencies = (
 				AB1B928D27C7627D00907A04 /* RealmSwift */,
+				AB1B929527C8BA3D00907A04 /* Alamofire */,
 			);
 			productName = VK;
 			productReference = AB056C6A27BF70C700E1DF4A /* VK.app */;
@@ -277,6 +303,7 @@
 			mainGroup = AB056C6127BF70C700E1DF4A;
 			packageReferences = (
 				AB1B928C27C7627D00907A04 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				AB1B929427C8BA3D00907A04 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = AB056C6B27BF70C700E1DF4A /* Products */;
 			projectDirPath = "";
@@ -311,29 +338,34 @@
 				ABC535B127C1906600717864 /* JsonGroup.swift in Sources */,
 				ABDF82E327C2B77D0083E370 /* JsonPhoto.swift in Sources */,
 				AB056C9F27BF722000E1DF4A /* Newsfeed.swift in Sources */,
-				AB056CB327BFC07300E1DF4A /* DateExtension.swift in Sources */,
-				AB056CBF27C0E57000E1DF4A /* IntExtension.swift in Sources */,
-				AB1B928827C4BB9D00907A04 /* URLExtension.swift in Sources */,
+				AB1B929327C8B81D00907A04 /* AsyncOperation.swift in Sources */,
+				AB056CB327BFC07300E1DF4A /* Date+Extension.swift in Sources */,
+				AB1B929127C8B7D900907A04 /* GetDataOperation.swift in Sources */,
+				AB056CBF27C0E57000E1DF4A /* Int+Extension.swift in Sources */,
+				AB1B929A27C8D2C700907A04 /* SaveToRealmOperation.swift in Sources */,
+				AB1B928827C4BB9D00907A04 /* URL+Extension.swift in Sources */,
 				AB056C8827BF711700E1DF4A /* JsonNewsfeed.swift in Sources */,
 				AB056C6E27BF70C700E1DF4A /* AppDelegate.swift in Sources */,
 				AB056C9027BF712700E1DF4A /* VKNews.swift in Sources */,
 				AB056CB527BFC18500E1DF4A /* NewsfeedFooter.swift in Sources */,
-				AB056C9827BF720500E1DF4A /* StringExtension.swift in Sources */,
+				AB056C9827BF720500E1DF4A /* String+Extension.swift in Sources */,
 				AB056CA527BF725A00E1DF4A /* VK.swift in Sources */,
 				ABC535B727C218F900717864 /* Groups.swift in Sources */,
 				AB056C9E27BF722000E1DF4A /* NewsfeedHeader.swift in Sources */,
 				AB056C7027BF70C700E1DF4A /* SceneDelegate.swift in Sources */,
-				AB6745F527C295F7007A0690 /* URLSessionExtension.swift in Sources */,
+				AB6745F527C295F7007A0690 /* URLSession+Extension.swift in Sources */,
 				ABC535AF27C1902F00717864 /* JsonUser.swift in Sources */,
 				AB056CAD27BF736500E1DF4A /* DB.swift in Sources */,
 				ABDF82E127C2B5030083E370 /* Photos.swift in Sources */,
 				AB056CA027BF722000E1DF4A /* NewsfeedPhotoCell.swift in Sources */,
 				AB056CA927BF726D00E1DF4A /* AppSettings.swift in Sources */,
 				ABC535B427C2149100717864 /* Friends.swift in Sources */,
-				AB1C500827C3C29B000CC015 /* UITableViewExtension.swift in Sources */,
+				AB1C500827C3C29B000CC015 /* UITableView+Extension.swift in Sources */,
 				ABDF82E527C2B7AC0083E370 /* VKPhoto.swift in Sources */,
-				AB056CAB27BF72CD00E1DF4A /* NSObjectExtension.swift in Sources */,
+				AB056CAB27BF72CD00E1DF4A /* NSObject+Extension.swift in Sources */,
 				AB1C500627C3BF5E000CC015 /* Notifications.swift in Sources */,
+				AB1B929827C8C5E900907A04 /* ParseJsonOperation.swift in Sources */,
+				AB1B929C27C8D8B500907A04 /* FetchAndSavePhotoOperation.swift in Sources */,
 				AB056C9227BF712700E1DF4A /* VKGroup.swift in Sources */,
 				AB056C8F27BF712700E1DF4A /* VKUser.swift in Sources */,
 				AB056CA227BF722D00E1DF4A /* Login.swift in Sources */,
@@ -568,6 +600,14 @@
 				kind = branch;
 			};
 		};
+		AB1B929427C8BA3D00907A04 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -575,6 +615,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AB1B928C27C7627D00907A04 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		AB1B929527C8BA3D00907A04 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB1B929427C8BA3D00907A04 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

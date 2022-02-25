@@ -88,59 +88,64 @@ class DB {
     func addNewsfeed(_ items: [JsonNewsfeedResponse.JsonNewsfeed], url: URL) {
         
         let db = try! Realm()
-
+        
         let objectIds = Array(db.objects(VKNews.self).map{$0.id})
         
-        let objects = items.filter{!objectIds.contains($0.postID)}
-            .map { json -> VKNews in
-                
-                let urls = json.attachments?
-                    .filter{$0.type == "photo"}
-                    .map{ element -> String in
-                        if let element = element.photo?.sizes?.first(
-                            where: {$0.type == "x"})?.url {
-                            return element
-                        } else {
-                            return ""
-                        }
-                    }
-                    .filter{!$0.isEmpty} ?? []
-                
-                return VKNews(sourceId: json.sourceID,
-                              date: Date(timeIntervalSince1970: Double(json.date)),
-                              id: json.postID,
-                              text: json.text ?? "",
-                              likes: json.likes?.count ?? 0,
-                              userLikes: json.likes?.userLikes ?? 0,
-                              comments: json.comments?.count ?? 0,
-                              reposts: json.reposts?.count ?? 0,
-                              userReposts: json.reposts?.userReposted ?? 0,
-                              views: json.views?.count ?? 0,
-                              photoUrls: urls,
-                              url: url.withQueryItem(key: "source_ids", value: "\(json.sourceID)").description
-                )
-            }
-        
-        if objects.count > 0 {
-            try! db.write {
-                db.add(objects, update: .all)
+        items.filter{ item in
+            if let id = item.postID {
+                return !objectIds.contains(id)
+            } else {
+                return false
             }
         }
+        .forEach { json in
+            
+            DispatchQueue.global().sync{
+                self.addObject(json: json, url: url)
+            }
+            
+        }
         
-        DispatchQueue.global().asyncAfter(deadline: .now()+5) {
-            let db = try! Realm()
-            db.objects(VKNews.self).filter{ $0.photoUrls.count > 0 && $0.photos.count == 0}.forEach{ object in
-                for url in object.photoUrls{
-                    if let url = URL(string: url) {
-                        try! db.write {
-                            let data = try? Data(contentsOf: url)
-                            object.photos.append(data)
-                        }
-                    }
+    }
+    
+    private func addObject(json: JsonNewsfeedResponse.JsonNewsfeed, url: URL){
+        
+        let urls = json.attachments?
+            .filter{$0.type == "photo"}
+            .map{ element -> String in
+                if let element = element.photo?.sizes?.first(
+                    where: {$0.type == "x"})?.url {
+                    return element
+                } else {
+                    return ""
                 }
             }
+            .filter{!$0.isEmpty} ?? []
+        
+        let db = try! Realm()
+        let object = VKNews(sourceId: json.sourceID,
+                            date: Date(timeIntervalSince1970: Double(json.date)),
+                            id: json.postID!,
+                            text: json.text ?? "",
+                            likes: json.likes?.count ?? 0,
+                            userLikes: json.likes?.userLikes ?? 0,
+                            comments: json.comments?.count ?? 0,
+                            reposts: json.reposts?.count ?? 0,
+                            userReposts: json.reposts?.userReposted ?? 0,
+                            views: json.views?.count ?? 0,
+                            photoUrls: urls,
+                            url: url.withQueryItem(key: "source_ids", value: "\(json.sourceID)").description
+        )
+        
+        object.photoUrls.forEach{ url in
+            if let url = URL(string: url) {
+                object.photos.append(try? Data(contentsOf: url))
+            }
         }
         
+        try! db.write{
+            db.add(object)
+        }
     }
 
 

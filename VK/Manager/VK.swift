@@ -185,17 +185,34 @@ extension VK {
     private func fetchFriends(group: DispatchGroup) {
         
         let url = URLS.buildUrl(.friends)
-        URLSession.shared.json(url,
-                               source: .responseItems,
-                               decode: [JsonUser].self) { result in
-            
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let result):
-                addUsers(items: result, group: group)
-            }
-        }
+        let operationQueue = OperationQueue()
+        
+        let getDataOperation = GetDataOperation(url: url)
+        operationQueue.addOperation(getDataOperation)
+        
+        let parseJsonOperation = ParseJsonOperation(.friends)
+        parseJsonOperation.addDependency(getDataOperation)
+        operationQueue.addOperation(parseJsonOperation)
+        
+        let saveToRealmOperation = SaveToRealmOperation()
+        saveToRealmOperation.addDependency(parseJsonOperation)
+        operationQueue.addOperation(saveToRealmOperation)
+        
+        let fetchAndUpdatePhotoOperation = FetchAndSavePhotoOperation()
+        fetchAndUpdatePhotoOperation.addDependency(saveToRealmOperation)
+        operationQueue.addOperation(fetchAndUpdatePhotoOperation)
+        
+//        URLSession.shared.json(url,
+//                               source: .responseItems,
+//                               decode: [JsonUser].self) { result in
+//
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let result):
+//                addUsers(items: result, group: group)
+//            }
+//        }
         
     }
     
@@ -265,11 +282,14 @@ extension VK {
 
 extension VK {
     
-    private func fetchNewsfeed(group: DispatchGroup) {
+    private func fetchNewsfeed(group: DispatchGroup, nextFrom: String? = nil) {
         
         group.enter()
         
-        let url = URLS.buildUrl(.news)
+        var url = URLS.buildUrl(.news)
+        if let nextFrom = nextFrom {
+            url = url.withQueryItem(key: "start_from", value: nextFrom)
+        }
         
         URLSession.shared.json(url,
                                source: .response,
@@ -282,7 +302,11 @@ extension VK {
                 addUsers(items: result.profiles, group: group)
                 addGroups(items: result.groups, group: group)
                 addNewsfeed(items: result.items, url: url)
+                if nextFrom == nil {
+                    fetchNewsfeed(group: group, nextFrom: result.nextFrom)
+                }
                 group.leave()
+                
             }
         }
         
