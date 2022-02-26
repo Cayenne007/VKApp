@@ -15,7 +15,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="P2x-vL-CGo">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
+                    <rect key="frame" x="0.0" y="5" width="414" height="190"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="3" minimumInteritemSpacing="3" id="YwL-ci-3JG">
                         <size key="itemSize" width="128" height="128"/>
@@ -29,8 +29,8 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="P2x-vL-CGo" secondAttribute="trailing" id="4JR-Ha-WEE"/>
-                <constraint firstItem="P2x-vL-CGo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Je2-4Z-LqU"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="P2x-vL-CGo" secondAttribute="bottom" id="jff-gK-04e"/>
+                <constraint firstItem="P2x-vL-CGo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="Je2-4Z-LqU"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="P2x-vL-CGo" secondAttribute="bottom" constant="5" id="jff-gK-04e"/>
                 <constraint firstItem="P2x-vL-CGo" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="knj-5n-xEZ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
