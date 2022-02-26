@@ -23,7 +23,7 @@ class DB {
         
         let objects = items.filter{!objectIds.contains($0.id)}
             .map { json in
-                            
+                
                 VKGroup(id: json.id,
                         name: json.name,
                         isMember: json.isMember.bool,
@@ -57,20 +57,20 @@ class DB {
         
         let objects = items.filter{!objectIds.contains($0.id)}
             .map { json in
-            VKUser(id: json.id,
-                   firstName: json.firstName,
-                   lastName: json.lastName,
-                   isFriend: json.isFriend?.bool ?? false,
-                   photoUrl: json.photo100 ?? ""
-            )
-        }
+                VKUser(id: json.id,
+                       firstName: json.firstName,
+                       lastName: json.lastName,
+                       isFriend: json.isFriend?.bool ?? false,
+                       photoUrl: json.photo100 ?? ""
+                )
+            }
         
         if objects.count > 0 {
             try! db.write {
                 db.add(objects, update: .all)
             }
         }
-    
+        
         DispatchQueue.global().async {
             let db = try! Realm()
             db.objects(VKUser.self).filter{!$0.photoUrl.isEmpty && $0.photo == nil}.forEach{ object in
@@ -101,14 +101,14 @@ class DB {
         .forEach { json in
             
             DispatchQueue.global().sync{
-                self.addObject(json: json, url: url)
+                self.addNewsfeed(json: json, url: url)
             }
             
         }
         
     }
     
-    private func addObject(json: JsonNewsfeedResponse.JsonNewsfeed, url: URL){
+    private func addNewsfeed(json: JsonNewsfeedResponse.JsonNewsfeed, url: URL){
         
         let urls = json.attachments?
             .filter{$0.type == "photo"}
@@ -147,9 +147,51 @@ class DB {
             db.add(object)
         }
     }
-
-
-
+    
+    
+    func addPhotos(items: [JsonPhoto]) {
+        
+        let db = try! Realm()
+        
+        let objectIds = Array(db.objects(VKPhoto.self).map{$0.id})
+        
+        let objects = items.filter{!objectIds.contains($0.id)}
+            .map { json -> VKPhoto in
+                
+                var url = ""
+                
+                if let sizes = json.sizes {
+                    url = sizes.sorted{$0.size > $1.size}.first?.url ?? ""
+                }
+                
+                return VKPhoto(id: json.id,
+                               ownerId: json.ownerId,
+                               text: json.text ?? "",
+                               url: url
+                )
+            }
+        
+        if objects.count > 0 {
+            try! db.write {
+                db.add(objects, update: .all)
+            }
+        }
+        
+        DispatchQueue.global().async {
+            let db = try! Realm()
+            db.objects(VKPhoto.self).filter{!$0.url.isEmpty && $0.data == nil}.forEach{ object in
+                if let url = URL(string: object.url) {
+                    try! db.write {
+                        object.data = try? Data(contentsOf: url)
+                        db.add(object, update: .all)
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    
     private init() {}
     
 }

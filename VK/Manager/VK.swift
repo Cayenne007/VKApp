@@ -86,25 +86,22 @@ struct VK {
         
     }
     
-//    func fetchPhotos(owner: VKAuthor?, compeltion: @escaping ()->()) {
-//        
-//        guard let id = owner?._id else { return }
-//        let minus = (owner is VKGroup) ? (-1) : (1)
-//        
-//        let url = URLS.buildUrl(.photos(ownerId: minus * id))
-//        URLSession.shared.json(url,
-//                               source: .responseItems,
-//                               decode: [JsonPhoto].self) { result in
-//            
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let objects):
-//                addPhotos(items: objects, compeltion)
-//            }
-//        }
-//        
-//    }
+    func fetchPhotos(id: Int) {
+        
+        let url = URLS.buildUrl(.photos(ownerId: id))
+        URLSession.shared.json(url,
+                               source: .responseItems,
+                               decode: [JsonPhoto].self) { result in
+            
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let objects):
+                addPhotos(items: objects)
+            }
+        }
+        
+    }
     
     private func fetchObjectsById(path: URLS, group: DispatchGroup) {
         
@@ -142,43 +139,9 @@ struct VK {
 
 extension VK {
     
-    private func addPhotos(items: [JsonPhoto], _ completion: @escaping ()->()) {
+    private func addPhotos(items: [JsonPhoto]) {
         
-        DispatchQueue.global().async(flags: .barrier) {
-            items.forEach{ json in
-                if DB.vk.photos.first(where: {$0.id == json.id}) == nil {
-                    
-                    var url = ""
-                    var image = UIImage(systemName: "photo")!
-                    if let sizes = json.sizes {
-                        url = sizes.sorted{$0.size > $1.size}.first?.url ?? ""
-                        if !url.isEmpty, let url = URL(string: url),
-                           let data = try? Data(contentsOf: url),
-                           let loadedImage = UIImage(data: data) {
-                            
-                            image = loadedImage
-                            
-                        }
-                    }
-                    
-                    let photo = VKPhoto(id: json.id,
-                                        ownerId: json.ownerId,
-                                        text: json.text ?? "",
-                                        url: url
-                    )
-                    
-                    photo.image = image
-                    
-                    DB.vk.photos.append(photo)
-                    
-                    DispatchQueue.main.async {
-                        completion()
-                    }
-                }
-                
-            }
-            
-        }
+        DB.vk.addPhotos(items: items)
         
     }
     

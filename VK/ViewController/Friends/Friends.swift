@@ -13,11 +13,11 @@ class FriendsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var users: Results<VKUser>!
-    var myFriends: Results<VKUser> {
+    private var users: Results<VKUser>!
+    private var myFriends: Results<VKUser> {
         users.filter("isFriend = true").sorted(byKeyPath: "firstName")
     }
-    var token: NotificationToken?
+    private var token: NotificationToken?
     
     
     override func viewDidLoad() {

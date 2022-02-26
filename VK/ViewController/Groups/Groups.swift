@@ -13,11 +13,11 @@ class GroupsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var groups: Results<VKGroup>!
-    var myGroups: Results<VKGroup> {
+    private var groups: Results<VKGroup>!
+    private var myGroups: Results<VKGroup> {
         groups.filter("isMember = true").sorted(byKeyPath: "name")
     }
-    var token: NotificationToken?
+    private var token: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,12 +41,14 @@ class GroupsViewController: UIViewController {
                 
             case .initial(_):
                 self?.tableView.reloadData()
-            case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
-                self?.tableView.performBatchUpdates{
-                    self?.tableView.deleteRows(at: deletions.map{IndexPath(row: $0, section: 0)}, with: .automatic)
-                    self?.tableView.insertRows(at: insertions.map{IndexPath(row: $0, section: 0)}, with: .automatic)
-                    self?.tableView.reloadRows(at: modifications.map{IndexPath(row: $0, section: 0)}, with: .automatic)
-                }
+            case .update(_, deletions: _, insertions: _, modifications: _):
+                self?.tableView.reloadData()
+            //case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+//                self?.tableView.performBatchUpdates{
+//                    self?.tableView.deleteRows(at: deletions.map{IndexPath(row: $0, section: 0)}, with: .automatic)
+//                    self?.tableView.insertRows(at: insertions.map{IndexPath(row: $0, section: 0)}, with: .automatic)
+//                    self?.tableView.reloadRows(at: modifications.map{IndexPath(row: $0, section: 0)}, with: .automatic)
+//                }
             case .error(let error):
                 print(error)
             }
@@ -90,7 +92,7 @@ extension GroupsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(withIdentifier: PhotosViewController.className) as! PhotosViewController
-        vc.ownerId = indexPath.row
+        vc.ownerId = -myGroups[indexPath.row].id
         
         navigationController?.pushViewController(vc, animated: true)
     }

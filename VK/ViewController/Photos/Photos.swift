@@ -14,16 +14,17 @@ fileprivate let itemSize = UIScreen.main.bounds.width*0.95
 
 class PhotosViewController: UIViewController {
     
-    let realm = try! Realm()
     
     @IBOutlet weak var collectionView: UICollectionView!
-    var ownerId: Int? = nil
-    private var photos: [VKPhoto] = []
+    
+    var ownerId: Int = 0
+    
+    private var token: NotificationToken?
+    private var photos: Results<VKPhoto>!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //navigationItem.title = owner?._name ?? ""
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 5, bottom: 10, right: 5)
@@ -33,9 +34,36 @@ class PhotosViewController: UIViewController {
         layout.scrollDirection = .vertical
         collectionView.collectionViewLayout = layout
         
-//        VK.api.fetchPhotos(owner: owner) {
-//            self.collectionView.reloadData()
-//        }
+    
+        guard let realm = try? Realm() else {
+            return
+        }
+        
+        photos = realm.objects(VKPhoto.self).filter("ownerId = %@", ownerId)
+        
+        if ownerId > 0 {
+            let owner = realm.object(ofType: VKUser.self, forPrimaryKey: ownerId)
+            navigationItem.title = owner?._name ?? ""
+        } else {
+            let owner = realm.object(ofType: VKGroup.self, forPrimaryKey: ownerId)
+            navigationItem.title = owner?._name ?? ""
+        }
+        
+        
+        VK.api.fetchPhotos(id: ownerId)
+        
+        token = photos.observe{ [weak self] changes in
+            switch changes {
+                
+            case .initial(_):
+                self?.collectionView.reloadData()
+            case .update(_, deletions: _, insertions: _, modifications: _):
+                self?.collectionView.reloadData()
+            case .error(let error):
+                print(error)
+            }
+        }
+
         
     }
     
@@ -63,7 +91,11 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
             cell.contentView.addSubview(imageView)
         }
         
-        imageView.image = photo.image
+        if let data = photo.data {
+            imageView.image = UIImage(data: data)
+        } else {
+            imageView.image = UIImage(systemName: "photo")
+        }
         imageView.backgroundColor = .blue
         
         return cell

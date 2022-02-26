@@ -13,9 +13,9 @@ class NewsfeedViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    let realm = try! Realm()
-    var newsfeed: Results<VKNews>!
-    var token: NotificationToken?
+    private let realm = try! Realm()
+    private var newsfeed: Results<VKNews>!
+    private var token: NotificationToken?
         
     override func viewDidLoad() {
         
