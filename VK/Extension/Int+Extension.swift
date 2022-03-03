@@ -8,6 +8,7 @@
 import Foundation
 
 extension Int {
+    
     var str: String {
         "\(self)"
     }
@@ -22,4 +23,10 @@ extension Int {
             return false
         }
     }
+    
+    var toModule: Int {
+        self > 0 ? self : -self
+    }
+    
+    
 }
