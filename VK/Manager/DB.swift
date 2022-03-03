@@ -134,7 +134,8 @@ class DB {
                             userReposts: json.reposts?.userReposted ?? 0,
                             views: json.views?.count ?? 0,
                             photoUrls: urls,
-                            url: url.withQueryItem(key: "source_ids", value: "\(json.sourceID)").description
+                            url: url.withQueryItem(key: "source_ids", value: "\(json.sourceID)").description,
+                            postType: json.postType ?? "post"
         )
         
         object.photoUrls.forEach{ url in
@@ -193,5 +194,27 @@ class DB {
     
     
     private init() {}
+    
+}
+
+extension DB {
+    
+    static func checkRealm() {        
+        do {
+            let _ = try Realm()
+        } catch {
+            let url = Realm.Configuration.defaultConfiguration.fileURL
+            guard let url = url else {
+                Notifications.send(title: "База данных Realm", subtitle: "\(String(describing: url))")
+                return
+            }
+            
+            if (try? FileManager.default.removeItem(at: url)) == nil {
+                Notifications.send(title: "База данных Realm", subtitle: "Изменилась структура данных, но не получилось удалить базу данных по \(url.description)")
+            } else {
+                Notifications.send(title: "База данных Realm", subtitle: "Файл базы данных realm был удален, так как изменилась структура данных")
+            }
+        }
+    }
     
 }

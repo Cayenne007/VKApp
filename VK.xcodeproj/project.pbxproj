@@ -49,6 +49,12 @@
 		ABDF82E127C2B5030083E370 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDF82E027C2B5020083E370 /* Photos.swift */; };
 		ABDF82E327C2B77D0083E370 /* JsonPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDF82E227C2B77D0083E370 /* JsonPhoto.swift */; };
 		ABDF82E527C2B7AC0083E370 /* VKPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDF82E427C2B7AC0083E370 /* VKPhoto.swift */; };
+		B0A68A1227CD1AB900059FBC /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A68A1127CD1AB900059FBC /* Future.swift */; };
+		B0E118C727CFEF48005C403D /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = B0E118C627CFEF48005C403D /* PromiseKit */; };
+		B0E118CD27D0AC1D005C403D /* SessionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118CC27D0AC1D005C403D /* SessionHelpers.swift */; };
+		B0E118CF27D0AC8F005C403D /* URLS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118CE27D0AC8F005C403D /* URLS.swift */; };
+		B0E118D127D0AE14005C403D /* PromiseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118D027D0AE14005C403D /* PromiseAPI.swift */; };
+		B0E118D327D0FE1C005C403D /* RealmHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118D227D0FE1C005C403D /* RealmHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,7 +64,6 @@
 		AB056C7427BF70C700E1DF4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AB056C7627BF70C800E1DF4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB056C7927BF70C800E1DF4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AB056C7B27BF70C800E1DF4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB056C8627BF711700E1DF4A /* JsonNewsfeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonNewsfeed.swift; sourceTree = "<group>"; };
 		AB056C8A27BF712700E1DF4A /* VKUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKUser.swift; sourceTree = "<group>"; };
 		AB056C8B27BF712700E1DF4A /* VKNews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKNews.swift; sourceTree = "<group>"; };
@@ -94,6 +99,11 @@
 		ABDF82E027C2B5020083E370 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		ABDF82E227C2B77D0083E370 /* JsonPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPhoto.swift; sourceTree = "<group>"; };
 		ABDF82E427C2B7AC0083E370 /* VKPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKPhoto.swift; sourceTree = "<group>"; };
+		B0A68A1127CD1AB900059FBC /* Future.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
+		B0E118CC27D0AC1D005C403D /* SessionHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHelpers.swift; sourceTree = "<group>"; };
+		B0E118CE27D0AC8F005C403D /* URLS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLS.swift; sourceTree = "<group>"; };
+		B0E118D027D0AE14005C403D /* PromiseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseAPI.swift; sourceTree = "<group>"; };
+		B0E118D227D0FE1C005C403D /* RealmHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +112,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB1B928E27C7627D00907A04 /* RealmSwift in Frameworks */,
+				B0E118C727CFEF48005C403D /* PromiseKit in Frameworks */,
 				AB1B929627C8BA3D00907A04 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,7 +148,6 @@
 				AB056C7327BF70C700E1DF4A /* Main.storyboard */,
 				AB056C7627BF70C800E1DF4A /* Assets.xcassets */,
 				AB056C7827BF70C800E1DF4A /* LaunchScreen.storyboard */,
-				AB056C7B27BF70C800E1DF4A /* Info.plist */,
 			);
 			path = VK;
 			sourceTree = "<group>";
@@ -212,6 +222,8 @@
 				AB056CAC27BF736500E1DF4A /* DB.swift */,
 				AB1C500527C3BF5E000CC015 /* Notifications.swift */,
 				AB056CA427BF725A00E1DF4A /* VK.swift */,
+				B0E118CE27D0AC8F005C403D /* URLS.swift */,
+				B0A68A1027CD1A8700059FBC /* FeaturePromice */,
 				AB1B928F27C8B7C300907A04 /* Operations */,
 			);
 			path = Manager;
@@ -253,6 +265,17 @@
 			path = Groups;
 			sourceTree = "<group>";
 		};
+		B0A68A1027CD1A8700059FBC /* FeaturePromice */ = {
+			isa = PBXGroup;
+			children = (
+				B0A68A1127CD1AB900059FBC /* Future.swift */,
+				B0E118CC27D0AC1D005C403D /* SessionHelpers.swift */,
+				B0E118D227D0FE1C005C403D /* RealmHelpers.swift */,
+				B0E118D027D0AE14005C403D /* PromiseAPI.swift */,
+			);
+			path = FeaturePromice;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -272,6 +295,7 @@
 			packageProductDependencies = (
 				AB1B928D27C7627D00907A04 /* RealmSwift */,
 				AB1B929527C8BA3D00907A04 /* Alamofire */,
+				B0E118C627CFEF48005C403D /* PromiseKit */,
 			);
 			productName = VK;
 			productReference = AB056C6A27BF70C700E1DF4A /* VK.app */;
@@ -304,6 +328,7 @@
 			packageReferences = (
 				AB1B928C27C7627D00907A04 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				AB1B929427C8BA3D00907A04 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				B0E118C527CFEF48005C403D /* XCRemoteSwiftPackageReference "PromiseKit" */,
 			);
 			productRefGroup = AB056C6B27BF70C700E1DF4A /* Products */;
 			projectDirPath = "";
@@ -343,16 +368,21 @@
 				AB1B929127C8B7D900907A04 /* GetDataOperation.swift in Sources */,
 				AB056CBF27C0E57000E1DF4A /* Int+Extension.swift in Sources */,
 				AB1B929A27C8D2C700907A04 /* SaveToRealmOperation.swift in Sources */,
+				B0A68A1227CD1AB900059FBC /* Future.swift in Sources */,
 				AB1B928827C4BB9D00907A04 /* URL+Extension.swift in Sources */,
 				AB056C8827BF711700E1DF4A /* JsonNewsfeed.swift in Sources */,
 				AB056C6E27BF70C700E1DF4A /* AppDelegate.swift in Sources */,
 				AB056C9027BF712700E1DF4A /* VKNews.swift in Sources */,
+				B0E118CD27D0AC1D005C403D /* SessionHelpers.swift in Sources */,
+				B0E118D127D0AE14005C403D /* PromiseAPI.swift in Sources */,
 				AB056CB527BFC18500E1DF4A /* NewsfeedFooter.swift in Sources */,
 				AB056C9827BF720500E1DF4A /* String+Extension.swift in Sources */,
+				B0E118CF27D0AC8F005C403D /* URLS.swift in Sources */,
 				AB056CA527BF725A00E1DF4A /* VK.swift in Sources */,
 				ABC535B727C218F900717864 /* Groups.swift in Sources */,
 				AB056C9E27BF722000E1DF4A /* NewsfeedHeader.swift in Sources */,
 				AB056C7027BF70C700E1DF4A /* SceneDelegate.swift in Sources */,
+				B0E118D327D0FE1C005C403D /* RealmHelpers.swift in Sources */,
 				AB6745F527C295F7007A0690 /* URLSession+Extension.swift in Sources */,
 				ABC535AF27C1902F00717864 /* JsonUser.swift in Sources */,
 				AB056CAD27BF736500E1DF4A /* DB.swift in Sources */,
@@ -517,7 +547,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 273Z2JY65J;
+				DEVELOPMENT_TEAM = 88E4R9UBDU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VK/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
@@ -532,7 +562,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = porsche.VK;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.porsche.vkapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -547,7 +577,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 273Z2JY65J;
+				DEVELOPMENT_TEAM = 88E4R9UBDU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VK/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
@@ -562,7 +592,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = porsche.VK;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.porsche.vkapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -610,6 +640,14 @@
 				kind = branch;
 			};
 		};
+		B0E118C527CFEF48005C403D /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mxcl/PromiseKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -622,6 +660,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AB1B929427C8BA3D00907A04 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		B0E118C627CFEF48005C403D /* PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B0E118C527CFEF48005C403D /* XCRemoteSwiftPackageReference "PromiseKit" */;
+			productName = PromiseKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

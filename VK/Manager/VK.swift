@@ -6,66 +6,6 @@
 //
 
 import Foundation
-import UIKit
-
-
-fileprivate enum URLS: Equatable {
-    
-    private static let baseUrl = "https://api.vk.com/method".url
-    
-    case friends
-    case news
-    case groups
-    case groupByIds(ids: String)
-    case userByIds(ids: String)
-    case photos(ownerId: Int)
-    
-    var path: String {
-        switch self {
-        case .groups:
-            return "groups.get"
-        case .friends:
-            return "friends.get"
-        case .news:
-            return "newsfeed.get"
-        case .groupByIds:
-            return "groups.getById"
-        case .userByIds:
-            return "users.getById"
-        case .photos:
-            return "photos.getAll"
-        }
-    }
-    
-    var queryItems: [URLQueryItem] {
-        switch self {
-        case .friends:
-            return [
-                URLQueryItem(name: "fields", value: "online,contacts,status,nickname,first_name,last_name,photo_100,is_friend")
-            ]
-        case .news:
-            return [
-                URLQueryItem(name: "filters", value: "post,photo")
-            ]
-        case .groups:
-            return []
-        case .groupByIds(let ids):
-            return [
-                URLQueryItem(name: "group_ids", value: ids)
-            ]
-        case .userByIds(let ids):
-            return [
-                URLQueryItem(name: "user_ids", value: ids),
-                URLQueryItem(name: "fields", value: "is_friend")
-            ]
-        case .photos(let id):
-            return [
-                URLQueryItem(name: "owner_id", value: "\(id)")
-            ]
-        }
-    }
-    
-}
 
 
 struct VK {
@@ -79,8 +19,9 @@ struct VK {
         }
         
         let dispatchGroup = DispatchGroup()
-        
-        fetchObjectsById(path: .groups, group: dispatchGroup)
+              
+        PromiseAPI.vk.fetchGroups()
+        //fetchObjectsById(path: .groups, group: dispatchGroup)
         fetchFriends(group: dispatchGroup)
         fetchNewsfeed(group: dispatchGroup)
         
@@ -106,27 +47,27 @@ struct VK {
     private func fetchObjectsById(path: URLS, group: DispatchGroup) {
         
         group.enter()
-        
+
         let url = path.url
         URLSession.shared.json(url,
                                source: .responseItems,
                                decode: [Int].self) { result in
-            
+
             switch result {
             case .failure(let error):
                 print(error)
             case .success(let ids):
                 let ids = ids.map{String($0)}.joined(separator: ",")
-                
+
                 if path == .groups {
                     fetchGroupsByIds(ids: ids, group: group)
                 } else if path == .friends {
                     fetchUsersByIds(ids: ids, group: group)
                 }
-                
+
                 group.leave()
             }
-            
+
         }
         
     }
@@ -285,27 +226,5 @@ extension VK {
 }
 
 
-extension URLS {
-    
-    var url: URL {
-        URLS.buildUrl(self)
-    }
-    
-    static func buildUrl(_ type: URLS) -> URL {
-        
-        let url = URLS.baseUrl.appendingPathComponent(type.path)
-        
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
-        
-        components?.queryItems = [
-            URLQueryItem(name: "access_token", value: AppSettings.token),
-            URLQueryItem(name: "v", value: "5.131")
-        ] + type.queryItems
-        
-        
-        return components!.url!
-        
-    }
-    
-}
+
 

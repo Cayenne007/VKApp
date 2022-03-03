@@ -31,13 +31,14 @@ class VKNews: Object {
 
 
     @objc dynamic var url = ""
+    @objc dynamic var postType = ""
 
     override class func primaryKey() -> String? {
         "id"
     }
 
 
-    convenience init(sourceId: Int, date: Date, id: Int, text: String, likes: Int, userLikes: Int, comments: Int, reposts: Int, userReposts: Int, views: Int, photoUrls: [String], url: String) {
+    convenience init(sourceId: Int, date: Date, id: Int, text: String, likes: Int, userLikes: Int, comments: Int, reposts: Int, userReposts: Int, views: Int, photoUrls: [String], url: String, postType: String) {
 
         self.init()
 
@@ -53,6 +54,7 @@ class VKNews: Object {
         self.views = views
         self.photoUrls = photoUrls.reduce(into: List<String>(), { $0.append($1) })
         self.url = url
+        self.postType = postType
 
     }
 }

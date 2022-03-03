@@ -17,7 +17,6 @@ class VKGroup: Object {
     
     @objc dynamic var photoUrl = ""
     @objc dynamic var photo: Data? = nil
-    
    
     
     convenience init(id: Int, name: String, isMember: Bool, photoUrl: String = "") {

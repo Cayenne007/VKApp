@@ -40,7 +40,7 @@ extension URLSession {
     
 }
 
-fileprivate enum NetworkError: Error {
+enum NetworkError: Error {
     case transportError(Error)
     case serverError(statusCode: Int)
     case noData

@@ -88,26 +88,29 @@ extension NewsfeedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
+        let item = newsfeed[indexPath.section]
+        
+        if item.postType == "photo" {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "photo", for: indexPath) as! NewsfeedPhotosCell
+            cell.newsfeedId = item.id
+            cell.collectionView.reloadData()
+            
+            return cell
+            
+        } else {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "body", for: indexPath)
-            var content = cell.defaultContentConfiguration()
-            
             let item = newsfeed[indexPath.section]
-            content.text = item.text
             
+            var content = cell.defaultContentConfiguration()
+            content.text = item.text
             cell.contentConfiguration = content
             
             return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "photo", for: indexPath) as! NewsfeedPhotosCell
-            let item = newsfeed[indexPath.section]
-            cell.newsfeedId = item.id
-            //NotificationCenter.default.addObserver(forName: Notification.Name("update"), object: item, queue: .main) { _ in
-                cell.collectionView.reloadData()
-            //}
-            
-            return cell
+
         }
+        
     }
     
 }
