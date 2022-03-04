@@ -19,6 +19,9 @@ class GroupsViewController: UIViewController {
     }
     private var token: NotificationToken?
     
+    private var photoService: PhotoService!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,9 +29,7 @@ class GroupsViewController: UIViewController {
         navigationItem.title = "Группы"
         
         tableView.addRefreshControl()
-        Notifications.addObserver{
-            self.tableView.reloadData()
-        }
+        photoService = PhotoService(container: tableView)
         
         guard let realm = try? Realm() else {
             groups = nil
@@ -55,6 +56,11 @@ class GroupsViewController: UIViewController {
         }
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
+        
+        
+        Notifications.addObserver {
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -78,12 +84,7 @@ extension GroupsViewController: UITableViewDataSource, UITableViewDelegate {
         var content = cell.defaultContentConfiguration()
         
         content.text = group.name
-        
-        if let photo = group.photo {
-            content.image = UIImage(data: photo)
-        } else {
-            content.image = UIImage(systemName: "photo")
-        }
+        content.image = photoService.photo(at: indexPath, url: group.photoUrl)
         
         cell.contentConfiguration = content
         

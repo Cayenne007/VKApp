@@ -25,4 +25,8 @@ extension URL {
         
         return components?.url ?? self
     }
+    
+    func isFileExists() -> Bool {
+        FileManager.default.fileExists(atPath: self.path)
+    }
 }

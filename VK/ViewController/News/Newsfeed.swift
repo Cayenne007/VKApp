@@ -16,6 +16,8 @@ class NewsfeedViewController: UIViewController {
     private let realm = try! Realm()
     private var newsfeed: Results<VKNews>!
     private var token: NotificationToken?
+    
+    private var photoService: PhotoService!
         
     override func viewDidLoad() {
         
@@ -25,22 +27,20 @@ class NewsfeedViewController: UIViewController {
         navigationItem.title = "Новости"
         
         tableView.addRefreshControl()
+        photoService = PhotoService(container: tableView)
+        
+        Notifications.addObserver {
+            self.tableView.reloadData()
+        }
         
         newsfeed = realm.objects(VKNews.self)        
         token = newsfeed.observe{ [weak self] changes in
             switch changes {
                 
             case .initial(_):
-                self?.tableView.reloadData()
-            //case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+                self?.tableView.reloadData()            
             case .update(_, deletions: _, insertions: _, modifications: _):
                 self?.tableView.reloadData()
-                
-//                self?.tableView.performBatchUpdates{
-//                    self?.tableView.deleteRows(at: deletions.map{IndexPath(row: 0, section: $0)}, with: .automatic)
-//                    self?.tableView.insertRows(at: insertions.map{IndexPath(row: 0, section: $0)}, with: .automatic)
-//                    self?.tableView.reloadRows(at: modifications.map{IndexPath(row: 0, section: $0)}, with: .automatic)
-//                }
             case .error(let error):
                 print(error)
             }
@@ -54,6 +54,11 @@ class NewsfeedViewController: UIViewController {
         tableView.register(UINib(nibName: "NewsfeedPhoto", bundle: nil),
                            forCellReuseIdentifier: "photo")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "body")
+        
+        
+        Notifications.addObserver {
+            self.tableView.reloadData()
+        }
         
     }
     
@@ -89,8 +94,7 @@ extension NewsfeedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let item = newsfeed[indexPath.section]
-        
-        if item.postType == "photo" {
+        if indexPath.row == 1 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "photo", for: indexPath) as! NewsfeedPhotosCell
             cell.newsfeedId = item.id
@@ -135,15 +139,11 @@ extension NewsfeedViewController: UITableViewDelegate {
         let item = newsfeed[section]
         
         if item.sourceId > 0, let author = realm.object(ofType: VKUser.self, forPrimaryKey: item.sourceId) {
-            view.titleLabel.text = author._name
-            if let photo = author.photo {
-                view.logo.image = UIImage(data: photo)
-            }
+            view.titleLabel.text = author.name
+            view.logo.image = photoService.photo(at: IndexPath(item: 0, section: section), url: author.photoUrl)
         } else if let author = realm.object(ofType: VKGroup.self, forPrimaryKey: -item.sourceId) {
-            view.titleLabel.text = author._name
-            if let photo = author.photo {
-                view.logo.image = UIImage(data: photo)
-            }
+            view.titleLabel.text = author.name
+            view.logo.image = photoService.photo(at: IndexPath(item: 0, section: section), url: author.photoUrl)
         }
         
         view.subTitleLabel.text = item.date.title

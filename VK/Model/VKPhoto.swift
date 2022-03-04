@@ -16,7 +16,6 @@ class VKPhoto: Object {
     @objc dynamic var text = ""
     @objc dynamic var url = ""
     
-    @objc dynamic var data: Data?
     
     convenience init(id: Int, ownerId: Int, text: String, url: String) {
         self.init()

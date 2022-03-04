@@ -12,8 +12,7 @@ class DB {
     
     static var vk = DB()
     
-    var photos: [VKPhoto] = []
-    
+    var photoService: PhotoService?
     
     func addGroup(_ items: [JsonGroup]) {
         
@@ -36,17 +35,6 @@ class DB {
             }
         }
         
-        DispatchQueue.global().async {
-            let db = try! Realm()
-            db.objects(VKGroup.self).filter{!$0.photoUrl.isEmpty && $0.photo == nil}.forEach{ object in
-                if let url = URL(string: object.photoUrl) {
-                    try! db.write {
-                        object.photo = try? Data(contentsOf: url)
-                        db.add(object, update: .all)
-                    }
-                }
-            }
-        }
     }
     
     func addUser(_ items: [JsonUser]) {
@@ -71,17 +59,17 @@ class DB {
             }
         }
         
-        DispatchQueue.global().async {
-            let db = try! Realm()
-            db.objects(VKUser.self).filter{!$0.photoUrl.isEmpty && $0.photo == nil}.forEach{ object in
-                if let url = URL(string: object.photoUrl) {
-                    try! db.write {
-                        object.photo = try? Data(contentsOf: url)
-                        db.add(object, update: .all)
-                    }
-                }
-            }
-        }
+//        DispatchQueue.global().async {
+//            let db = try! Realm()
+//            db.objects(VKUser.self).filter{!$0.photoUrl.isEmpty && $0.photo == nil}.forEach{ object in
+//                if let url = URL(string: object.photoUrl) {
+//                    try! db.write {
+//                        object.photo = try? Data(contentsOf: url)
+//                        db.add(object, update: .all)
+//                    }
+//                }
+//            }
+//        }
         
     }
     
@@ -138,11 +126,11 @@ class DB {
                             postType: json.postType ?? "post"
         )
         
-        object.photoUrls.forEach{ url in
-            if let url = URL(string: url) {
-                object.photos.append(try? Data(contentsOf: url))
-            }
-        }
+//        object.photoUrls.forEach{ url in
+//            if let url = URL(string: url) {
+//                object.photos.append(try? Data(contentsOf: url))
+//            }
+//        }
         
         try! db.write{
             db.add(object)
@@ -178,17 +166,17 @@ class DB {
             }
         }
         
-        DispatchQueue.global().async {
-            let db = try! Realm()
-            db.objects(VKPhoto.self).filter{!$0.url.isEmpty && $0.data == nil}.forEach{ object in
-                if let url = URL(string: object.url) {
-                    try! db.write {
-                        object.data = try? Data(contentsOf: url)
-                        db.add(object, update: .all)
-                    }
-                }
-            }
-        }
+//        DispatchQueue.global().async {
+//            let db = try! Realm()
+//            db.objects(VKPhoto.self).filter{!$0.url.isEmpty && $0.data == nil}.forEach{ object in
+//                if let url = URL(string: object.url) {
+//                    try! db.write {
+//                        object.data = try? Data(contentsOf: url)
+//                        db.add(object, update: .all)
+//                    }
+//                }
+//            }
+//        }
         
     }
     
@@ -214,6 +202,20 @@ extension DB {
             } else {
                 Notifications.send(title: "База данных Realm", subtitle: "Файл базы данных realm был удален, так как изменилась структура данных")
             }
+        }
+    }
+    
+    static func deleteAll() {
+        
+        do {
+            if let realm = try? Realm() {
+                try realm.write {
+                    realm.deleteAll()
+                    Notifications.send(title: "База данных Realm", subtitle: "Успешно удалена")
+                }
+            }
+        } catch {
+            Notifications.send(title: "База данных Realm", subtitle: "\(error)")
         }
     }
     

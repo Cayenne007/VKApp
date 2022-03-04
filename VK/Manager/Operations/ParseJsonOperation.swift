@@ -29,8 +29,8 @@ class ParseJsonOperation: AsyncOperation {
                 friends = result.response.items
                 state = .finished
             }
-        } catch {
-            print(error)
+        } catch {            
+            Notifications.send(title: "Загрузка друзей", subtitle: "\(error)")
             state = .finished
         }
         

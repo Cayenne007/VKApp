@@ -15,6 +15,7 @@ extension URLSession {
 
             if let error = NetworkError(data: data, response: response, error: error) {
                 result(.failure(error))
+                Notifications.send(title: "Загрузка данных", subtitle: "\(error)")
                 return
             }
 

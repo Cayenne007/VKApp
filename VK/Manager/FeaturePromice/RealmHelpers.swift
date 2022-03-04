@@ -44,19 +44,19 @@ struct PromiseRealm {
             
     }
     
-    static func loadGroupImages() -> Promise<Bool> {
-        Promise<Bool>{ seal in
-            let db = try Realm()
-            db.objects(VKGroup.self).filter{!$0.photoUrl.isEmpty && $0.photo == nil}.forEach{ object in
-                if let url = URL(string: object.photoUrl) {
-                    try? db.write {
-                        object.photo = try? Data(contentsOf: url)
-                        db.add(object, update: .all)
-                    }
-                }
-            }
-            return seal.fulfill(true)
-        }
-    }
+//    static func loadGroupImages() -> Promise<Bool> {
+//        Promise<Bool>{ seal in
+//            let db = try Realm()
+//            db.objects(VKGroup.self).filter{!$0.photoUrl.isEmpty && $0.photo == nil}.forEach{ object in
+//                if let url = URL(string: object.photoUrl) {
+//                    try? db.write {
+//                        object.photo = try? Data(contentsOf: url)
+//                        db.add(object, update: .all)
+//                    }
+//                }
+//            }
+//            return seal.fulfill(true)
+//        }
+//    }
     
 }

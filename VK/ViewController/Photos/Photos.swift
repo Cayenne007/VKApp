@@ -21,6 +21,8 @@ class PhotosViewController: UIViewController {
     
     private var token: NotificationToken?
     private var photos: Results<VKPhoto>!
+    
+    private var photoService: PhotoService!
 
     
     override func viewDidLoad() {
@@ -34,6 +36,7 @@ class PhotosViewController: UIViewController {
         layout.scrollDirection = .vertical
         collectionView.collectionViewLayout = layout
         
+        photoService = PhotoService(container: collectionView)
     
         guard let realm = try? Realm() else {
             return
@@ -43,10 +46,10 @@ class PhotosViewController: UIViewController {
         
         if ownerId > 0 {
             let owner = realm.object(ofType: VKUser.self, forPrimaryKey: ownerId)
-            navigationItem.title = owner?._name ?? ""
+            navigationItem.title = owner?.name ?? ""
         } else {
             let owner = realm.object(ofType: VKGroup.self, forPrimaryKey: ownerId)
-            navigationItem.title = owner?._name ?? ""
+            navigationItem.title = owner?.name ?? ""
         }
         
         
@@ -90,12 +93,9 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
             imageView.image = UIImage(systemName: "photo")!
             cell.contentView.addSubview(imageView)
         }
+                
+        imageView.image = photoService.photo(at: indexPath, url: photo.url)
         
-        if let data = photo.data {
-            imageView.image = UIImage(data: data)
-        } else {
-            imageView.image = UIImage(systemName: "photo")
-        }
         imageView.backgroundColor = .blue
         
         return cell

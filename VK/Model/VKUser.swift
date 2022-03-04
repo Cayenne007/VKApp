@@ -22,7 +22,6 @@ class VKUser: Object {
     }
     
     @objc dynamic var photoUrl = ""
-    @objc dynamic var photo: Data? = nil
     
     
     override class func primaryKey() -> String? {
@@ -41,56 +40,6 @@ class VKUser: Object {
         
     }
     
-    //для совместимости
-    var _id: Int { id }
-    var _name: String { name }
-    var _photoUrl: String { photoUrl }
-    var _photo: Data? { photo }
     
 }
 
-
-//class VKUser: VKAuthor {
-//
-//    var id: Int
-//    var firstName: String
-//    var lastName: String
-//
-//    var isFriend: Bool
-//
-//    var name: String {
-//        "\(firstName) \(lastName)"
-//    }
-//
-//    var photoUrl: String
-//    var photo: Data? = nil
-//
-//    static func emptyUser() -> VKUser {
-//        VKUser(id: 0, firstName: "<Пользователь не найден>", lastName: "", isFriend: false)
-//    }
-//
-//
-//    init(id: Int, firstName: String, lastName: String, isFriend: Bool, photoUrl: String = "") {
-//
-//        self.id = id
-//        self.firstName = firstName
-//        self.lastName = lastName
-//        self.isFriend = isFriend
-//        self.photoUrl = photoUrl
-//
-//        DispatchQueue.global().async {
-//            if let url = URL(string: photoUrl) {
-//                self.photo = try? Data(contentsOf: url)
-//            }
-//        }
-//
-//    }
-//
-//
-//    //для совместимости
-//    var _id: Int { id }
-//    var _name: String { name }
-//    var _photoUrl: String { photoUrl }
-//    var _photo: Data? { photo }
-//
-//}

@@ -49,12 +49,14 @@
 		ABDF82E127C2B5030083E370 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDF82E027C2B5020083E370 /* Photos.swift */; };
 		ABDF82E327C2B77D0083E370 /* JsonPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDF82E227C2B77D0083E370 /* JsonPhoto.swift */; };
 		ABDF82E527C2B7AC0083E370 /* VKPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDF82E427C2B7AC0083E370 /* VKPhoto.swift */; };
-		B0A68A1227CD1AB900059FBC /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A68A1127CD1AB900059FBC /* Future.swift */; };
 		B0E118C727CFEF48005C403D /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = B0E118C627CFEF48005C403D /* PromiseKit */; };
 		B0E118CD27D0AC1D005C403D /* SessionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118CC27D0AC1D005C403D /* SessionHelpers.swift */; };
 		B0E118CF27D0AC8F005C403D /* URLS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118CE27D0AC8F005C403D /* URLS.swift */; };
 		B0E118D127D0AE14005C403D /* PromiseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118D027D0AE14005C403D /* PromiseAPI.swift */; };
 		B0E118D327D0FE1C005C403D /* RealmHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118D227D0FE1C005C403D /* RealmHelpers.swift */; };
+		B0E118D527D10ACF005C403D /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118D427D10ACF005C403D /* PhotoService.swift */; };
+		B0E118D727D10D5C005C403D /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118D627D10D5C005C403D /* FileManager+Extension.swift */; };
+		B0EEB6E427D207D70082AB4E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EEB6E327D207D70082AB4E /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,11 +101,13 @@
 		ABDF82E027C2B5020083E370 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		ABDF82E227C2B77D0083E370 /* JsonPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPhoto.swift; sourceTree = "<group>"; };
 		ABDF82E427C2B7AC0083E370 /* VKPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKPhoto.swift; sourceTree = "<group>"; };
-		B0A68A1127CD1AB900059FBC /* Future.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
 		B0E118CC27D0AC1D005C403D /* SessionHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHelpers.swift; sourceTree = "<group>"; };
 		B0E118CE27D0AC8F005C403D /* URLS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLS.swift; sourceTree = "<group>"; };
 		B0E118D027D0AE14005C403D /* PromiseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseAPI.swift; sourceTree = "<group>"; };
 		B0E118D227D0FE1C005C403D /* RealmHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmHelpers.swift; sourceTree = "<group>"; };
+		B0E118D427D10ACF005C403D /* PhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
+		B0E118D627D10D5C005C403D /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
+		B0EEB6E327D207D70082AB4E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +184,7 @@
 			children = (
 				AB056CB227BFC07300E1DF4A /* Date+Extension.swift */,
 				AB056CBE27C0E57000E1DF4A /* Int+Extension.swift */,
+				B0E118D627D10D5C005C403D /* FileManager+Extension.swift */,
 				AB056CAA27BF72CD00E1DF4A /* NSObject+Extension.swift */,
 				AB056C9727BF720500E1DF4A /* String+Extension.swift */,
 				AB1B928727C4BB9D00907A04 /* URL+Extension.swift */,
@@ -197,6 +202,7 @@
 				ABC535B527C218E600717864 /* Groups */,
 				AB056C9A27BF722000E1DF4A /* News */,
 				AB1C500427C3A198000CC015 /* Photos */,
+				B0EEB6E327D207D70082AB4E /* Settings.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -221,8 +227,9 @@
 				AB056CA827BF726D00E1DF4A /* AppSettings.swift */,
 				AB056CAC27BF736500E1DF4A /* DB.swift */,
 				AB1C500527C3BF5E000CC015 /* Notifications.swift */,
-				AB056CA427BF725A00E1DF4A /* VK.swift */,
+				B0E118D427D10ACF005C403D /* PhotoService.swift */,
 				B0E118CE27D0AC8F005C403D /* URLS.swift */,
+				AB056CA427BF725A00E1DF4A /* VK.swift */,
 				B0A68A1027CD1A8700059FBC /* FeaturePromice */,
 				AB1B928F27C8B7C300907A04 /* Operations */,
 			);
@@ -268,7 +275,6 @@
 		B0A68A1027CD1A8700059FBC /* FeaturePromice */ = {
 			isa = PBXGroup;
 			children = (
-				B0A68A1127CD1AB900059FBC /* Future.swift */,
 				B0E118CC27D0AC1D005C403D /* SessionHelpers.swift */,
 				B0E118D227D0FE1C005C403D /* RealmHelpers.swift */,
 				B0E118D027D0AE14005C403D /* PromiseAPI.swift */,
@@ -368,7 +374,6 @@
 				AB1B929127C8B7D900907A04 /* GetDataOperation.swift in Sources */,
 				AB056CBF27C0E57000E1DF4A /* Int+Extension.swift in Sources */,
 				AB1B929A27C8D2C700907A04 /* SaveToRealmOperation.swift in Sources */,
-				B0A68A1227CD1AB900059FBC /* Future.swift in Sources */,
 				AB1B928827C4BB9D00907A04 /* URL+Extension.swift in Sources */,
 				AB056C8827BF711700E1DF4A /* JsonNewsfeed.swift in Sources */,
 				AB056C6E27BF70C700E1DF4A /* AppDelegate.swift in Sources */,
@@ -376,9 +381,11 @@
 				B0E118CD27D0AC1D005C403D /* SessionHelpers.swift in Sources */,
 				B0E118D127D0AE14005C403D /* PromiseAPI.swift in Sources */,
 				AB056CB527BFC18500E1DF4A /* NewsfeedFooter.swift in Sources */,
+				B0E118D727D10D5C005C403D /* FileManager+Extension.swift in Sources */,
 				AB056C9827BF720500E1DF4A /* String+Extension.swift in Sources */,
 				B0E118CF27D0AC8F005C403D /* URLS.swift in Sources */,
 				AB056CA527BF725A00E1DF4A /* VK.swift in Sources */,
+				B0EEB6E427D207D70082AB4E /* Settings.swift in Sources */,
 				ABC535B727C218F900717864 /* Groups.swift in Sources */,
 				AB056C9E27BF722000E1DF4A /* NewsfeedHeader.swift in Sources */,
 				AB056C7027BF70C700E1DF4A /* SceneDelegate.swift in Sources */,
@@ -393,6 +400,7 @@
 				AB1C500827C3C29B000CC015 /* UITableView+Extension.swift in Sources */,
 				ABDF82E527C2B7AC0083E370 /* VKPhoto.swift in Sources */,
 				AB056CAB27BF72CD00E1DF4A /* NSObject+Extension.swift in Sources */,
+				B0E118D527D10ACF005C403D /* PhotoService.swift in Sources */,
 				AB1C500627C3BF5E000CC015 /* Notifications.swift in Sources */,
 				AB1B929827C8C5E900907A04 /* ParseJsonOperation.swift in Sources */,
 				AB1B929C27C8D8B500907A04 /* FetchAndSavePhotoOperation.swift in Sources */,

@@ -17,6 +17,8 @@ class NewsfeedPhotosCell: UITableViewCell {
         let realm = try! Realm()
         return realm.object(ofType: VKNews.self, forPrimaryKey: newsfeedId)
     }
+    
+    private var photoService: PhotoService!
 
     
     private func setup() {
@@ -35,6 +37,8 @@ class NewsfeedPhotosCell: UITableViewCell {
         layout.collectionView?.showsHorizontalScrollIndicator = false
         layout.collectionView?.showsVerticalScrollIndicator = false
         collectionView.collectionViewLayout = layout
+        
+        photoService = PhotoService(container: collectionView)
         
     }
     
@@ -76,8 +80,8 @@ extension NewsfeedPhotosCell: UICollectionViewDataSource, UICollectionViewDelega
             return cell
         }
         
-        if item.photos.count > indexPath.row, let photo = item.photos[indexPath.row] {
-            imageView.image = UIImage(data: photo)
+        if item.photoUrls.count > indexPath.row {
+            imageView.image = photoService.photo(at: indexPath, url: item.photoUrls[indexPath.row])
         } else {
             imageView.image = UIImage(systemName: "photo")
         }

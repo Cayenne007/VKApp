@@ -41,15 +41,13 @@ class PromiseAPI {
         .then { groups -> Promise<[VKGroup]> in
             PromiseRealm.addGroups(groups.response)
         }
-        .then { groups -> Promise<Bool> in
-            PromiseRealm.loadGroupImages()
-        }
+//        .then { groups -> Promise<Bool> in
+//            PromiseRealm.loadGroupImages()
+//        }
         .catch { error in
-            print(error)
+            Notifications.send(title: "Загрузка групп пользователя", subtitle: "\(error)")
         }
-        .finally {
-            print("ok")
-        }
+        .finally {}
             
     }
     

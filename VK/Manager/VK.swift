@@ -190,29 +190,23 @@ extension VK {
 
 extension VK {
     
-    private func fetchNewsfeed(group: DispatchGroup, nextFrom: String? = nil) {
+    private func fetchNewsfeed(group: DispatchGroup) {
         
         group.enter()
         
-        var url = URLS.buildUrl(.news)
-        if let nextFrom = nextFrom {
-            url = url.withQueryItem(key: "start_from", value: nextFrom)
-        }
+        let url = URLS.buildUrl(.news)
         
         URLSession.shared.json(url,
                                source: .response,
                                decode: JsonNewsfeedResponse.self) { result in
             
             switch result {
-            case .failure(let error):
-                print(error)
+            case .failure(let error):                
+                Notifications.send(title: "Загрузка новостей", subtitle: "\(error)")
             case .success(let result):
                 addUsers(items: result.profiles, group: group)
                 addGroups(items: result.groups, group: group)
                 addNewsfeed(items: result.items, url: url)
-                if nextFrom == nil {
-                    fetchNewsfeed(group: group, nextFrom: result.nextFrom)
-                }
                 group.leave()
                 
             }

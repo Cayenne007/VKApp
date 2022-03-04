@@ -19,6 +19,8 @@ class FriendsViewController: UIViewController {
     }
     private var token: NotificationToken?
     
+    private var photoService: PhotoService!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +29,7 @@ class FriendsViewController: UIViewController {
         navigationItem.title = "Друзья"
         
         tableView.addRefreshControl()
-        Notifications.addObserver{
-            self.tableView.reloadData()
-        }
+        photoService = PhotoService(container: tableView)
         
         guard let realm = try? Realm() else {
             users = nil
@@ -57,6 +57,11 @@ class FriendsViewController: UIViewController {
 
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
+        
+        
+        Notifications.addObserver {
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -79,12 +84,7 @@ extension FriendsViewController: UITableViewDataSource, UITableViewDelegate {
         var content = cell.defaultContentConfiguration()
         
         content.text = user.name
-        
-        if let photo = user.photo {
-            content.image = UIImage(data: photo)
-        } else {
-            content.image = UIImage(systemName: "photo")
-        }
+        content.image = photoService.photo(at: indexPath, url: user.photoUrl)
         
         cell.contentConfiguration = content
         

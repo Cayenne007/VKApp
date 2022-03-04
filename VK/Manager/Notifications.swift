@@ -19,7 +19,7 @@ class Notifications: NSObject {
         
         let content = UNMutableNotificationContent()
         content.title = title
-        content.subtitle = subtitle
+        content.body = subtitle
 
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
@@ -28,6 +28,9 @@ class Notifications: NSObject {
         )
 
         UNUserNotificationCenter.current().add(request)
+        
+        print(title)
+        print(subtitle)
     }
     func authorize() {
         let notificationCenter = UNUserNotificationCenter.current()
