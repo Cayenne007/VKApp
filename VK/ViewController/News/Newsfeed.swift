@@ -46,13 +46,11 @@ class NewsfeedViewController: UIViewController {
             }
         }
 
-        
+    
         tableView.register(UINib(nibName: "NewsfeedHeader", bundle: nil),
                            forHeaderFooterViewReuseIdentifier: "header")
         tableView.register(UINib(nibName: "NewsfeedFooter", bundle: nil),
                            forHeaderFooterViewReuseIdentifier: "footer")
-        tableView.register(UINib(nibName: "NewsfeedPhoto", bundle: nil),
-                           forCellReuseIdentifier: "photo")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "body")
         
         
@@ -97,7 +95,7 @@ extension NewsfeedViewController: UITableViewDataSource {
         if indexPath.row == 1 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "photo", for: indexPath) as! NewsfeedPhotosCell
-            cell.newsfeedId = item.id
+            cell.photoUrls = Array(item.photoUrls)
             cell.collectionView.reloadData()
             
             return cell

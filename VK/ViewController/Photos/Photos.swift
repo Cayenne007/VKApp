@@ -28,14 +28,6 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 5, bottom: 10, right: 5)
-        layout.itemSize = CGSize(width: itemSize, height: itemSize)
-        layout.minimumInteritemSpacing = 5
-        layout.minimumLineSpacing = 5
-        layout.scrollDirection = .vertical
-        collectionView.collectionViewLayout = layout
-        
         photoService = PhotoService(container: collectionView)
     
         guard let realm = try? Realm() else {
@@ -51,7 +43,6 @@ class PhotosViewController: UIViewController {
             let owner = realm.object(ofType: VKGroup.self, forPrimaryKey: ownerId)
             navigationItem.title = owner?.name ?? ""
         }
-        
         
         VK.api.fetchPhotos(id: ownerId)
         
@@ -82,23 +73,16 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let photo = photos[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photo", for: indexPath)
-        
-        var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: itemSize, height: itemSize))
-        
-        if let view = cell.contentView.subviews.first, let placedImageView = view as? UIImageView {
-            imageView = placedImageView
-        } else {
-            imageView.contentMode = .scaleAspectFill
-            imageView.image = UIImage(systemName: "photo")!
-            cell.contentView.addSubview(imageView)
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photo", for: indexPath) as! PhotosViewCollectionCell
                 
-        imageView.image = photoService.photo(at: indexPath, url: photo.url)
-        
-        imageView.backgroundColor = .blue
+        cell.imageView.image = photoService.photo(at: indexPath, url: photo.url)
         
         return cell
     }
     
+}
+
+
+class PhotosViewCollectionCell: UICollectionViewCell {
+    @IBOutlet weak var imageView: UIImageView!
 }

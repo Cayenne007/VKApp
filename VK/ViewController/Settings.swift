@@ -10,10 +10,12 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.title = "Настройки"
+
     }
     
     @IBAction func delRealm(_ sender: UIButton) {
