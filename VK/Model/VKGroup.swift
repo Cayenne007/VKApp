@@ -6,35 +6,28 @@
 //
 
 import Foundation
-import UIKit
+import RealmSwift
 
-class VKGroup: VKAuthor {
+
+class VKGroup: Object {
     
-    let id: Int
-    let name: String
-    let photo: String?
+    @objc dynamic var id = 0
+    @objc dynamic var name = ""
+    @objc dynamic var isMember = false
     
-    var image: UIImage?
+    @objc dynamic var photoUrl = ""
+   
     
-    static func emptyGroup() -> VKGroup {
-        VKGroup(id: 0, name: "<Группа не найдена>", photo: nil)
-    }
-    
-    init(id: Int, name: String, photo: String?) {
+    convenience init(id: Int, name: String, isMember: Bool, photoUrl: String = "") {
+        self.init()
         self.id = id
         self.name = name
-        self.photo = photo
-        self.image = UIImage(systemName: "photo")
-        
-        DispatchQueue.global().async {
-            if let photo = photo,
-               let data = try? Data(contentsOf: photo.url),
-                let image = UIImage(data: data){
-                
-                self.image = image
-                
-            }
-        }
+        self.photoUrl = photoUrl
+        self.isMember = isMember
+    }
+    
+    override class func primaryKey() -> String? {
+        "id"
     }
     
 }
