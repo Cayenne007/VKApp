@@ -215,6 +215,9 @@ extension VK {
     }
     
     private func addNewsfeed(items: [JsonNewsfeedResponse.JsonNewsfeed], url: URL) {
+        let items = items.filter{ item in
+            !(item.text ?? "").isEmpty
+        }
         DB.vk.addNewsfeed(items, url: url)
     }
 }

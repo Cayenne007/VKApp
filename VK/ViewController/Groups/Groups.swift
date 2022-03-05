@@ -43,13 +43,7 @@ class GroupsViewController: UIViewController {
             case .initial(_):
                 self?.tableView.reloadData()
             case .update(_, deletions: _, insertions: _, modifications: _):
-                self?.tableView.reloadData()
-            //case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
-//                self?.tableView.performBatchUpdates{
-//                    self?.tableView.deleteRows(at: deletions.map{IndexPath(row: $0, section: 0)}, with: .automatic)
-//                    self?.tableView.insertRows(at: insertions.map{IndexPath(row: $0, section: 0)}, with: .automatic)
-//                    self?.tableView.reloadRows(at: modifications.map{IndexPath(row: $0, section: 0)}, with: .automatic)
-//                }
+                self?.tableView.reloadData()            
             case .error(let error):
                 print(error)
             }

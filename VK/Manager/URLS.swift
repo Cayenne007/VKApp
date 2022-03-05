@@ -44,7 +44,7 @@ enum URLS: Equatable {
             ]
         case .news:
             return [
-                URLQueryItem(name: "filters", value: "post,photo")                
+                URLQueryItem(name: "filters", value: "post,photo")
             ]
         case .groups:
             return []

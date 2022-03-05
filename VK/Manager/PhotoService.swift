@@ -64,7 +64,7 @@ class PhotoService {
         let lifeTime = Date().timeIntervalSince(modificationDate)
         
         guard lifeTime <= cacheLifeTime,
-              let image = UIImage(contentsOfFile: url) else { return nil }
+              let image = UIImage(contentsOfFile: fileName) else { return nil }
         
         DispatchQueue.main.async {
             self.images[url] = image

@@ -76,22 +76,13 @@ class DB {
     func addNewsfeed(_ items: [JsonNewsfeedResponse.JsonNewsfeed], url: URL) {
         
         let db = try! Realm()
-        
         let objectIds = Array(db.objects(VKNews.self).map{$0.id})
         
-        items.filter{ item in
-            if let id = item.postID {
-                return !objectIds.contains(id)
-            } else {
-                return false
+        items.forEach{ item in
+            if let id = item.postID,
+               !objectIds.contains(id) {
+                self.addNewsfeed(json: item, url: url)
             }
-        }
-        .forEach { json in
-            
-            DispatchQueue.global().sync{
-                self.addNewsfeed(json: json, url: url)
-            }
-            
         }
         
     }
@@ -132,8 +123,12 @@ class DB {
 //            }
 //        }
         
-        try! db.write{
-            db.add(object)
+        do {
+            try db.write{
+                db.add(object, update: .all)
+            }
+        } catch {
+            print(error)
         }
     }
     
