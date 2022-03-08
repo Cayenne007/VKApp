@@ -201,7 +201,7 @@
                     <navigationItem key="navigationItem" id="Odf-n9-XP5">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="ellipsis.circle" catalog="system" style="done" id="JRv-Kh-k5d">
                             <connections>
-                                <segue destination="8Ew-dY-Gz3" kind="presentation" id="AZP-hi-aUF"/>
+                                <segue destination="TI0-yI-0IS" kind="presentation" id="ahW-X3-Lwc"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -213,50 +213,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1849.2753623188407" y="83.705357142857139"/>
-        </scene>
-        <!--Settings View Controller-->
-        <scene sceneID="sFn-hA-8q9">
-            <objects>
-                <viewController id="8Ew-dY-Gz3" customClass="SettingsViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="e86-kh-IOB">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="fRW-4h-aM4">
-                                <rect key="frame" x="131" y="405.5" width="152.5" height="31"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jFs-ct-CPz">
-                                        <rect key="frame" x="0.0" y="0.0" width="152.5" height="31"/>
-                                        <color key="tintColor" systemColor="systemPinkColor"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Удалить базу realm"/>
-                                        <connections>
-                                            <action selector="delRealm:" destination="8Ew-dY-Gz3" eventType="touchUpInside" id="xhB-WE-oG1"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Настройки" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6o5-Tg-EXV">
-                                <rect key="frame" x="10" y="20" width="394" height="20.5"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="TZw-sP-5Ny"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="fRW-4h-aM4" firstAttribute="centerY" secondItem="e86-kh-IOB" secondAttribute="centerY" id="3MV-Il-I0n"/>
-                            <constraint firstItem="fRW-4h-aM4" firstAttribute="centerX" secondItem="e86-kh-IOB" secondAttribute="centerX" id="FCI-WA-4Rg"/>
-                            <constraint firstItem="6o5-Tg-EXV" firstAttribute="leading" secondItem="TZw-sP-5Ny" secondAttribute="leading" constant="10" id="FfK-jB-PCz"/>
-                            <constraint firstItem="TZw-sP-5Ny" firstAttribute="trailing" secondItem="6o5-Tg-EXV" secondAttribute="trailing" constant="10" id="JFG-N6-6do"/>
-                            <constraint firstItem="6o5-Tg-EXV" firstAttribute="top" secondItem="TZw-sP-5Ny" secondAttribute="top" constant="20" id="eGf-Ou-kNT"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8xU-co-ILs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1367" y="978"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="uPU-nv-oOP">
@@ -404,10 +360,74 @@
             </objects>
             <point key="canvasLocation" x="937.68115942028987" y="-1444.4196428571429"/>
         </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="otN-x6-zPm">
+            <objects>
+                <viewController id="TI0-yI-0IS" customClass="SettingsViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uMI-d5-flN">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Настройки" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4oc-oh-0Tt">
+                                <rect key="frame" x="10" y="20" width="394" height="20.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P66-wd-HGI">
+                                <rect key="frame" x="131" y="405.5" width="152.5" height="31"/>
+                                <color key="tintColor" systemColor="systemPinkColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Удалить базу realm"/>
+                                <connections>
+                                    <action selector="delRealm:" destination="TI0-yI-0IS" eventType="touchUpInside" id="B7K-eT-1dK"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="v0m-Ax-Ylm">
+                                <rect key="frame" x="96" y="272.5" width="222" height="83"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B6Z-ae-nZy">
+                                        <rect key="frame" x="0.0" y="0.0" width="222" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" image="network" catalog="system" title="Показать url"/>
+                                        <connections>
+                                            <action selector="openURLS:" destination="TI0-yI-0IS" eventType="touchUpInside" id="K1c-cz-lUs"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ijo-EU-hJA">
+                                        <rect key="frame" x="0.0" y="52" width="222" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" image="magnifyingglass" catalog="system" title="Открыть папку documents"/>
+                                        <connections>
+                                            <action selector="openDocumentsDirectory:" destination="TI0-yI-0IS" eventType="touchUpInside" id="J5f-DO-CuG"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="fxo-lJ-PUz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="v0m-Ax-Ylm" firstAttribute="centerX" secondItem="uMI-d5-flN" secondAttribute="centerX" id="7BS-fQ-2jG"/>
+                            <constraint firstItem="P66-wd-HGI" firstAttribute="centerX" secondItem="uMI-d5-flN" secondAttribute="centerX" id="7kc-i9-a6b"/>
+                            <constraint firstItem="P66-wd-HGI" firstAttribute="top" secondItem="v0m-Ax-Ylm" secondAttribute="bottom" constant="50" id="EV4-d3-xD7"/>
+                            <constraint firstItem="fxo-lJ-PUz" firstAttribute="trailing" secondItem="4oc-oh-0Tt" secondAttribute="trailing" constant="10" id="Jqg-Yu-x7U"/>
+                            <constraint firstItem="P66-wd-HGI" firstAttribute="centerY" secondItem="uMI-d5-flN" secondAttribute="centerY" id="XMj-pP-rwM"/>
+                            <constraint firstItem="4oc-oh-0Tt" firstAttribute="leading" secondItem="fxo-lJ-PUz" secondAttribute="leading" constant="10" id="crd-GR-dMu"/>
+                            <constraint firstItem="4oc-oh-0Tt" firstAttribute="top" secondItem="fxo-lJ-PUz" secondAttribute="top" constant="20" id="nhD-xb-7Ff"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EY4-vf-Le1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1288" y="978"/>
+        </scene>
     </scenes>
     <resources>
         <image name="command" catalog="system" width="128" height="115"/>
         <image name="ellipsis.circle" catalog="system" width="128" height="121"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="network" catalog="system" width="128" height="121"/>
         <image name="person.2" catalog="system" width="128" height="81"/>
         <image name="speaker.wave.2" catalog="system" width="128" height="90"/>
         <systemColor name="systemBackgroundColor">

@@ -18,6 +18,41 @@ class SettingsViewController: UIViewController {
 
     }
     
+    @IBAction func openDocumentsDirectory(_ sender: UIButton) {
+        
+        guard let docUrl = FileManager.documentsDirectory else { return }
+        let path = docUrl.absoluteString.replacingOccurrences(of: "file://", with: "shareddocuments://")
+        UIApplication.shared.open(path.url, options: [:], completionHandler: nil)
+        
+    }
+    
+    @IBAction func openURLS(_ sender: UIButton) {
+        
+        showAlert([
+            "Новости" : .news,
+            "Друзья" : .friends,
+            "Группы" : .groups
+        ])
+        
+    }
+
+    private func showAlert(_ items: [String: URLS]) {
+        
+        let alert = UIAlertController(title: "Ссылки", message: "Новости, Друзья, Группы", preferredStyle: .alert)
+        
+        items.forEach{ item in
+            alert.addTextField { textField in
+                textField.text = URLS.buildUrl(item.value).description
+            }
+        }
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true)
+
+    }
+    
+    
+    
     @IBAction func delRealm(_ sender: UIButton) {
         
         let alert = UIAlertController(title: "База данных Realm", message: "Удалить?", preferredStyle: .actionSheet)

@@ -9,11 +9,22 @@ import Foundation
 
 extension Date {
     var title: String {
+        Dates.shared.formatter.string(from: self)
+    }
+}
+
+
+class Dates {
+    static var shared = Dates()
+    
+    var formatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
         dateFormatter.dateFormat = "EEEE, dd.MM.yyyy"
         dateFormatter.locale = Locale(identifier: "ru_Ru")
-        return dateFormatter.string(from: self)
-    }
+        return dateFormatter
+    }()
+    
+    private init() {}
 }
