@@ -109,6 +109,8 @@ extension NewsfeedViewController: UITableViewDataSource {
             content.text = item.text
             cell.contentConfiguration = content
             
+            //cell.backgroundColor = .systemBackground  не работает
+            
             return cell
 
         }
