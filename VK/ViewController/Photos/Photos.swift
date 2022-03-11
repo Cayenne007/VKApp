@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 
 
+
 fileprivate let itemSize = UIScreen.main.bounds.width*0.95
 
 class PhotosViewController: UIViewController {
@@ -23,13 +24,13 @@ class PhotosViewController: UIViewController {
     private var photos: Results<VKPhoto>!
     
     private var photoService: PhotoService!
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         photoService = PhotoService(container: collectionView)
-    
+        
         guard let realm = try? Realm() else {
             return
         }
@@ -57,7 +58,11 @@ class PhotosViewController: UIViewController {
                 print(error)
             }
         }
-
+        
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(openUrl))
+        collectionView.addGestureRecognizer(tap)
+        
         
     }
     
@@ -74,15 +79,33 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
         
         let photo = photos[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photo", for: indexPath) as! PhotosViewCollectionCell
-                
+        
         cell.imageView.image = photoService.photo(at: indexPath, url: photo.url)
         
         return cell
     }
     
+    @objc func openUrl(sender: UITapGestureRecognizer) {
+        
+//        let point = sender.location(in: collectionView)
+//        
+//        guard sender.state == .ended,
+//              let indexPath = collectionView.indexPathForItem(at: point),
+//              let filePath = photoService.getFilePath(photos[indexPath.row].url)
+//              else { return }
+//        
+//        let url = URL(fileURLWithPath: filePath)
+//        let vc = QuickLook(url).viewController
+//       
+//        vc.reloadData()
+//        present(vc, animated: true)
+        
+    }
 }
-
 
 class PhotosViewCollectionCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
 }
+
+
+

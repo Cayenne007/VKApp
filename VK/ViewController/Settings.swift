@@ -15,6 +15,7 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         
         navigationController?.title = "Настройки"
+        Authorization.logIn()
 
     }
     
@@ -28,7 +29,7 @@ class SettingsViewController: UIViewController {
     
     @IBAction func openURLS(_ sender: UIButton) {
         
-        showAlert([
+        showAlertWithURL([
             "Новости" : .news,
             "Друзья" : .friends,
             "Группы" : .groups
@@ -36,7 +37,7 @@ class SettingsViewController: UIViewController {
         
     }
 
-    private func showAlert(_ items: [String: URLS]) {
+    private func showAlertWithURL(_ items: [String: URLS]) {
         
         let alert = UIAlertController(title: "Ссылки", message: "Новости, Друзья, Группы", preferredStyle: .alert)
         
@@ -82,5 +83,13 @@ class SettingsViewController: UIViewController {
         present(alert, animated: true)
         
     }
+    
+    
+    @IBAction func exportToFirestore(_ sender: Any) {
+        CloudDb.exportFriends()
+        showAlert(title: "Firestore", subtitle: "Данные отправлены")
+        
+    }
+    
     
 }

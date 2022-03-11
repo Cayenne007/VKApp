@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import FirebaseAnalytics
 
 
 class NewsfeedViewController: UIViewController {
@@ -57,6 +58,10 @@ class NewsfeedViewController: UIViewController {
         Notifications.addObserver {
             self.tableView.reloadData()
         }
+        
+        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+            AnalyticsParameterItemID: "vk_app_newsscreen"
+        ])
         
     }
     

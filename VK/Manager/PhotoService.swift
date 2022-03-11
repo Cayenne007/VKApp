@@ -33,7 +33,7 @@ class PhotoService {
     
     
     
-    private func getFilePath(_ url: String) -> String? {
+    func getFilePath(_ url: String) -> String? {
         
         guard let docsDirectory = FileManager.documentsDirectory else { return nil}
         
@@ -106,8 +106,6 @@ class PhotoService {
         return image
         
     }
-    
-    
     
     
     init(container: UITableView) {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Notifications.shared.authorize()
         DB.checkRealm()
         VK.api.fetchData()
+        
+        FirebaseApp.configure()
         
         return true
     }
