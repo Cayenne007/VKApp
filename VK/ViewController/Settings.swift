@@ -86,7 +86,7 @@ class SettingsViewController: UIViewController {
     
     
     @IBAction func exportToFirestore(_ sender: Any) {
-        CloudDb.exportFriends()
+        CloudDB.vk.importData()
         showAlert(title: "Firestore", subtitle: "Данные отправлены")
         
     }

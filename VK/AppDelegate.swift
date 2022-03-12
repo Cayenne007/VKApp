@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         VK.api.fetchData()
         
         FirebaseApp.configure()
+        Authorization.logIn()
         
         return true
     }

@@ -17,18 +17,19 @@ struct Authorization {
     }
 }
 
-struct CloudDb {
-    static func exportFriends() {
-        
-        let db = Firestore.firestore()
-        let ownerId = AppSettings.userId
-        guard let realm = try? Realm() else { return }
+struct CloudDB {
+    
+    private let db = Firestore.firestore()
+    private let realm = try! Realm()
+    
+    static let vk = CloudDB()
+    
+    
+    func importData() {
         
         realm.objects(VKUser.self).forEach { object in
             
             db.collection("Friends").document(object.id.str).setData([
-                "ownerId" : ownerId,
-                "isFriend" : object.isFriend,
                 "firstName" : object.firstName,
                 "lastName" : object.lastName,
                 "photoUrl" : object.photoUrl
@@ -45,9 +46,7 @@ struct CloudDb {
         realm.objects(VKGroup.self).forEach { object in
             
             db.collection("Groups").document(object.id.str).setData([
-                "ownerId" : ownerId,
                 "name" : object.name,
-                "isMember" : object.isMember,
                 "photoUrl" : object.photoUrl
             
             ]){ err in
@@ -63,7 +62,6 @@ struct CloudDb {
         realm.objects(VKNews.self).forEach { object in
             
             db.collection("Newsfeed").document(object.id.str).setData([
-                "ownerId" : ownerId,
                 "sourceId" : object.sourceId,
                 "date" : object.date,
                 "text" : object.text,
@@ -82,4 +80,8 @@ struct CloudDb {
         
         
     }
+    
+    
+    private init() {}
+    
 }
