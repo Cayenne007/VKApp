@@ -67,6 +67,10 @@ class GroupsViewController: UIViewController {
 
 extension GroupsViewController: UITableViewDataSource, UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        120
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         myGroups.count
     }
@@ -75,12 +79,9 @@ extension GroupsViewController: UITableViewDataSource, UITableViewDelegate {
         
         let group = myGroups[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
-        var content = cell.defaultContentConfiguration()
         
-        content.text = group.name
-        content.image = photoService.photo(at: indexPath, url: group.photoUrl)
-        
-        cell.contentConfiguration = content
+        let image = photoService.photo(at: indexPath, url: group.photoUrl)
+        cell.addTextWithImage(image: image, text: group.name)
         
         return cell
     }

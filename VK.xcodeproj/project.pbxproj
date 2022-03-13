@@ -48,6 +48,7 @@
 		ABDF82E127C2B5030083E370 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDF82E027C2B5020083E370 /* Photos.swift */; };
 		ABDF82E327C2B77D0083E370 /* JsonPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDF82E227C2B77D0083E370 /* JsonPhoto.swift */; };
 		ABDF82E527C2B7AC0083E370 /* VKPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDF82E427C2B7AC0083E370 /* VKPhoto.swift */; };
+		B023ED3027DE63230053F621 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B023ED2F27DE63230053F621 /* UITableViewCell+Extension.swift */; };
 		B0E118C727CFEF48005C403D /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = B0E118C627CFEF48005C403D /* PromiseKit */; };
 		B0E118CD27D0AC1D005C403D /* SessionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118CC27D0AC1D005C403D /* SessionHelpers.swift */; };
 		B0E118CF27D0AC8F005C403D /* URLS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E118CE27D0AC8F005C403D /* URLS.swift */; };
@@ -114,6 +115,7 @@
 		ABDF82E027C2B5020083E370 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		ABDF82E227C2B77D0083E370 /* JsonPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPhoto.swift; sourceTree = "<group>"; };
 		ABDF82E427C2B7AC0083E370 /* VKPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKPhoto.swift; sourceTree = "<group>"; };
+		B023ED2F27DE63230053F621 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		B0E118CC27D0AC1D005C403D /* SessionHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHelpers.swift; sourceTree = "<group>"; };
 		B0E118CE27D0AC8F005C403D /* URLS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLS.swift; sourceTree = "<group>"; };
 		B0E118D027D0AE14005C403D /* PromiseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseAPI.swift; sourceTree = "<group>"; };
@@ -216,10 +218,11 @@
 				B0E118D627D10D5C005C403D /* FileManager+Extension.swift */,
 				AB056CAA27BF72CD00E1DF4A /* NSObject+Extension.swift */,
 				AB056C9727BF720500E1DF4A /* String+Extension.swift */,
+				AB1C500727C3C29B000CC015 /* UITableView+Extension.swift */,
+				B023ED2F27DE63230053F621 /* UITableViewCell+Extension.swift */,
+				B0EE3DF227DBAD51009B1F19 /* UIViewController+Extension.swift */,
 				AB1B928727C4BB9D00907A04 /* URL+Extension.swift */,
 				AB6745F427C295F7007A0690 /* URLSession+Extension.swift */,
-				AB1C500727C3C29B000CC015 /* UITableView+Extension.swift */,
-				B0EE3DF227DBAD51009B1F19 /* UIViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				B0E118D527D10ACF005C403D /* PhotoService.swift in Sources */,
 				AB1C500627C3BF5E000CC015 /* Notifications.swift in Sources */,
 				AB1B929827C8C5E900907A04 /* ParseJsonOperation.swift in Sources */,
+				B023ED3027DE63230053F621 /* UITableViewCell+Extension.swift in Sources */,
 				AB1B929C27C8D8B500907A04 /* FetchAndSavePhotoOperation.swift in Sources */,
 				AB056C9227BF712700E1DF4A /* VKGroup.swift in Sources */,
 				AB056C8F27BF712700E1DF4A /* VKUser.swift in Sources */,

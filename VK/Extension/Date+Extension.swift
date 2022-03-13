@@ -14,7 +14,7 @@ extension Date {
 }
 
 
-class Dates {
+fileprivate class Dates {
     static var shared = Dates()
     
     var formatter: DateFormatter = {

@@ -67,6 +67,10 @@ class FriendsViewController: UIViewController {
 
 extension FriendsViewController: UITableViewDataSource, UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        120
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         myFriends.count
     }
@@ -75,12 +79,9 @@ extension FriendsViewController: UITableViewDataSource, UITableViewDelegate {
         
         let user = myFriends[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
-        var content = cell.defaultContentConfiguration()
         
-        content.text = user.name
-        content.image = photoService.photo(at: indexPath, url: user.photoUrl)
-        
-        cell.contentConfiguration = content
+        let image = photoService.photo(at: indexPath, url: user.photoUrl)
+        cell.addTextWithImage(image: image, text: user.name)
         
         return cell
     }
@@ -95,3 +96,5 @@ extension FriendsViewController: UITableViewDataSource, UITableViewDelegate {
     
     
 }
+
+
