@@ -34,7 +34,7 @@ class NewsfeedViewController: UIViewController {
             self.tableView.reloadData()
         }
         
-        newsfeed = realm.objects(VKNews.self)        
+        newsfeed = realm.objects(VKNews.self).sorted(byKeyPath: "date", ascending: false)
         token = newsfeed.observe{ [weak self] changes in
             switch changes {
                 
