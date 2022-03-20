@@ -18,10 +18,5 @@ struct AppSettings {
         get{ UserDefaults.standard.string(forKey: "userId") ?? "" }
         set{ UserDefaults.standard.set(newValue, forKey: "userId") }
     }
-    
-    static var isTest: Bool {
-        get{ UserDefaults.standard.bool(forKey: "isTest") }
-        set{ UserDefaults.standard.set(newValue, forKey: "isTest") }
-    }
  
 }
