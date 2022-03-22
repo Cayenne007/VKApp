@@ -127,6 +127,10 @@ extension NewsfeedViewController: UITableViewDataSource {
 extension NewsfeedViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        let section = newsfeed[indexPath.row]
+//        section.photoUrls.forEach{url in
+//            let image = photoService.photo(at: <#T##IndexPath#>, url: <#T##String#>)
+//        }
         if indexPath.row == 1 {
             return 200//tableView.frame.height * 0.5
         } else {
@@ -169,6 +173,10 @@ extension NewsfeedViewController: UITableViewDelegate {
         footer.url = item.url
         footer.isUserInteractionEnabled = true
         return footer
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // here will be infinity newsfeed
     }
     
 }

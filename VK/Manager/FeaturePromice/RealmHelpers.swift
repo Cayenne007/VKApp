@@ -23,7 +23,7 @@ struct PromiseRealm {
                     
                     VKGroup(id: json.id,
                             name: json.name,
-                            isMember: json.isMember.bool,
+                            isMember: json.isMember?.bool ?? false,
                             photoUrl: json.photo100
                     )
                 }
