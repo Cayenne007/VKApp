@@ -40,8 +40,14 @@ class NewsfeedViewController: UIViewController {
                 
             case .initial(_):
                 self?.tableView.reloadData()            
-            case .update(_, deletions: _, insertions: _, modifications: _):
-                self?.tableView.reloadData()
+            case .update(_, let deletions, let insertions, let modifications):
+                
+                self?.tableView.performBatchUpdates{
+                    self?.tableView.insertSections(insertions.reduce(into: IndexSet(), {$0.insert($1)}), with: .automatic)
+                    self?.tableView.reloadSections(modifications.reduce(into: IndexSet(), {$0.insert($1)}), with: .automatic)
+                    self?.tableView.deleteSections(deletions.reduce(into: IndexSet(), {$0.insert($1)}), with: .automatic)
+                }
+                
             case .error(let error):
                 print(error)
             }
