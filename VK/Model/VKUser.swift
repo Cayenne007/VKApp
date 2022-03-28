@@ -6,46 +6,40 @@
 //
 
 import Foundation
-import UIKit
+import RealmSwift
 
-class VKUser: VKAuthor {
+
+class VKUser: Object {
     
-    var id: Int
-    var firstName: String
-    var lastName: String
+    @objc dynamic var id: Int = 0
+    @objc dynamic var firstName = ""
+    @objc dynamic var lastName = ""
+
+    @objc dynamic var isFriend = false
     
-    var photo: String?
-    var isFriend: Bool
-    
-    var name: String {
+    dynamic var name: String {
         "\(firstName) \(lastName)"
     }
     
-    var image: UIImage?
+    @objc dynamic var photoUrl = ""
     
-    static func emptyUser() -> VKUser {
-        VKUser(id: 0, firstName: "<Пользователь не найден>", lastName: "", isFriend: false, photo: nil)
+    
+    override class func primaryKey() -> String? {
+        "id"
     }
     
     
-    init(id: Int, firstName: String, lastName: String, isFriend: Bool, photo: String?) {
+    convenience init(id: Int, firstName: String, lastName: String, isFriend: Bool, photoUrl: String = "") {
+        self.init()
+        
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
         self.isFriend = isFriend
-        self.photo = photo
-        self.image = UIImage(systemName: "photo")
-        
-        DispatchQueue.global().async {
-            if let photo = photo,
-               let data = try? Data(contentsOf: photo.url),
-                let image = UIImage(data: data){
-                
-                self.image = image
-                
-            }
-        }
+        self.photoUrl = photoUrl
         
     }
     
+    
 }
+

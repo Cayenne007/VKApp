@@ -13,6 +13,8 @@ class NewsfeedFooter: UITableViewHeaderFooterView {
     @IBOutlet weak var chatCount: UILabel!
     @IBOutlet weak var viewCount: UILabel!
     
+    var url = ""
+    
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -30,6 +32,12 @@ class NewsfeedFooter: UITableViewHeaderFooterView {
     
     @IBAction func tapOnChat(_ sender: Any) {
         print("ok2")
+    }
+    
+    @IBAction func openLink() {
+        if !url.isEmpty, let url = URL(string: url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
 }

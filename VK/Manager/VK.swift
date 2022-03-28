@@ -6,63 +6,6 @@
 //
 
 import Foundation
-import Alamofire
-
-
-fileprivate enum URLS: Equatable {
-
-    private static let baseUrl = "https://api.vk.com/method".url
-    
-    case friends
-    case news
-    case groups
-    case groupByIds(ids: String)
-    case userByIds(ids: String)
-    
-    var path: String {
-        switch self {
-        case .groups:
-            return "groups.get"
-        case .friends:
-            return "friends.get"
-        case .news:
-            return "newsfeed.get"
-        case .groupByIds:
-            return "groups.getById"
-        case .userByIds:
-            return "users.getById"
-        }
-    }
-    
-    var url: URL {
-        URLS.buildUrl(self)
-    }
-    
-    var queryItems: [URLQueryItem] {
-        switch self {
-        case .friends:
-            return [
-                URLQueryItem(name: "fields", value: "online,contacts,status,nickname,first_name,last_name,photo_100,is_friend")
-            ]
-        case .news:
-            return [
-                URLQueryItem(name: "filters", value: "post,photo")
-            ]
-        case .groups:
-            return []
-        case .groupByIds(let ids):
-            return [
-                URLQueryItem(name: "group_ids", value: ids)
-            ]
-        case .userByIds(let ids):
-            return [
-                URLQueryItem(name: "user_ids", value: ids),
-                URLQueryItem(name: "fields", value: "is_friend")
-            ]
-        }
-    }
-    
-}
 
 
 struct VK {
@@ -71,17 +14,27 @@ struct VK {
     
     func fetchData() {
         
-        let dispatchGroup = DispatchGroup()
-                
-        fetchObjectsById(path: .groups, group: dispatchGroup)
-        fetchFriends(group: dispatchGroup)
-        fetchNewsfeed(group: dispatchGroup)
+        guard !AppSettings.token.isEmpty else {
+            return
+        }
         
-        dispatchGroup.notify(queue: .global()) {
-            DB.vk.users.sort{$0.name < $1.name}
-            DB.vk.groups.sort{$0.name < $1.name}
+        PromiseAPI.vk.fetchGroups()
+        fetchFriends()
+        
+    }
+    
+    func fetchPhotos(id: Int) {
+                
+        URLSession.shared.json(URLS.photos(ownerId: id),
+                               source: .responseItems,
+                               decode: [JsonPhoto].self) { result in
             
-            NotificationCenter.default.post(name: Notification.Name("update"), object: nil)
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let objects):
+                addPhotos(items: objects)
+            }
         }
         
     }
@@ -89,179 +42,28 @@ struct VK {
     private func fetchObjectsById(path: URLS, group: DispatchGroup) {
         
         group.enter()
-        URLSession.shared.dataTask(with: path.url) { data, response, error in
-            
-            if let error = NetworkError(data: data, response: response, error: error) {
+
+        URLSession.shared.json(path,
+                               source: .responseItems,
+                               decode: [Int].self) { result in
+
+            switch result {
+            case .failure(let error):
                 print(error)
-                return
-            }
-            
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data!, options: .fragmentsAllowed) as? [String : [String : Any]],
-                   let items = json["response"]?["items"] as? [Int] {
-                    
-                    
-                    let ids = items.map{String($0)}.joined(separator: ",")
-                    
-                    if path == .groups {
-                        fetchGroupsByIds(ids: ids, group: group)
-                    } else if path == .friends {
-                        fetchUsersByIds(ids: ids, group: group)
-                    }
-                    
-                    group.leave()
-                    
-                } else {
-                    print("error decoding object ids")
+            case .success(let ids):
+                let ids = ids.map{String($0)}.joined(separator: ",")
+
+                if path == .groups {
+                    fetchGroupsByIds(ids: ids, group: group)
+                } else if path == .friends {
+                    fetchUsersByIds(ids: ids, group: group)
                 }
-            } catch let error {
-                print(NetworkError.decodingError(error))
-                return
-            }
-            
-            
-            
-        }.resume()
-    }
-    
-    private func fetchGroupsByIds(ids: String, group: DispatchGroup) {
-        
-        URLSession.shared.dataTask(with: URLS.buildUrl(.groupByIds(ids: ids))) { data, response, error in
-            if let error = NetworkError(data: data, response: response, error: error) {
-                print(error)
-                return
+
+                group.leave()
             }
 
-            do {
-                let json = try JSONDecoder().decode([String : [JsonGroup]].self, from: data!)
-                if let objects = json["response"] {
-                    addGroups(items: objects, group: group)
-                } else {
-                    print("error while decode groups by id")
-                }
-            } catch {
-                print(NetworkError.decodingError(error))
-                return
-            }
-        }.resume()
-    }
-
-    private func fetchUsersByIds(ids: String, group: DispatchGroup) {
-
-        group.enter()
-        URLSession.shared.dataTask(with: URLS.buildUrl(.userByIds(ids: ids))) { data, response, error in
-            if let error = NetworkError(data: data, response: response, error: error) {
-                print(error)
-                return
-            }
-            
-            do {
-                let json = try JSONDecoder().decode([String : [JsonUser]].self, from: data!)
-                if let objects = json["response"] {
-                    DB.vk.users = objects.map{json in
-                        VKUser(id: json.id,
-                               firstName: json.firstName,
-                               lastName: json.lastName,
-                               isFriend: json.isFriend?.bool ?? false,
-                               photo: json.photo100
-                        )
-                    }
-                    group.leave()
-                } else {
-                    print("error decoding users by ids")
-                }
-            } catch {
-                print(NetworkError.decodingError(error))
-                return
-            }
-        }.resume()
-    }
-
-    
-    
-    private func fetchFriends(group: DispatchGroup) {
-        
-        AF.request(URLS.buildUrl(.friends))
-            .responseDecodable(of: JsonFriendsData.self) { response in
-            switch response.result {
-            case .success(let result):
-                if response.response?.statusCode == 200 {
-                    addUsers(items: result.response.items, group: group)
-                } else {
-                    print("incorrect status code \(response.response!.statusCode)")
-                }
-            default :
-                if let error = response.error {
-                    print(error)                    
-                }
-            }
         }
-    }
-    
-    private func addUsers(items: [JsonUser], group: DispatchGroup) {
         
-        group.enter()
-        
-        DispatchQueue.global().async(flags: .barrier) {
-            items.forEach{ json in
-                if DB.vk.users.first(where: {$0.id == json.id}) == nil {
-                    let user = VKUser(id: json.id,
-                                      firstName: json.firstName,
-                                      lastName: json.lastName,
-                                      isFriend: json.isFriend?.bool ?? false,
-                                      photo: json.photo100
-                    )
-                                        
-                    DB.vk.users.append(user)
-                }
-                
-            }
-            group.leave()
-        }
-    }
-    
-    private func addGroups(items: [JsonGroup], group: DispatchGroup) {
-        
-        group.enter()
-        
-        DispatchQueue.global().async(flags: .barrier) {
-            items.forEach{ json in
-                if DB.vk.groups.first(where: {$0.id == json.id}) == nil {
-                    let group = VKGroup(id: json.id,
-                                        name: json.name,
-                                        photo: json.photo100
-                    )
-                                        
-                    DB.vk.groups.append(group)
-                }
-                
-            }
-            group.leave()
-        }
-    }
-    
-    func fetchNewsfeed(group: DispatchGroup) {
-        
-        group.enter()
-        AF.request(URLS.buildUrl(.news))
-            .responseDecodable(of: JsonNewsfeedData.self) { response in
-            switch response.result {
-            case .success(let result):
-                if response.response?.statusCode == 200 {
-                    addUsers(items: result.response.profiles, group: group)
-                    addGroups(items: result.response.groups, group: group)
-                    setNewsfeedData(response: result.response)
-                    group.leave()
-                } else {
-                    print("incorrect status code \(response.response!.statusCode)")
-                }
-            default :
-                if let error = response.error {
-                    print(error)
-                    group.leave()
-                }
-            }
-        }
     }
     
     
@@ -269,94 +71,158 @@ struct VK {
     
 }
 
+
 extension VK {
-    private func setTestData(_ completion: ()->()) {
-        if let url = Bundle.main.url(forResource: "testData", withExtension: "json"),
-           let data = try? Data(contentsOf: url),
-           let result = try? JSONDecoder().decode(JsonNewsfeedData.self, from: data) {
-             
-            setNewsfeedData(response: result.response)
-             
+    
+    private func addPhotos(items: [JsonPhoto]) {
+        
+        DB.vk.addPhotos(items: items)
+        
+    }
+    
+}
+
+extension VK {
+    
+    private func fetchFriends() {
+        
+        let url = URLS.friends.url
+        let operationQueue = OperationQueue()
+        
+        let getDataOperation = GetDataOperation(url: url)
+        operationQueue.addOperation(getDataOperation)
+        
+        let parseJsonOperation = ParseJsonOperation(.friends)
+        parseJsonOperation.addDependency(getDataOperation)
+        operationQueue.addOperation(parseJsonOperation)
+        
+        let saveToRealmOperation = SaveToRealmOperation()
+        saveToRealmOperation.addDependency(parseJsonOperation)
+        operationQueue.addOperation(saveToRealmOperation)
+        
+        let fetchAndUpdatePhotoOperation = FetchAndSavePhotoOperation()
+        fetchAndUpdatePhotoOperation.addDependency(saveToRealmOperation)
+        operationQueue.addOperation(fetchAndUpdatePhotoOperation)
+        
+    }
+    
+}
+
+
+extension VK {
+    
+    private func fetchUsersByIds(ids: String, group: DispatchGroup) {
+        
+        group.enter()
+        
+        let url = URLS.userByIds(ids: ids)
+        
+        URLSession.shared.json(url,
+                               source: .itself,
+                               decode: [JsonUser].self) { result in
+            
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let json):
+                addUsers(items: json, group: group)
+                group.leave()
+            }
+        }
+        
+    }
+    
+    private func addUsers(items: [JsonUser], group: DispatchGroup) {
+        DispatchQueue.global().async(group: group) {
+            DB.vk.addUser(items)
+        }
+    }
+    
+    
+}
+
+extension VK {
+    
+    private func fetchGroupsByIds(ids: String, group: DispatchGroup) {
+        
+        group.enter()
+        
+        URLSession.shared.json(URLS.groupByIds(ids: ids),
+                               source: .response,
+                               decode: [JsonGroup].self) { result in
+            
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let json):
+                addGroups(items: json, group: group)
+                group.leave()
+            }
+        }
+        
+    }
+    
+    private func addGroups(items: [JsonGroup], group: DispatchGroup) {        
+        DB.vk.addGroup(items)
+    }
+    
+}
+
+
+extension VK {
+    
+    func fetchNewsfeed(nextFrom: String? = nil,_ completion: @escaping (String?)->()) {
+        
+        let group = DispatchGroup()
+        
+        group.enter()
+        
+        var url = URLS.news()
+        
+        if let nextFrom = nextFrom {
+            url = URLS.news(queryItems: [
+                URLQueryItem(name: "start_from", value: nextFrom)
+            ])
         } else {
-            return
+//            if let lastNewsDate = DB.newsfeedGetLastDate() {
+//                url = URLS.news(queryItems: [
+//                    URLQueryItem(name: "start_time", value: lastNewsDate.timeIntervalSince1970.str)
+//                ])
+//            }
         }
-    }
-    
-    private func setNewsfeedData(response: JsonNewsfeedData.JsonNewsfeedResponse) {
         
-        DB.vk.newsfeed = response.items.map { json in
-            VKNews(sourceId: json.sourceID,
-                   date: Date(timeIntervalSince1970: Double(json.date)),
-                   id: json.postID ?? 0,
-                   text: json.text ?? "",
-                   likes: json.likes?.count ?? 0,
-                   userLikes: json.likes?.userLikes ?? 0,
-                   comments: json.comments?.count ?? 0,
-                   reposts: json.reposts?.count ?? 0,
-                   userReposts: json.reposts?.userReposted ?? 0,
-                   views: json.views?.count ?? 0,
-                   photos: json.attachments?
-                    .filter{$0.type == .photo}
-                    .map{$0.photo?.sizes.last?.url ?? ""}
-                    .filter{!$0.isEmpty} ?? []
-                   )                                
-        }
-    
-    }
-    
-}
-
-
-extension URLS {
-    
-    static func buildUrl(_ type: URLS) -> URL {
-        
-        let url = URLS.baseUrl.appendingPathComponent(type.path)
-        
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
-        
-        components?.queryItems = [
-            URLQueryItem(name: "access_token", value: AppSettings.token),
-            URLQueryItem(name: "v", value: "5.131")
-        ] + type.queryItems
-        
-        
-        return components!.url!
-        
-    }
-    
-    
-    
-}
-
-
-
-
-fileprivate enum NetworkError: Error {
-    case transportError(Error)
-    case serverError(statusCode: Int)
-    case noData
-    case decodingError(Error)
-    case encodingError(Error)
-}
-
-extension NetworkError {
-    init?(data: Data?, response: URLResponse?, error: Error?) {
-            if let error = error {
-                self = .transportError(error)
-                return
-            }
-
-            if let response = response as? HTTPURLResponse,
-                response.statusCode != 200 {
-                self = .serverError(statusCode: response.statusCode)
-                return
-            }
+        URLSession.shared.json(url,
+                               source: .response,
+                               decode: JsonNewsfeedResponse.self) { result in
             
-            if data == nil {
-                self = .noData
+            switch result {
+            case .failure(let error):                
+                Notifications.send(title: "Загрузка новостей", subtitle: "\(error)")
+            case .success(let result):
+                addUsers(items: result.profiles, group: group)
+                addGroups(items: result.groups, group: group)
+                addNewsfeed(items: result.items, url: url.url, group: group)
+                group.leave()
+                
+                group.notify(queue: .main) {
+                    completion(result.nextFrom)
+                }
+                
             }
-            
-            return nil
         }
+        
+    }
+    
+    private func addNewsfeed(items: [JsonNewsfeedResponse.JsonNewsfeed], url: URL, group: DispatchGroup) {
+        let items = items.filter{ item in
+            !(item.text ?? "").isEmpty
+        }
+        DispatchQueue.global().async(group: group) {
+            DB.vk.addNewsfeed(items, url: url)
+        }
+    }
 }
+
+
+
+
