@@ -15,7 +15,9 @@ extension UITableView {
     }
     @objc private func fetchData() {
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Загрузка ...")
-        VK.api.fetchData()
+        VK.api.fetchNewsfeed { _ in
+            
+        }
         self.refreshControl?.endRefreshing()
         self.refreshControl?.attributedTitle = NSAttributedString(string: "")
         

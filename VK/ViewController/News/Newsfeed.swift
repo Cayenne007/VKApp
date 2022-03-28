@@ -14,6 +14,9 @@ class NewsfeedViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    private var isLoading = false
+    private var nextFrom: String? = ""
+    
     private let realm = try! Realm()
     private var newsfeed: Results<VKNews>!
     private var token: NotificationToken?
@@ -60,14 +63,15 @@ class NewsfeedViewController: UIViewController {
                            forHeaderFooterViewReuseIdentifier: "footer")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "body")
         
-        
-        Notifications.addObserver {
-            self.tableView.reloadData()
-        }
-        
         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
             AnalyticsParameterItemID: "vk_app_newsscreen"
         ])
+        
+        isLoading = true
+        VK.api.fetchNewsfeed { [weak self] nextFrom in
+            self?.nextFrom = nextFrom
+            self?.isLoading = false
+        }
         
     }
     
@@ -199,3 +203,24 @@ extension NewsfeedViewController {
     
 }
 
+
+
+
+extension NewsfeedViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        
+        guard let maxSection = indexPaths.map({ $0.section }).max(),
+              maxSection > newsfeed.count - 3, !isLoading else { return }
+
+        isLoading = true
+        
+        VK.api.fetchNewsfeed(nextFrom: nextFrom) { [weak self] nextFrom in
+            self?.nextFrom = nextFrom
+            self?.isLoading = false
+        }
+        
+    }
+    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        
+    }
+}

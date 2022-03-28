@@ -9,9 +9,9 @@ import Foundation
 
 extension URLSession {
     
-    func json<T: Codable>(_ url: URL, source: JsonVkObjectSource, decode decodable: T.Type, result: @escaping (Result<T, Error>) -> Void) {
+    func json<T: Codable>(_ url: URLS, source: JsonVkObjectSource, decode decodable: T.Type, result: @escaping (Result<T, Error>) -> Void) {
 
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        URLSession.shared.dataTask(with: url.url) { (data, response, error) in
 
             if let error = NetworkError(data: data, response: response, error: error) {
                 result(.failure(error))
@@ -36,7 +36,6 @@ extension URLSession {
             }
 
         }.resume()
-
     }
     
 }
@@ -48,6 +47,7 @@ enum NetworkError: Error {
     case decodingError(Error)
     case decodingStringError
     case encodingError(Error)
+    case urlError
 }
 
 extension NetworkError {

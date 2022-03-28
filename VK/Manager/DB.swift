@@ -215,3 +215,20 @@ extension DB {
     }
     
 }
+
+
+extension DB {
+    
+    static func newsfeedGetLastDate() -> Date? {
+        guard let realm = try? Realm() else { return nil }
+        guard let object = realm.objects(VKNews.self)
+            .sorted(byKeyPath: "date", ascending: false)
+            .first
+        else {
+            return nil
+        }
+        
+        return object.date
+    }
+    
+}

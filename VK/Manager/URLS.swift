@@ -13,7 +13,7 @@ enum URLS: Equatable {
     static let baseUrl = "https://api.vk.com/method".url
     
     case friends
-    case news
+    case news(queryItems: [URLQueryItem] = [])
     case groups
     case groupByIds(ids: String)
     case userByIds(ids: String)
@@ -36,16 +36,19 @@ enum URLS: Equatable {
         }
     }
     
-    var queryItems: [URLQueryItem] {
+    func queryItems() -> [URLQueryItem] {
+                
         switch self {
         case .friends:
             return [
                 URLQueryItem(name: "fields", value: "online,contacts,status,nickname,first_name,last_name,photo_100,is_friend")
             ]
-        case .news:
+        case .news(let queryItems):
             return [
-                URLQueryItem(name: "filters", value: "post,photo")
-            ]
+                URLQueryItem(name: "filters", value: "post,photo"),
+                URLQueryItem(name: "count", value: "5") //infinite scroll test
+            ] + queryItems
+            
         case .groups:
             return []
         case .groupByIds(let ids):
@@ -62,6 +65,7 @@ enum URLS: Equatable {
                 URLQueryItem(name: "owner_id", value: "\(id)")
             ]
         }
+        
     }
     
 }
@@ -82,7 +86,7 @@ extension URLS {
         components?.queryItems = [
             URLQueryItem(name: "access_token", value: AppSettings.token),
             URLQueryItem(name: "v", value: "5.131")
-        ] + type.queryItems
+        ] + type.queryItems()
         
         
         return components!.url!
@@ -90,3 +94,4 @@ extension URLS {
     }
     
 }
+

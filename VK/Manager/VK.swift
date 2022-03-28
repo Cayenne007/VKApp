@@ -18,19 +18,14 @@ struct VK {
             return
         }
         
-        let dispatchGroup = DispatchGroup()
-              
         PromiseAPI.vk.fetchGroups()
-        //fetchObjectsById(path: .groups, group: dispatchGroup)
-        fetchFriends(group: dispatchGroup)
-        fetchNewsfeed(group: dispatchGroup)
+        fetchFriends()
         
     }
     
     func fetchPhotos(id: Int) {
-        
-        let url = URLS.buildUrl(.photos(ownerId: id))
-        URLSession.shared.json(url,
+                
+        URLSession.shared.json(URLS.photos(ownerId: id),
                                source: .responseItems,
                                decode: [JsonPhoto].self) { result in
             
@@ -48,8 +43,7 @@ struct VK {
         
         group.enter()
 
-        let url = path.url
-        URLSession.shared.json(url,
+        URLSession.shared.json(path,
                                source: .responseItems,
                                decode: [Int].self) { result in
 
@@ -90,9 +84,9 @@ extension VK {
 
 extension VK {
     
-    private func fetchFriends(group: DispatchGroup) {
+    private func fetchFriends() {
         
-        let url = URLS.buildUrl(.friends)
+        let url = URLS.friends.url
         let operationQueue = OperationQueue()
         
         let getDataOperation = GetDataOperation(url: url)
@@ -110,18 +104,6 @@ extension VK {
         fetchAndUpdatePhotoOperation.addDependency(saveToRealmOperation)
         operationQueue.addOperation(fetchAndUpdatePhotoOperation)
         
-//        URLSession.shared.json(url,
-//                               source: .responseItems,
-//                               decode: [JsonUser].self) { result in
-//
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let result):
-//                addUsers(items: result, group: group)
-//            }
-//        }
-        
     }
     
 }
@@ -133,7 +115,7 @@ extension VK {
         
         group.enter()
         
-        let url = URLS.buildUrl(.userByIds(ids: ids))
+        let url = URLS.userByIds(ids: ids)
         
         URLSession.shared.json(url,
                                source: .itself,
@@ -165,8 +147,7 @@ extension VK {
         
         group.enter()
         
-        let url = URLS.buildUrl(.groupByIds(ids: ids))
-        URLSession.shared.json(url,
+        URLSession.shared.json(URLS.groupByIds(ids: ids),
                                source: .response,
                                decode: [JsonGroup].self) { result in
             
@@ -190,11 +171,25 @@ extension VK {
 
 extension VK {
     
-    private func fetchNewsfeed(group: DispatchGroup) {
+    func fetchNewsfeed(nextFrom: String? = nil,_ completion: @escaping (String?)->()) {
+        
+        let group = DispatchGroup()
         
         group.enter()
         
-        let url = URLS.buildUrl(.news)
+        var url = URLS.news()
+        
+        if let nextFrom = nextFrom {
+            url = URLS.news(queryItems: [
+                URLQueryItem(name: "start_from", value: nextFrom)
+            ])
+        } else {
+//            if let lastNewsDate = DB.newsfeedGetLastDate() {
+//                url = URLS.news(queryItems: [
+//                    URLQueryItem(name: "start_time", value: lastNewsDate.timeIntervalSince1970.str)
+//                ])
+//            }
+        }
         
         URLSession.shared.json(url,
                                source: .response,
@@ -206,19 +201,25 @@ extension VK {
             case .success(let result):
                 addUsers(items: result.profiles, group: group)
                 addGroups(items: result.groups, group: group)
-                addNewsfeed(items: result.items, url: url)
+                addNewsfeed(items: result.items, url: url.url, group: group)
                 group.leave()
+                
+                group.notify(queue: .main) {
+                    completion(result.nextFrom)
+                }
                 
             }
         }
         
     }
     
-    private func addNewsfeed(items: [JsonNewsfeedResponse.JsonNewsfeed], url: URL) {
+    private func addNewsfeed(items: [JsonNewsfeedResponse.JsonNewsfeed], url: URL, group: DispatchGroup) {
         let items = items.filter{ item in
             !(item.text ?? "").isEmpty
         }
-        DB.vk.addNewsfeed(items, url: url)
+        DispatchQueue.global().async(group: group) {
+            DB.vk.addNewsfeed(items, url: url)
+        }
     }
 }
 

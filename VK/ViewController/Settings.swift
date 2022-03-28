@@ -30,7 +30,7 @@ class SettingsViewController: UIViewController {
     @IBAction func openURLS(_ sender: UIButton) {
         
         showAlertWithURL([
-            "Новости" : .news,
+            "Новости" : .news(),
             "Друзья" : .friends,
             "Группы" : .groups
         ])

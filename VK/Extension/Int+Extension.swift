@@ -18,3 +18,11 @@ extension Int {
     }
     
 }
+
+extension Double {
+    
+    var str: String {
+        String(Int(self))
+    }
+    
+}
